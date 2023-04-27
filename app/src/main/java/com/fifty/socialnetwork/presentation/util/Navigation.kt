@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.fifty.socialnetwork.presentation.login.LoginScreen
+import com.fifty.socialnetwork.presentation.splash.SplashScreen
 
 @Composable
 fun Navigation() {
@@ -12,10 +14,10 @@ fun Navigation() {
         navController = navController, startDestination = Screen.SplashScreen.route
     ) {
         composable(Screen.SplashScreen.route) {
-
+            SplashScreen(navController = navController)
         }
         composable(Screen.LoginScreen.route) {
-
+            LoginScreen(navController = navController)
         }
     }
 }
