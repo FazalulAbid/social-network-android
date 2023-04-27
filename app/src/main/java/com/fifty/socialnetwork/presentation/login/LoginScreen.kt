@@ -1,11 +1,13 @@
 package com.fifty.socialnetwork.presentation.login
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -51,7 +53,10 @@ fun LoginScreen(
                 text = viewModel.usernameText.value,
                 onValueChange = {
                     viewModel.setUsernameText(it)
-                }, hint = stringResource(R.string.login_hint)
+                },
+                error = viewModel.usernameError.value,
+                hint = stringResource(R.string.login_hint),
+                modifier = Modifier
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
             StandardTextField(
@@ -61,7 +66,26 @@ fun LoginScreen(
                 },
                 hint = stringResource(id = R.string.password_hint),
                 keyboardType = KeyboardType.Password,
+                error = viewModel.passwordError.value,
+                showPasswordToggle = viewModel.showPassword.value,
+                onPasswordToggleClick = {
+                    viewModel.setShowPassword(it)
+                },
+                modifier = Modifier
             )
+            Spacer(modifier = Modifier.height(SpaceMedium))
+            Button(
+                onClick = {
+
+                },
+                modifier = Modifier
+                    .align(Alignment.End)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.login),
+                    color = MaterialTheme.colors.onPrimary
+                )
+            }
         }
         Text(
             text = buildAnnotatedString {
