@@ -1,5 +1,6 @@
 package com.fifty.socialnetwork.presentation.login
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -20,6 +21,7 @@ import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.presentation.components.StandardTextField
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.presentation.util.Screen
 
 @Composable
 fun LoginScreen(
@@ -76,7 +78,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-
+                    navController.navigate(Screen.MainFeedScreen.route)
                 },
                 modifier = Modifier
                     .align(Alignment.End)
@@ -90,7 +92,7 @@ fun LoginScreen(
         Text(
             text = buildAnnotatedString {
                 append(stringResource(R.string.dont_have_an_account_yet))
-                append("")
+                append(" ")
                 val signUpText = stringResource(id = R.string.sign_up)
                 withStyle(
                     style = SpanStyle(
@@ -101,7 +103,11 @@ fun LoginScreen(
                 }
             },
             style = MaterialTheme.typography.body1,
-            modifier = Modifier.align(Alignment.BottomCenter)
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .clickable {
+                    navController.navigate(Screen.RegisterScreen.route)
+                },
         )
     }
 }
