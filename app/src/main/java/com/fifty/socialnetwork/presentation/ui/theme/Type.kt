@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.ui.theme
+package com.fifty.socialnetwork.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

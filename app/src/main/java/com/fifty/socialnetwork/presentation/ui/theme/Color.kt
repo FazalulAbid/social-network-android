@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.ui.theme
+package com.fifty.socialnetwork.presentation.ui.theme
 
 import android.hardware.lights.Light
 import androidx.compose.ui.graphics.Color
