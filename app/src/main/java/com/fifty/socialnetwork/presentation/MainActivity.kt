@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.presentation.components.StandardScaffold
 import com.fifty.socialnetwork.presentation.ui.theme.SocialNetworkTheme
 import com.fifty.socialnetwork.presentation.util.Navigation
@@ -18,9 +19,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 open class A
 
-class B: A()
+class B : A()
 
-class Gen<T: A>
+class Gen<T : A>
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

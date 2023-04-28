@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -23,15 +24,12 @@ fun StandardTextField(
     maxLength: Int = 40,
     error: String = "",
     keyboardType: KeyboardType = KeyboardType.Text,
+    isPasswordToggleDisplayed: Boolean = keyboardType == KeyboardType.Password,
     onValueChange: (String) -> Unit,
     onPasswordToggleClick: (Boolean) -> Unit = {},
     showPasswordToggle: Boolean = false,
     modifier: Modifier
 ) {
-    val isPasswordToggleDisplayed by remember {
-        mutableStateOf(keyboardType == KeyboardType.Password)
-    }
-
     Column(
         modifier = modifier
             .fillMaxWidth()

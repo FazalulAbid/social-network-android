@@ -43,7 +43,7 @@ import retrofit2.http.POST
 @Composable
 fun Post(
     post: Post,
-    profilePictureSize: Dp = 75.dp
+    onPostClick: () -> Unit = {}
 ) {
     Box(
         modifier = Modifier
@@ -53,10 +53,13 @@ fun Post(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .offset(y = profilePictureSize / 2f)
+                .offset(y = ProfilePictureSize / 2f)
                 .clip(MaterialTheme.shapes.medium)
                 .shadow(5.dp)
                 .background(MediumGray)
+                .clickable {
+                    onPostClick()
+                }
         ) {
             Image(
                 painter = painterResource(id = R.drawable.barcelona),
@@ -134,7 +137,7 @@ fun Post(
             painter = painterResource(id = R.drawable.woman_profile_image),
             contentDescription = "Profile picture",
             modifier = Modifier
-                .size(profilePictureSize)
+                .size(ProfilePictureSize)
                 .clip(CircleShape)
                 .align(Alignment.TopCenter)
         )
