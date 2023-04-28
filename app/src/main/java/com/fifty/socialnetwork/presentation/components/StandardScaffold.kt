@@ -8,18 +8,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.BottomAppBar
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Doorbell
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Message
-import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,9 +41,10 @@ fun StandardScaffold(
             icon = Icons.Outlined.Message,
             contentDescription = "Message",
         ),
+        BottomNavItem(route = ""),
         BottomNavItem(
             route = Screen.ActivityScreen.route,
-            icon = Icons.Outlined.Doorbell,
+            icon = Icons.Outlined.Notifications,
             contentDescription = "Activity",
         ),
         BottomNavItem(
@@ -56,7 +53,8 @@ fun StandardScaffold(
             contentDescription = "Profile",
         )
     ),
-    content: @Composable () -> Unit
+    onFabClick: () -> Unit = {},
+    content: @Composable () -> Unit,
 ) {
     Scaffold(
         bottomBar = {
@@ -73,15 +71,33 @@ fun StandardScaffold(
                                 icon = bottomNavItem.icon,
                                 contentDescription = bottomNavItem.contentDescription,
                                 selected = bottomNavItem.route == navController.currentDestination?.route,
-                                alertCount = bottomNavItem.alertCount
+                                alertCount = bottomNavItem.alertCount,
+                                enabled = bottomNavItem.icon != null
                             ) {
-                                navController.navigate(bottomNavItem.route)
+                                if (navController.currentDestination?.route !== bottomNavItem.route) {
+                                    navController.navigate(bottomNavItem.route)
+                                }
                             }
                         }
                     }
                 }
             }
         },
+        floatingActionButton = {
+            if (showBottomBar) {
+                FloatingActionButton(
+                    backgroundColor = MaterialTheme.colors.primary,
+                    onClick = onFabClick,
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = stringResource(R.string.make_post)
+                    )
+                }
+            }
+        },
+        isFloatingActionButtonDocked = true,
+        floatingActionButtonPosition = FabPosition.Center,
         modifier = modifier
     ) {
         content()

@@ -16,6 +16,12 @@ import com.fifty.socialnetwork.presentation.util.Navigation
 import com.fifty.socialnetwork.presentation.util.Screen
 import dagger.hilt.android.AndroidEntryPoint
 
+open class A
+
+class B: A()
+
+class Gen<T: A>
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +43,10 @@ class MainActivity : ComponentActivity() {
                             Screen.ActivityScreen.route,
                             Screen.ProfileScreen.route
                         ),
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize(),
+                        onFabClick = {
+                            navController.navigate(Screen.CreatePostScreen.route)
+                        }
                     ) {
                         Navigation(navController)
                     }
