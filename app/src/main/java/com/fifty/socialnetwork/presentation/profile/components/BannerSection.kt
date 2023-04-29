@@ -1,5 +1,6 @@
 package com.fifty.socialnetwork.presentation.profile.components
 
+import android.provider.CloudMediaProvider.CloudMediaSurfaceController
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -10,7 +11,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.MeasureResult
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -19,13 +23,14 @@ import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.presentation.util.toPx
+import kotlin.contracts.contract
 
 @Composable
 fun BannerSection(
     modifier: Modifier = Modifier,
     iconSize: Dp = 35.dp,
-    iconModifier: Modifier = Modifier,
-
+    leftIconModifier: Modifier = Modifier,
+    rightIconModifier: Modifier = Modifier,
     onGitHubClick: () -> Unit = {},
     onInstagramClick: () -> Unit = {},
     onLinkedInClick: () -> Unit = {}
@@ -54,7 +59,7 @@ fun BannerSection(
                 )
         )
         Row(
-            modifier = iconModifier
+            modifier = leftIconModifier
                 .height(iconSize)
                 .align(Alignment.BottomStart)
                 .padding(SpaceSmall)
@@ -79,7 +84,7 @@ fun BannerSection(
             )
         }
         Row(
-            modifier = iconModifier
+            modifier = rightIconModifier
                 .height(iconSize)
                 .align(Alignment.BottomEnd)
                 .padding(SpaceSmall)
