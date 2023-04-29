@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -62,7 +61,7 @@ fun PostDetailScreen(
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .offset(y = ProfilePictureSize / 2f)
+                                .offset(y = ProfilePictureSizeMedium / 2f)
                                 .background(MediumGray)
                         ) {
                             Image(
@@ -107,7 +106,7 @@ fun PostDetailScreen(
                             painter = painterResource(id = R.drawable.woman_profile_image),
                             contentDescription = "Profile picture",
                             modifier = Modifier
-                                .size(ProfilePictureSize)
+                                .size(ProfilePictureSizeMedium)
                                 .clip(CircleShape)
                                 .align(Alignment.TopCenter)
                         )

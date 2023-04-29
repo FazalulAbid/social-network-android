@@ -10,13 +10,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.presentation.components.StandardScaffold
 import com.fifty.socialnetwork.presentation.ui.theme.SocialNetworkTheme
 import com.fifty.socialnetwork.presentation.util.Navigation
 import com.fifty.socialnetwork.presentation.util.Screen
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.StringBuilder
+import java.util.Hashtable
 
 open class A
 
@@ -55,7 +54,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-
     }
 }

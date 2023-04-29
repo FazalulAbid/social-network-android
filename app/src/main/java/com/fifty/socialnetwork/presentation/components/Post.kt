@@ -1,12 +1,10 @@
 package com.fifty.socialnetwork.presentation.components
 
-import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -20,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -38,22 +35,23 @@ import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.domain.model.Post
 import com.fifty.socialnetwork.presentation.ui.theme.*
 import com.fifty.socialnetwork.util.Constants
-import retrofit2.http.POST
 
 @Composable
 fun Post(
+    modifier: Modifier = Modifier,
     post: Post,
+    showProfileImage: Boolean = true,
     onPostClick: () -> Unit = {}
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(SpaceMedium)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .offset(y = ProfilePictureSize / 2f)
+                .offset(y = if (showProfileImage) ProfilePictureSizeMedium / 2f else 0.dp)
                 .clip(MaterialTheme.shapes.medium)
                 .shadow(5.dp)
                 .background(MediumGray)
@@ -133,14 +131,16 @@ fun Post(
                 }
             }
         }
-        Image(
-            painter = painterResource(id = R.drawable.woman_profile_image),
-            contentDescription = "Profile picture",
-            modifier = Modifier
-                .size(ProfilePictureSize)
-                .clip(CircleShape)
-                .align(Alignment.TopCenter)
-        )
+        if (showProfileImage) {
+            Image(
+                painter = painterResource(id = R.drawable.woman_profile_image),
+                contentDescription = "Profile picture",
+                modifier = Modifier
+                    .size(ProfilePictureSizeMedium)
+                    .clip(CircleShape)
+                    .align(Alignment.TopCenter)
+            )
+        }
     }
 }
 
