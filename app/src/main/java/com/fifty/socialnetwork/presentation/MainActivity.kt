@@ -16,6 +16,7 @@ import com.fifty.socialnetwork.presentation.ui.theme.SocialNetworkTheme
 import com.fifty.socialnetwork.presentation.util.Navigation
 import com.fifty.socialnetwork.presentation.util.Screen
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.StringBuilder
 
 open class A
 
@@ -54,5 +55,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+
+
     }
 }
