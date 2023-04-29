@@ -34,24 +34,9 @@ fun ProfileHeaderSection(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .offset(y = -(ProfilePictureSizeLarge / 2f)),
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.woman_profile_image),
-            contentDescription = stringResource(R.string.profile_image),
-            modifier = Modifier
-                .size(ProfilePictureSizeLarge)
-                .aspectRatio(1f)
-                .clip(CircleShape)
-                .border(
-                    width = 2.dp,
-                    color = MaterialTheme.colors.onSurface,
-                    shape = CircleShape
-                ),
-            contentScale = ContentScale.Crop
-        )
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
@@ -59,6 +44,7 @@ fun ProfileHeaderSection(
                     x =
                     if (isOwnProfile) (SpaceSmall + 30.dp) / 2f else 0.dp
                 )
+
         ) {
             Text(
                 text = user.username,

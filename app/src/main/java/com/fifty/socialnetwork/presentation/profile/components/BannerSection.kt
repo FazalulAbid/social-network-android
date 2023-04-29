@@ -8,10 +8,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -25,7 +23,7 @@ import com.fifty.socialnetwork.presentation.util.toPx
 @Composable
 fun BannerSection(
     modifier: Modifier = Modifier,
-    iconSize: Dp = 30.dp,
+    iconSize: Dp = 35.dp,
     onGitHubClick: () -> Unit = {},
     onInstagramClick: () -> Unit = {},
     onLinkedInClick: () -> Unit = {}
@@ -78,7 +76,6 @@ fun BannerSection(
                 modifier = Modifier.height(iconSize)
             )
         }
-
         Row(
             modifier = Modifier
                 .height(iconSize)

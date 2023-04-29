@@ -22,7 +22,7 @@ import com.fifty.socialnetwork.presentation.splash.SplashScreen
 fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.SplashScreen.route
+        startDestination = Screen.ProfileScreen.route
     ) {
         composable(Screen.SplashScreen.route) {
             SplashScreen(navController = navController)
