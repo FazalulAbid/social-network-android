@@ -1,21 +1,20 @@
 package com.fifty.socialnetwork.presentation.profile
 
+import android.provider.ContactsContract.Profile
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
@@ -24,25 +23,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.domain.model.Activity
 import com.fifty.socialnetwork.domain.model.Post
 import com.fifty.socialnetwork.domain.model.User
-import com.fifty.socialnetwork.domain.util.ActivityAction
-import com.fifty.socialnetwork.domain.util.DateFormatUtil
-import com.fifty.socialnetwork.presentation.activity.ActivityItem
 import com.fifty.socialnetwork.presentation.components.Post
-import com.fifty.socialnetwork.presentation.components.StandardScaffold
-import com.fifty.socialnetwork.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.presentation.profile.components.BannerSection
 import com.fifty.socialnetwork.presentation.profile.components.ProfileHeaderSection
 import com.fifty.socialnetwork.presentation.ui.theme.ProfilePictureSizeLarge
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.presentation.util.Screen
-import kotlin.random.Random
+import com.fifty.socialnetwork.presentation.util.toDp
+import com.fifty.socialnetwork.presentation.util.toPx
 
 @Composable
 fun ProfileScreen(
@@ -57,17 +51,27 @@ fun ProfileScreen(
     val toolbarHeightExpanded = remember {
         bannerHeight + ProfilePictureSizeLarge
     }
-    val toolbarHeightCollapsed = 56.dp
+    val toolbarHeightCollapsed = 75.dp
+    val imageCollapsedOffsetY = remember {
+        (toolbarHeightCollapsed - ProfilePictureSizeLarge / 2f) / 2f
+    }
+    val maxOffset = remember {
+        toolbarHeightExpanded - toolbarHeightCollapsed
+    }
+    var expandedRatio by remember {
+        mutableStateOf(1f)
+    }
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 val delta = available.y
                 val newOffset = toolbarOffsetY + delta
-//                toolbarOffsetY = newOffset.coerceIn(
-//                    minimumValue =
-//                )
-
-                return super.onPreScroll(available, source)
+                toolbarOffsetY = newOffset.coerceIn(
+                    minimumValue = -maxOffset.toPx(),
+                    maximumValue = 0f
+                )
+                expandedRatio = ((toolbarOffsetY + maxOffset.toPx()) / maxOffset.toPx())
+                return Offset.Zero
             }
         }
     }
@@ -133,7 +137,12 @@ fun ProfileScreen(
         ) {
             BannerSection(
                 modifier = Modifier
-                    .height(bannerHeight)
+                    .height(
+                        (bannerHeight * expandedRatio).coerceIn(
+                            minimumValue = toolbarHeightCollapsed,
+                            maximumValue = bannerHeight
+                        )
+                    )
             )
             Image(
                 painter = painterResource(id = R.drawable.woman_profile_image),
@@ -141,8 +150,18 @@ fun ProfileScreen(
                 modifier = Modifier
                     .align(CenterHorizontally)
                     .graphicsLayer {
-                        translationY = -ProfilePictureSizeLarge.toPx() / 2f
+                        translationY = -ProfilePictureSizeLarge.toPx() / 2f -
+                                (1f - expandedRatio) * imageCollapsedOffsetY.toPx()
+                        transformOrigin = TransformOrigin(
+                            pivotFractionX = 0.5f,
+                            pivotFractionY = 0f
+                        )
+                        val scale = 0.5f +
+                                expandedRatio * 0.5f
+                        scaleX = scale
+                        scaleY = scale
                     }
+
                     .size(ProfilePictureSizeLarge)
                     .aspectRatio(1f)
                     .clip(CircleShape)
