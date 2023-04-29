@@ -1,6 +1,5 @@
 package com.fifty.socialnetwork.presentation.profile
 
-import android.provider.ContactsContract.Profile
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -35,7 +34,6 @@ import com.fifty.socialnetwork.presentation.profile.components.ProfileHeaderSect
 import com.fifty.socialnetwork.presentation.ui.theme.ProfilePictureSizeLarge
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.presentation.util.Screen
-import com.fifty.socialnetwork.presentation.util.toDp
 import com.fifty.socialnetwork.presentation.util.toPx
 
 @Composable
@@ -46,14 +44,22 @@ fun ProfileScreen(
     var toolbarOffsetY by remember {
         mutableStateOf(0f)
     }
+    var totalToolbarOffsetY by remember {
+        mutableStateOf(0f)
+    }
+    val isFirstItemVisible = lazyListState.firstVisibleItemIndex == 0
+    val iconSizeExpanded = 35.dp
+    val toolbarHeightCollapsed = 75.dp
+    val imageCollapsedOffsetY = remember {
+        (toolbarHeightCollapsed - ProfilePictureSizeLarge / 2f) / 2f
+    }
+    val iconCollapsedOffsetY = remember {
+        (toolbarHeightCollapsed - iconSizeExpanded) / 2f
+    }
     val bannerHeight =
         (LocalConfiguration.current.screenWidthDp / 2.5).dp
     val toolbarHeightExpanded = remember {
         bannerHeight + ProfilePictureSizeLarge
-    }
-    val toolbarHeightCollapsed = 75.dp
-    val imageCollapsedOffsetY = remember {
-        (toolbarHeightCollapsed - ProfilePictureSizeLarge / 2f) / 2f
     }
     val maxOffset = remember {
         toolbarHeightExpanded - toolbarHeightCollapsed
@@ -65,6 +71,9 @@ fun ProfileScreen(
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
                 val delta = available.y
+                if (delta > 0f && lazyListState.firstVisibleItemIndex != 0) {
+                    return Offset.Zero
+                }
                 val newOffset = toolbarOffsetY + delta
                 toolbarOffsetY = newOffset.coerceIn(
                     minimumValue = -maxOffset.toPx(),
@@ -75,6 +84,7 @@ fun ProfileScreen(
             }
         }
     }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -142,7 +152,12 @@ fun ProfileScreen(
                             minimumValue = toolbarHeightCollapsed,
                             maximumValue = bannerHeight
                         )
-                    )
+                    ),
+                iconModifier = Modifier
+                    .graphicsLayer {
+                        translationY = (1f - expandedRatio) *
+                                -iconCollapsedOffsetY.toPx()
+                    }
             )
             Image(
                 painter = painterResource(id = R.drawable.woman_profile_image),

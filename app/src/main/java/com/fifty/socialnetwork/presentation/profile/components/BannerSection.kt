@@ -24,6 +24,8 @@ import com.fifty.socialnetwork.presentation.util.toPx
 fun BannerSection(
     modifier: Modifier = Modifier,
     iconSize: Dp = 35.dp,
+    iconModifier: Modifier = Modifier,
+
     onGitHubClick: () -> Unit = {},
     onInstagramClick: () -> Unit = {},
     onLinkedInClick: () -> Unit = {}
@@ -52,7 +54,7 @@ fun BannerSection(
                 )
         )
         Row(
-            modifier = Modifier
+            modifier = iconModifier
                 .height(iconSize)
                 .align(Alignment.BottomStart)
                 .padding(SpaceSmall)
@@ -77,7 +79,7 @@ fun BannerSection(
             )
         }
         Row(
-            modifier = Modifier
+            modifier = iconModifier
                 .height(iconSize)
                 .align(Alignment.BottomEnd)
                 .padding(SpaceSmall)
