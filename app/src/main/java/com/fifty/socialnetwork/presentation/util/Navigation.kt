@@ -14,13 +14,14 @@ import com.fifty.socialnetwork.presentation.login.LoginScreen
 import com.fifty.socialnetwork.presentation.postdetail.PostDetailScreen
 import com.fifty.socialnetwork.presentation.profile.ProfileScreen
 import com.fifty.socialnetwork.presentation.register.RegisterScreen
+import com.fifty.socialnetwork.presentation.search.SearchScreen
 import com.fifty.socialnetwork.presentation.splash.SplashScreen
 
 @Composable
 fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.EditProfileScreen.route
+        startDestination = Screen.SearchScreen.route
     ) {
         composable(Screen.SplashScreen.route) {
             SplashScreen(navController = navController)
@@ -45,6 +46,9 @@ fun Navigation(navController: NavHostController) {
         }
         composable(Screen.CreatePostScreen.route) {
             CreatePostScreen(navController = navController)
+        }
+        composable(Screen.SearchScreen.route) {
+            SearchScreen(navController = navController)
         }
         composable(Screen.EditProfileScreen.route) {
             EditProfileScreen(navController = navController)

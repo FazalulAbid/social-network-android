@@ -20,31 +20,31 @@ val quicksand = FontFamily(
 // Set of Material typography styles to start with
 val Typography = Typography(
     body1 = TextStyle(
-        fontFamily = quicksand,
+//        fontFamily = quicksand,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        color = TextGray
+        color = TextWhite
     ),
     h1 = TextStyle(
-        fontFamily = quicksand,
+//        fontFamily = quicksand,
         fontWeight = FontWeight.Bold,
         fontSize = 30.sp,
         color = TextWhite
     ),
     h2 = TextStyle(
-        fontFamily = quicksand,
+//        fontFamily = quicksand,
         fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
         color = TextWhite
     ),
     h6 = TextStyle(
-        fontFamily = quicksand,
+//        fontFamily = quicksand,
         fontWeight = FontWeight.Medium,
         fontSize = 20.sp,
         color = TextWhite
     ),
     body2 = TextStyle(
-        fontFamily = quicksand,
+//        fontFamily = quicksand,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         color = TextWhite
