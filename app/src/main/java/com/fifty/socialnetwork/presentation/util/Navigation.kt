@@ -1,17 +1,15 @@
 package com.fifty.socialnetwork.presentation.util
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.fifty.socialnetwork.domain.model.Post
 import com.fifty.socialnetwork.presentation.MainFeedScreen
 import com.fifty.socialnetwork.presentation.activity.ActivityScreen
 import com.fifty.socialnetwork.presentation.chat.ChatScreen
-import com.fifty.socialnetwork.presentation.components.Post
 import com.fifty.socialnetwork.presentation.createpost.CreatePostScreen
+import com.fifty.socialnetwork.presentation.editprofile.EditProfileScreen
 import com.fifty.socialnetwork.presentation.login.LoginScreen
 import com.fifty.socialnetwork.presentation.postdetail.PostDetailScreen
 import com.fifty.socialnetwork.presentation.profile.ProfileScreen
@@ -22,7 +20,7 @@ import com.fifty.socialnetwork.presentation.splash.SplashScreen
 fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.ProfileScreen.route
+        startDestination = Screen.EditProfileScreen.route
     ) {
         composable(Screen.SplashScreen.route) {
             SplashScreen(navController = navController)
@@ -47,6 +45,9 @@ fun Navigation(navController: NavHostController) {
         }
         composable(Screen.CreatePostScreen.route) {
             CreatePostScreen(navController = navController)
+        }
+        composable(Screen.EditProfileScreen.route) {
+            EditProfileScreen(navController = navController)
         }
         composable(Screen.PostDetailScreen.route) {
             PostDetailScreen(

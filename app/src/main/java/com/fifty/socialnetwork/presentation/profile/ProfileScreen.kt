@@ -22,8 +22,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.domain.model.Post
@@ -39,20 +41,22 @@ import com.fifty.socialnetwork.presentation.util.toPx
 
 @Composable
 fun ProfileScreen(
-    navController: NavController
+    navController: NavController,
+    profilePictureSize: Dp = ProfilePictureSizeLarge,
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val lazyListState = rememberLazyListState()
-    var toolbarOffsetY by remember {
-        mutableStateOf(0f)
-    }
+    var toolbarOffsetY = viewModel.toolbarOffsetY.value
+    var expandedRatio = viewModel.expandedRatio.value
+
     val iconHorizontalCenterLength =
         (LocalConfiguration.current.screenWidthDp.dp.toPx() / 4f -
-                (ProfilePictureSizeLarge / 4f).toPx() -
+                (profilePictureSize / 4f).toPx() -
                 SpaceSmall.toPx()) / 2f
     val iconSizeExpanded = 35.dp
     val toolbarHeightCollapsed = 75.dp
     val imageCollapsedOffsetY = remember {
-        (toolbarHeightCollapsed - ProfilePictureSizeLarge / 2f) / 2f
+        (toolbarHeightCollapsed - profilePictureSize / 2f) / 2f
     }
     val iconCollapsedOffsetY = remember {
         (toolbarHeightCollapsed - iconSizeExpanded) / 2f
@@ -60,13 +64,10 @@ fun ProfileScreen(
     val bannerHeight =
         (LocalConfiguration.current.screenWidthDp / 2.5).dp
     val toolbarHeightExpanded = remember {
-        bannerHeight + ProfilePictureSizeLarge
+        bannerHeight + profilePictureSize
     }
     val maxOffset = remember {
         toolbarHeightExpanded - toolbarHeightCollapsed
-    }
-    var expandedRatio by remember {
-        mutableStateOf(1f)
     }
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
@@ -99,7 +100,7 @@ fun ProfileScreen(
             item {
                 Spacer(
                     modifier = Modifier
-                        .height(toolbarHeightExpanded - ProfilePictureSizeLarge / 2f)
+                        .height(toolbarHeightExpanded - profilePictureSize / 2f)
                 )
             }
             item {
@@ -120,7 +121,7 @@ fun ProfileScreen(
                 Spacer(
                     modifier = Modifier
                         .height(SpaceMedium)
-                        .offset(y = -(ProfilePictureSizeLarge / 2f)),
+                        .offset(y = -(profilePictureSize / 2f)),
                 )
             }
             items(20) {
@@ -175,7 +176,7 @@ fun ProfileScreen(
                 modifier = Modifier
                     .align(CenterHorizontally)
                     .graphicsLayer {
-                        translationY = -ProfilePictureSizeLarge.toPx() / 2f -
+                        translationY = -profilePictureSize.toPx() / 2f -
                                 (1f - expandedRatio) * imageCollapsedOffsetY.toPx()
                         transformOrigin = TransformOrigin(
                             pivotFractionX = 0.5f,
@@ -187,7 +188,7 @@ fun ProfileScreen(
                         scaleY = scale
                     }
 
-                    .size(ProfilePictureSizeLarge)
+                    .size(profilePictureSize)
                     .aspectRatio(1f)
                     .clip(CircleShape)
                     .border(
