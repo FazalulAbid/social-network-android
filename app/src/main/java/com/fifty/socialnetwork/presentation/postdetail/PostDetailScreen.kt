@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.domain.model.Comment
-import com.fifty.socialnetwork.domain.model.Post
+import com.fifty.socialnetwork.core.domain.models.Comment
+import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.presentation.components.ActionRow
 import com.fifty.socialnetwork.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.presentation.ui.theme.*

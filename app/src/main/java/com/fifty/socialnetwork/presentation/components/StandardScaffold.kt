@@ -1,23 +1,20 @@
 package com.fifty.socialnetwork.presentation.components
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.domain.model.BottomNavItem
-import com.fifty.socialnetwork.presentation.util.Screen
+import com.fifty.socialnetwork.core.domain.models.BottomNavItem
+import com.fifty.socialnetwork.core.util.Screen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable

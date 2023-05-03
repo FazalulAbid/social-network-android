@@ -17,9 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.domain.model.Activity
+import com.fifty.socialnetwork.core.domain.models.Activity
 import com.fifty.socialnetwork.domain.util.ActivityAction
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceSmall
 

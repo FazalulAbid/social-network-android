@@ -13,9 +13,8 @@ import androidx.navigation.compose.rememberNavController
 import com.fifty.socialnetwork.presentation.components.StandardScaffold
 import com.fifty.socialnetwork.presentation.ui.theme.SocialNetworkTheme
 import com.fifty.socialnetwork.presentation.util.Navigation
-import com.fifty.socialnetwork.presentation.util.Screen
+import com.fifty.socialnetwork.core.util.Screen
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Hashtable
 
 open class A
 

@@ -8,7 +8,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -21,7 +20,7 @@ import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.presentation.components.StandardTextField
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
-import com.fifty.socialnetwork.presentation.util.Screen
+import com.fifty.socialnetwork.core.util.Screen
 
 @Composable
 fun LoginScreen(

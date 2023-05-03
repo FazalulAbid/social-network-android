@@ -24,7 +24,9 @@ import com.fifty.socialnetwork.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceSmall
-import com.fifty.socialnetwork.presentation.util.states.StandardTextFieldState
+import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
+import com.fifty.socialnetwork.featureauth.util.AuthError
+import com.fifty.socialnetwork.featurepost.util.PostDescriptionError
 
 @Composable
 fun CreatePostScreen(
@@ -77,7 +79,12 @@ fun CreatePostScreen(
                 modifier = Modifier
                     .fillMaxWidth(),
                 hint = stringResource(id = R.string.description),
-                error = viewModel.descriptionState.value.error,
+                error = when (viewModel.descriptionState.value.error) {
+                    is PostDescriptionError.FieldEmpty -> {
+                        stringResource(id = R.string.this_field_be_empty)
+                    }
+                    else -> ""
+                },
                 singleLine = false,
                 maxLines = 5,
                 onValueChange = {

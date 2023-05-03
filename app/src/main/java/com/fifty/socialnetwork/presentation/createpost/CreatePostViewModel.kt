@@ -3,7 +3,7 @@ package com.fifty.socialnetwork.presentation.createpost
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.fifty.socialnetwork.presentation.util.states.StandardTextFieldState
+import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
 import javax.inject.Inject
 
 class CreatePostViewModel @Inject constructor(

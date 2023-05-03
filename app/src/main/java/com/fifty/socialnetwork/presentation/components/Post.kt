@@ -32,9 +32,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.domain.model.Post
+import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.presentation.ui.theme.*
-import com.fifty.socialnetwork.util.Constants
+import com.fifty.socialnetwork.core.util.Constants
 
 @Composable
 fun Post(

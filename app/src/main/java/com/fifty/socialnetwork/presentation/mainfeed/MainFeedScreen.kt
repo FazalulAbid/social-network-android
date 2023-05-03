@@ -7,7 +7,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,7 +16,7 @@ import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.presentation.components.Post
 import com.fifty.socialnetwork.presentation.components.StandardToolbar
-import com.fifty.socialnetwork.presentation.util.Screen
+import com.fifty.socialnetwork.core.util.Screen
 
 @Composable
 fun MainFeedScreen(
@@ -52,7 +51,7 @@ fun MainFeedScreen(
             }
         )
         Post(
-            post = com.fifty.socialnetwork.domain.model.Post(
+            post = com.fifty.socialnetwork.core.domain.models.Post(
                 username = "Fazalul Abid",
                 imageUrl = "",
                 profilePictureUrl = "",

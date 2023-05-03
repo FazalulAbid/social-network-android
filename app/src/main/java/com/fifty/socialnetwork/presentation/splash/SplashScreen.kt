@@ -15,8 +15,8 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.presentation.util.Screen
-import com.fifty.socialnetwork.util.Constants
+import com.fifty.socialnetwork.core.util.Screen
+import com.fifty.socialnetwork.core.util.Constants
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
