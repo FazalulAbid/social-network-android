@@ -46,8 +46,7 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
     val lazyListState = rememberLazyListState()
-    var toolbarOffsetY = viewModel.toolbarOffsetY.value
-    var expandedRatio = viewModel.expandedRatio.value
+    val toolbarState = viewModel.toolbarState.value
 
     val iconHorizontalCenterLength =
         (LocalConfiguration.current.screenWidthDp.dp.toPx() / 4f -
@@ -61,8 +60,7 @@ fun ProfileScreen(
     val iconCollapsedOffsetY = remember {
         (toolbarHeightCollapsed - iconSizeExpanded) / 2f
     }
-    val bannerHeight =
-        (LocalConfiguration.current.screenWidthDp / 2.5).dp
+    val bannerHeight = (LocalConfiguration.current.screenWidthDp / 2.5f).dp
     val toolbarHeightExpanded = remember {
         bannerHeight + profilePictureSize
     }
@@ -76,12 +74,14 @@ fun ProfileScreen(
                 if (delta > 0f && lazyListState.firstVisibleItemIndex != 0) {
                     return Offset.Zero
                 }
-                val newOffset = toolbarOffsetY + delta
-                toolbarOffsetY = newOffset.coerceIn(
-                    minimumValue = -maxOffset.toPx(),
-                    maximumValue = 0f
+                val newOffset = viewModel.toolbarState.value.toolbarOffsetY + delta
+                viewModel.setToolbarOffsetY(
+                    newOffset.coerceIn(
+                        minimumValue = -maxOffset.toPx(),
+                        maximumValue = 0f
+                    )
                 )
-                expandedRatio = ((toolbarOffsetY + maxOffset.toPx()) / maxOffset.toPx())
+                viewModel.setExpandedRatio((viewModel.toolbarState.value.toolbarOffsetY + maxOffset.toPx()) / maxOffset.toPx())
                 return Offset.Zero
             }
         }
@@ -90,7 +90,7 @@ fun ProfileScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .nestedScroll(nestedScrollConnection),
+            .nestedScroll(nestedScrollConnection)
     ) {
         LazyColumn(
             modifier = Modifier
@@ -99,42 +99,40 @@ fun ProfileScreen(
         ) {
             item {
                 Spacer(
-                    modifier = Modifier
-                        .height(toolbarHeightExpanded - profilePictureSize / 2f)
+                    modifier = Modifier.height(
+                        toolbarHeightExpanded - profilePictureSize / 2f
+                    )
                 )
             }
             item {
                 ProfileHeaderSection(
                     user = User(
                         profilePictureUrl = "",
-                        username = "Fazalul Abid",
-                        description = "Lorem ipsum dolor sit amet, consec tetur elit. Sedc do eiu" +
-                                " consectetur smod tempor consectetur incididunt" +
-                                "  ut labore et dolore magna aliqua.",
+                        username = "Philipp Lackner",
+                        description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\n" +
+                                "diam nonumy eirmod tempor invidunt ut labore et dolore \n" +
+                                "magna aliquyam erat, sed diam voluptua",
                         followerCount = 234,
-                        followingCount = 221,
-                        postCount = 45
+                        followingCount = 534,
+                        postCount = 65
                     )
                 )
             }
-            item {
+            items(20) {
                 Spacer(
                     modifier = Modifier
                         .height(SpaceMedium)
-                        .offset(y = -(profilePictureSize / 2f)),
                 )
-            }
-            items(20) {
                 Post(
                     post = Post(
-                        username = "Fazalul Abid",
+                        username = "Philipp Lackner",
                         imageUrl = "",
                         profilePictureUrl = "",
-                        description = "Lorem ipsum dolor sit amet, consec tetur elit. " +
-                                "Sedc do eiu consectetur smod tempor consectetur incididunt " +
-                                "ut labore et dolore magna aliqua.",
-                        likeCount = 12,
-                        commentCount = 7
+                        description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\n" +
+                                "diam nonumy eirmod tempor invidunt ut labore et dolore \n" +
+                                "magna aliquyam erat, sed diam voluptua...",
+                        likeCount = 17,
+                        commentCount = 7,
                     ),
                     showProfileImage = false,
                     onPostClick = {
@@ -150,53 +148,49 @@ fun ProfileScreen(
             BannerSection(
                 modifier = Modifier
                     .height(
-                        (bannerHeight * expandedRatio).coerceIn(
+                        (bannerHeight * toolbarState.expandedRatio).coerceIn(
                             minimumValue = toolbarHeightCollapsed,
                             maximumValue = bannerHeight
                         )
                     ),
                 leftIconModifier = Modifier
                     .graphicsLayer {
-                        translationY = (1f - expandedRatio) *
+                        translationY = (1f - toolbarState.expandedRatio) *
                                 -iconCollapsedOffsetY.toPx()
-                        translationX = (1f - expandedRatio) *
+                        translationX = (1f - toolbarState.expandedRatio) *
                                 iconHorizontalCenterLength
                     },
                 rightIconModifier = Modifier
                     .graphicsLayer {
-                        translationY = (1f - expandedRatio) *
+                        translationY = (1f - toolbarState.expandedRatio) *
                                 -iconCollapsedOffsetY.toPx()
-                        translationX = (1f - expandedRatio) *
+                        translationX = (1f - toolbarState.expandedRatio) *
                                 -iconHorizontalCenterLength
-                    },
+                    }
             )
             Image(
                 painter = painterResource(id = R.drawable.woman_profile_image),
-                contentDescription = stringResource(R.string.profile_image),
+                contentDescription = stringResource(id = R.string.profile_image),
                 modifier = Modifier
                     .align(CenterHorizontally)
                     .graphicsLayer {
                         translationY = -profilePictureSize.toPx() / 2f -
-                                (1f - expandedRatio) * imageCollapsedOffsetY.toPx()
+                                (1f - toolbarState.expandedRatio) * imageCollapsedOffsetY.toPx()
                         transformOrigin = TransformOrigin(
                             pivotFractionX = 0.5f,
                             pivotFractionY = 0f
                         )
-                        val scale = 0.5f +
-                                expandedRatio * 0.5f
+                        val scale = 0.5f + toolbarState.expandedRatio * 0.5f
                         scaleX = scale
                         scaleY = scale
                     }
-
                     .size(profilePictureSize)
-                    .aspectRatio(1f)
                     .clip(CircleShape)
                     .border(
-                        width = 2.dp,
+                        width = 1.dp,
                         color = MaterialTheme.colors.onSurface,
                         shape = CircleShape
-                    ),
-                contentScale = ContentScale.Crop
+                    )
             )
         }
     }

@@ -11,6 +11,7 @@ import com.fifty.socialnetwork.presentation.chat.ChatScreen
 import com.fifty.socialnetwork.presentation.createpost.CreatePostScreen
 import com.fifty.socialnetwork.presentation.editprofile.EditProfileScreen
 import com.fifty.socialnetwork.presentation.login.LoginScreen
+import com.fifty.socialnetwork.presentation.personlist.PersonListScreen
 import com.fifty.socialnetwork.presentation.postdetail.PostDetailScreen
 import com.fifty.socialnetwork.presentation.profile.ProfileScreen
 import com.fifty.socialnetwork.presentation.register.RegisterScreen
@@ -21,7 +22,7 @@ import com.fifty.socialnetwork.presentation.splash.SplashScreen
 fun Navigation(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.CreatePostScreen.route
+        startDestination = Screen.SplashScreen.route
     ) {
         composable(Screen.SplashScreen.route) {
             SplashScreen(navController = navController)
@@ -55,6 +56,9 @@ fun Navigation(navController: NavHostController) {
         }
         composable(Screen.CreatePostScreen.route) {
             CreatePostScreen(navController = navController)
+        }
+        composable(Screen.PersonListScreen.route) {
+            PersonListScreen(navController = navController)
         }
         composable(Screen.PostDetailScreen.route) {
             PostDetailScreen(

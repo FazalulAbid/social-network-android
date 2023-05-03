@@ -46,12 +46,15 @@ fun ActivityItem(
                     stringResource(R.string.liked)
                 ActivityAction.LikedPost ->
                     stringResource(R.string.commented_on)
+                ActivityAction.FollowedYou -> stringResource(R.string.followed_you)
             }
             val actionText = when (activity.actionType) {
                 ActivityAction.CommentedOnPost ->
                     stringResource(R.string.your_post)
                 ActivityAction.LikedPost ->
                     stringResource(R.string.your_post)
+                ActivityAction.FollowedYou -> ""
+
             }
             Text(
                 text = buildAnnotatedString {
