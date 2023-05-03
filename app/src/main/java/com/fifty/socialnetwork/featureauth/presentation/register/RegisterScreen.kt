@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.login
+package com.fifty.socialnetwork.featureauth.presentation.register
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,12 +22,14 @@ import com.fifty.socialnetwork.presentation.components.StandardTextField
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.presentation.util.Screen
+import com.fifty.socialnetwork.util.Constants
 
 @Composable
-fun LoginScreen(
+fun RegisterScreen(
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state.value
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -46,55 +48,92 @@ fun LoginScreen(
                 .align(Alignment.Center)
         ) {
             Text(
-                text = stringResource(R.string.login),
+                text = stringResource(R.string.register),
                 color = MaterialTheme.colors.onBackground,
                 style = MaterialTheme.typography.h1
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
             StandardTextField(
-                text = viewModel.usernameText.value,
+                text = state.emailText,
                 onValueChange = {
-                    viewModel.setUsernameText(it)
+                    viewModel.onEvent(RegisterEvent.EnteredEmail(it))
                 },
-                error = viewModel.usernameError.value,
-                hint = stringResource(R.string.login_hint),
+                error = when (state.emailError) {
+                    RegisterState.EmailError.FieldEmpty -> {
+                        stringResource(R.string.this_field_be_empty)
+                    }
+                    RegisterState.EmailError.InvalidEmail -> {
+                        stringResource(R.string.not_a_valid_email)
+                    }
+                    null -> ""
+                },
+                hint = stringResource(R.string.email),
                 keyboardType = KeyboardType.Email,
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
             StandardTextField(
-                text = viewModel.passwordText.value,
+                text = state.usernameText,
                 onValueChange = {
-                    viewModel.setPasswordText(it)
+                    viewModel.onEvent(RegisterEvent.EnteredUsername(it))
+                },
+                error = when (state.usernameError) {
+                    RegisterState.UsernameError.FieldEmpty -> {
+                        stringResource(id = R.string.this_field_be_empty)
+                    }
+                    RegisterState.UsernameError.InputTooShort -> {
+                        stringResource(id = R.string.input_too_short, Constants.MIN_USERNAME_LENGTH)
+                    }
+                    null -> ""
+                },
+                hint = stringResource(R.string.username),
+                modifier = Modifier
+            )
+            Spacer(modifier = Modifier.height(SpaceMedium))
+            StandardTextField(
+                text = state.passwordText,
+                onValueChange = {
+                    viewModel.onEvent(RegisterEvent.EnteredPassword(it))
                 },
                 hint = stringResource(id = R.string.password_hint),
                 keyboardType = KeyboardType.Password,
-                error = viewModel.passwordError.value,
-                showPasswordToggle = viewModel.showPassword.value,
+                error = when (state.passwordError) {
+                    RegisterState.PasswordError.FieldEmpty -> {
+                        stringResource(id = R.string.this_field_be_empty)
+                    }
+                    RegisterState.PasswordError.InputTooShort -> {
+                        stringResource(id = R.string.input_too_short, Constants.MIN_PASSWORD_LENGTH)
+                    }
+                    RegisterState.PasswordError.InvalidPassword -> {
+                        stringResource(id = R.string.invalid_password)
+                    }
+                    null -> ""
+                },
+                showPasswordToggle = state.isPasswordVisible,
                 onPasswordToggleClick = {
-                    viewModel.setShowPassword(it)
+                    viewModel.onEvent(RegisterEvent.TogglePasswordVisibility)
                 },
                 modifier = Modifier
             )
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-                    navController.navigate(Screen.MainFeedScreen.route)
+                    viewModel.onEvent(RegisterEvent.Register)
                 },
                 modifier = Modifier
                     .align(Alignment.End)
             ) {
                 Text(
-                    text = stringResource(id = R.string.login),
+                    text = stringResource(id = R.string.register),
                     color = MaterialTheme.colors.onPrimary
                 )
             }
         }
         Text(
             text = buildAnnotatedString {
-                append(stringResource(R.string.dont_have_an_account_yet))
+                append(stringResource(R.string.already_have_an_account))
                 append(" ")
-                val signUpText = stringResource(id = R.string.sign_up)
+                val signUpText = stringResource(id = R.string.sign_in)
                 withStyle(
                     style = SpanStyle(
                         color = MaterialTheme.colors.primary
@@ -107,7 +146,7 @@ fun LoginScreen(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .clickable {
-                    navController.navigate(Screen.RegisterScreen.route)
+                    navController.popBackStack()
                 },
         )
     }

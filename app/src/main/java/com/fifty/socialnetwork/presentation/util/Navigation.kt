@@ -10,11 +10,11 @@ import com.fifty.socialnetwork.presentation.activity.ActivityScreen
 import com.fifty.socialnetwork.presentation.chat.ChatScreen
 import com.fifty.socialnetwork.presentation.createpost.CreatePostScreen
 import com.fifty.socialnetwork.presentation.editprofile.EditProfileScreen
-import com.fifty.socialnetwork.presentation.login.LoginScreen
+import com.fifty.socialnetwork.featureauth.presentation.login.LoginScreen
 import com.fifty.socialnetwork.presentation.personlist.PersonListScreen
 import com.fifty.socialnetwork.presentation.postdetail.PostDetailScreen
 import com.fifty.socialnetwork.presentation.profile.ProfileScreen
-import com.fifty.socialnetwork.presentation.register.RegisterScreen
+import com.fifty.socialnetwork.featureauth.presentation.register.RegisterScreen
 import com.fifty.socialnetwork.presentation.search.SearchScreen
 import com.fifty.socialnetwork.presentation.splash.SplashScreen
 
