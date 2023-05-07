@@ -1,7 +1,7 @@
 package com.fifty.socialnetwork.di
 
 import android.content.SharedPreferences
-import com.fifty.socialnetwork.featureauth.data.remote.AuthApi
+import com.fifty.socialnetwork.featureauth.data.datasource.remote.AuthApi
 import com.fifty.socialnetwork.featureauth.data.repository.AuthRepositoryImpl
 import com.fifty.socialnetwork.featureauth.domain.repository.AuthRepository
 import com.fifty.socialnetwork.featureauth.domain.usecase.AuthenticateUseCase

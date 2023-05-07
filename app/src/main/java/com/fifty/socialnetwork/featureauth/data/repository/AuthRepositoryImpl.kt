@@ -8,9 +8,8 @@ import com.fifty.socialnetwork.core.util.SimpleResource
 import com.fifty.socialnetwork.core.util.UiText
 import com.fifty.socialnetwork.featureauth.data.dto.request.CreateAccountRequest
 import com.fifty.socialnetwork.featureauth.data.dto.request.LoginRequest
-import com.fifty.socialnetwork.featureauth.data.remote.AuthApi
+import com.fifty.socialnetwork.featureauth.data.datasource.remote.AuthApi
 import com.fifty.socialnetwork.featureauth.domain.repository.AuthRepository
-import com.fifty.socialnetwork.featureauth.util.AuthError
 import retrofit2.HttpException
 import java.io.IOException
 

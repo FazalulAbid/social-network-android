@@ -1,10 +1,9 @@
-package com.fifty.socialnetwork.featureauth.data.remote
+package com.fifty.socialnetwork.featureauth.data.datasource.remote
 
 import com.fifty.socialnetwork.core.data.dto.response.BasicApiResponse
 import com.fifty.socialnetwork.featureauth.data.dto.request.CreateAccountRequest
 import com.fifty.socialnetwork.featureauth.data.dto.request.LoginRequest
 import com.fifty.socialnetwork.featureauth.data.dto.response.AuthResponse
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
