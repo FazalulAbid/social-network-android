@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
+import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.Screen
 import com.fifty.socialnetwork.core.util.UiText
@@ -29,7 +30,7 @@ class LoginViewModel @Inject constructor(
     private val _loginState = mutableStateOf(LoginState())
     val loginState: State<LoginState> = _loginState
 
-    private val _eventFlow = MutableSharedFlow<LoginViewModel.UiEvent>()
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
     fun onEvent(event: LoginEvent) {
@@ -84,10 +85,5 @@ class LoginViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    sealed class UiEvent {
-        data class SnackBarEvent(val uiText: UiText) : UiEvent()
-        data class Navigate(val route: String) : UiEvent()
     }
 }

@@ -4,7 +4,9 @@ import com.fifty.socialnetwork.core.data.dto.response.BasicApiResponse
 import com.fifty.socialnetwork.featureauth.data.dto.request.CreateAccountRequest
 import com.fifty.socialnetwork.featureauth.data.dto.request.LoginRequest
 import com.fifty.socialnetwork.featureauth.data.dto.response.AuthResponse
+import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface AuthApi {
@@ -18,6 +20,9 @@ interface AuthApi {
     suspend fun login(
         @Body request: LoginRequest
     ): BasicApiResponse<AuthResponse>
+
+    @GET("/api/user/authenticate")
+    suspend fun authenticate()
 
     companion object {
         const val BASE_URL = "http://192.168.48.34:8001/"

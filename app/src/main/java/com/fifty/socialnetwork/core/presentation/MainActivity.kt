@@ -13,7 +13,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.fifty.socialnetwork.core.presentation.components.StandardScaffold
 import com.fifty.socialnetwork.presentation.ui.theme.SocialNetworkTheme
-import com.fifty.socialnetwork.presentation.util.Navigation
+import com.fifty.socialnetwork.core.presentation.components.Navigation
 import com.fifty.socialnetwork.core.util.Screen
 import dagger.hilt.android.AndroidEntryPoint
 

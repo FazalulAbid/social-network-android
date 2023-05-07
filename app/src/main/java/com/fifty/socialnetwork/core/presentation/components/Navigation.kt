@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.util
+package com.fifty.socialnetwork.core.presentation.components
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
@@ -18,7 +18,7 @@ import com.fifty.socialnetwork.featurepost.presentation.postdetail.PostDetailScr
 import com.fifty.socialnetwork.featureprofile.presentation.profile.ProfileScreen
 import com.fifty.socialnetwork.featureauth.presentation.register.RegisterScreen
 import com.fifty.socialnetwork.featureprofile.presentation.search.SearchScreen
-import com.fifty.socialnetwork.featuresplash.presentation.splash.SplashScreen
+import com.fifty.socialnetwork.featureauth.presentation.splash.SplashScreen
 
 @Composable
 fun Navigation(

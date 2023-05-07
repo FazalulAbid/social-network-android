@@ -7,7 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.fifty.socialnetwork.core.presentation.MainActivity
 import com.fifty.socialnetwork.presentation.ui.theme.SocialNetworkTheme
 import com.fifty.socialnetwork.core.util.Screen
-import com.fifty.socialnetwork.featuresplash.presentation.splash.SplashScreen
+import com.fifty.socialnetwork.featureauth.presentation.splash.SplashScreen
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify

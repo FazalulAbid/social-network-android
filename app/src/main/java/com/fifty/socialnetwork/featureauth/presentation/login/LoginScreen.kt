@@ -23,6 +23,7 @@ import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.presentation.components.StandardTextField
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.presentation.util.asString
 import com.fifty.socialnetwork.core.util.Screen
 import com.fifty.socialnetwork.featureauth.util.AuthError
@@ -42,12 +43,12 @@ fun LoginScreen(
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
-                is LoginViewModel.UiEvent.SnackBarEvent -> {
+                is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         message = event.uiText.asString(context = context)
                     )
                 }
-                is LoginViewModel.UiEvent.Navigate -> {
+                is UiEvent.Navigate -> {
                     navController.navigate(event.route)
                 }
             }

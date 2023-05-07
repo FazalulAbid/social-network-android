@@ -20,6 +20,7 @@ import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.presentation.components.StandardTextField
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.presentation.util.asString
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.featureauth.util.AuthError
@@ -40,12 +41,13 @@ fun RegisterScreen(
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
-                is RegisterViewModel.UiEvent.SnackBarEvent -> {
+                is UiEvent.SnackBarEvent -> {
                     scaffoldState.snackbarHostState.showSnackbar(
                         event.uiText.asString(context),
                         duration = SnackbarDuration.Long
                     )
                 }
+                else -> Unit
             }
         }
     }

@@ -10,6 +10,7 @@ import com.fifty.socialnetwork.featureauth.data.dto.request.CreateAccountRequest
 import com.fifty.socialnetwork.featureauth.data.dto.request.LoginRequest
 import com.fifty.socialnetwork.featureauth.data.remote.AuthApi
 import com.fifty.socialnetwork.featureauth.domain.repository.AuthRepository
+import com.fifty.socialnetwork.featureauth.util.AuthError
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -63,6 +64,21 @@ class AuthRepositoryImpl(
                     Resource.Error(UiText.DynamicString(msg))
                 } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
             }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.error_could_not_reach_server)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.oops_something_went_wrong)
+            )
+        }
+    }
+
+    override suspend fun authenticate(): SimpleResource {
+        return try {
+            api.authenticate()
+            Resource.Success(Unit)
         } catch (e: IOException) {
             Resource.Error(
                 uiText = UiText.StringResource(R.string.error_could_not_reach_server)
