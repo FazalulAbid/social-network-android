@@ -16,8 +16,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceSmall
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.core.util.toPx
 
 @Composable

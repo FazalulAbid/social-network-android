@@ -4,7 +4,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.navigation.NavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.fifty.socialnetwork.presentation.MainActivity
+import com.fifty.socialnetwork.core.presentation.MainActivity
 import com.fifty.socialnetwork.presentation.ui.theme.SocialNetworkTheme
 import com.fifty.socialnetwork.core.util.Screen
 import io.mockk.MockKAnnotations

@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.components
+package com.fifty.socialnetwork.core.presentation.components
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*

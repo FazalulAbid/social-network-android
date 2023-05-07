@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.components
+package com.fifty.socialnetwork.core.presentation.components
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +22,7 @@ fun StandardScaffold(
     navController: NavController,
     modifier: Modifier = Modifier,
     showBottomBar: Boolean = true,
+    state: ScaffoldState,
     bottomNavItems: List<BottomNavItem> = listOf(
         BottomNavItem(
             route = Screen.MainFeedScreen.route,
@@ -75,6 +76,7 @@ fun StandardScaffold(
                 }
             }
         },
+        scaffoldState = state,
         floatingActionButton = {
             if (showBottomBar) {
                 FloatingActionButton(

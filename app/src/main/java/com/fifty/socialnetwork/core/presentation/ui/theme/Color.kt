@@ -1,6 +1,5 @@
-package com.fifty.socialnetwork.presentation.ui.theme
+package com.fifty.socialnetwork.core.presentation.ui.theme
 
-import android.hardware.lights.Light
 import androidx.compose.ui.graphics.Color
 
 val DarkGray = Color(0xFF202020)

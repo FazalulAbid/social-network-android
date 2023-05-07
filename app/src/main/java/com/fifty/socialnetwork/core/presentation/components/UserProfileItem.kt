@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.components
+package com.fifty.socialnetwork.core.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -14,6 +14,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.User
+import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeSmall
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.presentation.ui.theme.*
 
 @OptIn(ExperimentalMaterialApi::class)

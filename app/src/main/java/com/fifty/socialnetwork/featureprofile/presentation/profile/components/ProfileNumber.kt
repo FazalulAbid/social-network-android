@@ -11,8 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceSmall
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 
 @Composable
 fun ProfileNumber(

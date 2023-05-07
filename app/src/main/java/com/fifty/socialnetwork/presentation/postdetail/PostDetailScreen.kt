@@ -20,9 +20,9 @@ import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Comment
 import com.fifty.socialnetwork.core.domain.models.Post
-import com.fifty.socialnetwork.presentation.components.ActionRow
-import com.fifty.socialnetwork.presentation.components.StandardToolbar
-import com.fifty.socialnetwork.presentation.ui.theme.*
+import com.fifty.socialnetwork.core.presentation.components.ActionRow
+import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
+import com.fifty.socialnetwork.core.presentation.ui.theme.*
 
 @Composable
 fun PostDetailScreen(

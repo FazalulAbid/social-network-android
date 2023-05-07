@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.ui.theme
+package com.fifty.socialnetwork.core.presentation.ui.theme
 
 import androidx.compose.ui.unit.dp
 

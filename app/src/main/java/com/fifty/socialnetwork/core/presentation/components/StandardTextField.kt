@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.components
+package com.fifty.socialnetwork.core.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,17 +11,14 @@ import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.presentation.ui.theme.IconSizeMedium
+import com.fifty.socialnetwork.core.presentation.ui.theme.IconSizeMedium
 
 @Composable
 fun StandardTextField(

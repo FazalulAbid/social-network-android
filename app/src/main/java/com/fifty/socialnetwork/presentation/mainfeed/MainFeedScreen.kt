@@ -14,8 +14,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.presentation.components.Post
-import com.fifty.socialnetwork.presentation.components.StandardToolbar
+import com.fifty.socialnetwork.core.presentation.components.Post
+import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.core.util.Screen
 
 @Composable

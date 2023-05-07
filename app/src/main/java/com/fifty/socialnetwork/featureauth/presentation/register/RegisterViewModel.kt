@@ -1,17 +1,28 @@
 package com.fifty.socialnetwork.featureauth.presentation.register
 
+import android.util.EventLog
 import android.util.Patterns
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.states.PasswordTextFieldState
 import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
 import com.fifty.socialnetwork.core.util.Constants
+import com.fifty.socialnetwork.core.util.Resource
+import com.fifty.socialnetwork.core.util.UiText
+import com.fifty.socialnetwork.featureauth.domain.usecase.RegisterUseCase
 import com.fifty.socialnetwork.featureauth.util.AuthError
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class RegisterViewModel @Inject constructor(
-
+    private val registerUseCase: RegisterUseCase
 ) : ViewModel() {
 
     private val _emailState = mutableStateOf(StandardTextFieldState())
@@ -22,6 +33,12 @@ class RegisterViewModel @Inject constructor(
 
     private val _passwordState = mutableStateOf(PasswordTextFieldState())
     val passwordState: State<PasswordTextFieldState> = _passwordState
+
+    private val _registerState = mutableStateOf(RegisterState())
+    val registerState: State<RegisterState> = _registerState
+
+    private val _eventFlow = MutableSharedFlow<UiEvent>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     fun onEvent(event: RegisterEvent) {
         when (event) {
@@ -49,6 +66,33 @@ class RegisterViewModel @Inject constructor(
                 validateUsername(usernameState.value.text)
                 validateEmail(emailState.value.text)
                 validatePassword(passwordState.value.text)
+                registerIfNoErrors()
+            }
+        }
+    }
+
+    private fun registerIfNoErrors() {
+        if (emailState.value.error != null || usernameState.value.error != null || passwordState.value.error != null) {
+            return
+        }
+        viewModelScope.launch {
+            _registerState.value = RegisterState(isLoading = true)
+            val result = registerUseCase(
+                email = emailState.value.text,
+                username = usernameState.value.text,
+                password = passwordState.value.text
+            )
+            when (result) {
+                is Resource.Success -> {
+                    _eventFlow.emit(
+                        UiEvent.SnackBarEvent(UiText.StringResource(R.string.success_registration))
+                    )
+                }
+                is Resource.Error -> {
+                    _eventFlow.emit(
+                        UiEvent.SnackBarEvent(result.uiText ?: UiText.unknownError())
+                    )
+                }
             }
         }
     }
@@ -109,5 +153,9 @@ class RegisterViewModel @Inject constructor(
             return
         }
         _passwordState.value = _passwordState.value.copy(error = null)
+    }
+
+    sealed class UiEvent {
+        data class SnackBarEvent(val uiText: UiText) : UiEvent()
     }
 }

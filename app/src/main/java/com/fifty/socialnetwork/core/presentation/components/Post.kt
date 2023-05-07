@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.components
+package com.fifty.socialnetwork.core.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Post
-import com.fifty.socialnetwork.presentation.ui.theme.*
+import com.fifty.socialnetwork.core.presentation.ui.theme.*
 import com.fifty.socialnetwork.core.util.Constants
 
 @Composable

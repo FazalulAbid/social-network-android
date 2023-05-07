@@ -1,6 +1,5 @@
 package com.fifty.socialnetwork.featureprofile.presentation.editprofile
 
-import android.graphics.drawable.VectorDrawable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -15,7 +14,6 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.painter.Painter
@@ -32,13 +30,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.presentation.components.StandardTextField
-import com.fifty.socialnetwork.presentation.components.StandardToolbar
-import com.fifty.socialnetwork.presentation.ui.theme.ProfilePictureSizeLarge
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.components.StandardTextField
+import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
+import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeLarge
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
-import com.fifty.socialnetwork.featureauth.util.AuthError
 import com.fifty.socialnetwork.featureprofile.presentation.util.EditProfileError
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlin.random.Random

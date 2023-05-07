@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.User
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 
 @Composable
 fun ProfileStats(

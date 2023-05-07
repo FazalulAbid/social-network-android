@@ -14,10 +14,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.User
-import com.fifty.socialnetwork.presentation.components.StandardToolbar
-import com.fifty.socialnetwork.presentation.components.UserProfileItem
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
+import com.fifty.socialnetwork.core.presentation.components.UserProfileItem
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 
 @Composable
 fun PersonListScreen(

@@ -16,13 +16,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.User
-import com.fifty.socialnetwork.presentation.components.StandardTextField
-import com.fifty.socialnetwork.presentation.components.StandardToolbar
-import com.fifty.socialnetwork.presentation.components.UserProfileItem
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.components.StandardTextField
+import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
+import com.fifty.socialnetwork.core.presentation.components.UserProfileItem
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
-import com.fifty.socialnetwork.featureprofile.presentation.util.EditProfileError
 
 @Composable
 fun SearchScreen(

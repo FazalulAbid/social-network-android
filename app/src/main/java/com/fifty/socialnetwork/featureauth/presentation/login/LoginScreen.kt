@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.presentation.components.StandardTextField
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.components.StandardTextField
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.util.Screen
 
 @Composable

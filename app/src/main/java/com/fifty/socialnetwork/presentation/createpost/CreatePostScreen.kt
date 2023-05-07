@@ -1,14 +1,11 @@
 package com.fifty.socialnetwork.presentation.createpost
 
-import android.drm.DrmStore.RightsStatus
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,13 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.presentation.components.StandardTextField
-import com.fifty.socialnetwork.presentation.components.StandardToolbar
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceLarge
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceSmall
+import com.fifty.socialnetwork.core.presentation.components.StandardTextField
+import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
-import com.fifty.socialnetwork.featureauth.util.AuthError
 import com.fifty.socialnetwork.featurepost.util.PostDescriptionError
 
 @Composable

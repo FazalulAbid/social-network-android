@@ -14,8 +14,8 @@ import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Activity
 import com.fifty.socialnetwork.domain.util.ActivityAction
 import com.fifty.socialnetwork.domain.util.DateFormatUtil
-import com.fifty.socialnetwork.presentation.components.StandardToolbar
-import com.fifty.socialnetwork.presentation.ui.theme.*
+import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 
 @Composable
 fun ActivityScreen(

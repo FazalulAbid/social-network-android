@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Activity
 import com.fifty.socialnetwork.domain.util.ActivityAction
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceSmall
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 
 @Composable
 fun ActivityItem(

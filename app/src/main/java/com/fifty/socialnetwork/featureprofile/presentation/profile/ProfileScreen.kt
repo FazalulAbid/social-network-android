@@ -29,12 +29,12 @@ import androidx.navigation.NavController
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.domain.models.User
-import com.fifty.socialnetwork.presentation.components.Post
+import com.fifty.socialnetwork.core.presentation.components.Post
 import com.fifty.socialnetwork.featureprofile.presentation.profile.components.BannerSection
 import com.fifty.socialnetwork.featureprofile.presentation.profile.components.ProfileHeaderSection
-import com.fifty.socialnetwork.presentation.ui.theme.ProfilePictureSizeLarge
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceMedium
-import com.fifty.socialnetwork.presentation.ui.theme.SpaceSmall
+import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeLarge
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.core.util.Screen
 import com.fifty.socialnetwork.core.util.toPx
 
