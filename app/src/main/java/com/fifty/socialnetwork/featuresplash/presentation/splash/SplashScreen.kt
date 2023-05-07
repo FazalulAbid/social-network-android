@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.splash
+package com.fifty.socialnetwork.featuresplash.presentation.splash
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable

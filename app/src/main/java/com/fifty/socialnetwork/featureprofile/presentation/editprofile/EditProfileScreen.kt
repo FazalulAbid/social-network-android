@@ -100,7 +100,7 @@ fun EditProfileScreen(
                     hint = stringResource(id = R.string.username),
                     error = when (viewModel.usernameState.value.error) {
                         is EditProfileError.FieldEmpty -> {
-                            stringResource(id = R.string.this_field_be_empty)
+                            stringResource(id = R.string.this_field_cant_be_empty)
                         }
                         else -> ""
                     },
@@ -114,7 +114,7 @@ fun EditProfileScreen(
                     hint = stringResource(id = R.string.github_profile_url),
                     error = when (viewModel.githubTextFieldState.value.error) {
                         is EditProfileError.FieldEmpty -> {
-                            stringResource(id = R.string.this_field_be_empty)
+                            stringResource(id = R.string.this_field_cant_be_empty)
                         }
                         else -> ""
                     }, leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_github_logo),
@@ -132,7 +132,7 @@ fun EditProfileScreen(
                     hint = stringResource(id = R.string.instagram_profile_url),
                     error = when (viewModel.instagramTextFieldState.value.error) {
                         is EditProfileError.FieldEmpty -> {
-                            stringResource(id = R.string.this_field_be_empty)
+                            stringResource(id = R.string.this_field_cant_be_empty)
                         }
                         else -> ""
                     }, leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_instagram_logo),
@@ -150,7 +150,7 @@ fun EditProfileScreen(
                     hint = stringResource(id = R.string.linkedin_profile_url),
                     error = when (viewModel.linkedInTextFieldState.value.error) {
                         is EditProfileError.FieldEmpty -> {
-                            stringResource(id = R.string.this_field_be_empty)
+                            stringResource(id = R.string.this_field_cant_be_empty)
                         }
                         else -> ""
                     }, leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_linkedin_logo),
@@ -168,7 +168,7 @@ fun EditProfileScreen(
                     hint = stringResource(id = R.string.your_bio),
                     error = when (viewModel.bioState.value.error) {
                         is EditProfileError.FieldEmpty -> {
-                            stringResource(id = R.string.this_field_be_empty)
+                            stringResource(id = R.string.this_field_cant_be_empty)
                         }
                         else -> ""
                     }, singleLine = false,

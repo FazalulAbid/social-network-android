@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.postdetail
+package com.fifty.socialnetwork.featurepost.presentation.postdetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

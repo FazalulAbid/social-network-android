@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.createpost
+package com.fifty.socialnetwork.featurepost.presentation.createpost
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

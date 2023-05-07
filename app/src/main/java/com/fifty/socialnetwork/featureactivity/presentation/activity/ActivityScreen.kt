@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.activity
+package com.fifty.socialnetwork.featureactivity.presentation.activity
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +16,8 @@ import com.fifty.socialnetwork.domain.util.ActivityAction
 import com.fifty.socialnetwork.domain.util.DateFormatUtil
 import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.presentation.activity.ActivityItem
+import kotlin.random.Random
 
 @Composable
 fun ActivityScreen(
@@ -46,7 +48,7 @@ fun ActivityScreen(
                 ActivityItem(
                     activity = Activity(
                         username = "Fazalul Abid",
-                        actionType = if (kotlin.random.Random.nextInt(2) == 0)
+                        actionType = if (Random.nextInt(2) == 0)
                             ActivityAction.LikedPost
                         else ActivityAction.CommentedOnPost,
                         formattedTime = DateFormatUtil.timestampToFormattedString(

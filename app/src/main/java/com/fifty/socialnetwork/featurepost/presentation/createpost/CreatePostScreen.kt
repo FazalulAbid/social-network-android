@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.createpost
+package com.fifty.socialnetwork.featurepost.presentation.createpost
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -77,7 +77,7 @@ fun CreatePostScreen(
                 hint = stringResource(id = R.string.description),
                 error = when (viewModel.descriptionState.value.error) {
                     is PostDescriptionError.FieldEmpty -> {
-                        stringResource(id = R.string.this_field_be_empty)
+                        stringResource(id = R.string.this_field_cant_be_empty)
                     }
                     else -> ""
                 },

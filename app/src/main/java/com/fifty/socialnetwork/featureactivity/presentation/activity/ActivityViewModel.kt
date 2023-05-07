@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.presentation.activity
+package com.fifty.socialnetwork.featureactivity.presentation.activity
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

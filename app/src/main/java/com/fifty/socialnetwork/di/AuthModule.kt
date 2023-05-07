@@ -1,8 +1,10 @@
 package com.fifty.socialnetwork.di
 
+import android.content.SharedPreferences
 import com.fifty.socialnetwork.featureauth.data.remote.AuthApi
 import com.fifty.socialnetwork.featureauth.data.repository.AuthRepositoryImpl
 import com.fifty.socialnetwork.featureauth.domain.repository.AuthRepository
+import com.fifty.socialnetwork.featureauth.domain.usecase.LoginUseCase
 import com.fifty.socialnetwork.featureauth.domain.usecase.RegisterUseCase
 import dagger.Module
 import dagger.Provides
@@ -28,8 +30,8 @@ object AuthModule {
 
     @Provides
     @Singleton
-    fun provideAuthRepository(api: AuthApi): AuthRepository {
-        return AuthRepositoryImpl(api)
+    fun provideAuthRepository(api: AuthApi, sharedPreferences: SharedPreferences): AuthRepository {
+        return AuthRepositoryImpl(api, sharedPreferences)
     }
 
     @Provides
@@ -38,4 +40,9 @@ object AuthModule {
         return RegisterUseCase(repository = repository)
     }
 
+    @Provides
+    @Singleton
+    fun provideLoginUseCase(repository: AuthRepository): LoginUseCase {
+        return LoginUseCase(repository = repository)
+    }
 }
