@@ -107,7 +107,7 @@ fun ProfileScreen(
                 ProfileHeaderSection(
                     user = User(
                         profilePictureUrl = "",
-                        username = "Philipp Lackner",
+                        username = "Fazlul Abid",
                         description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\n" +
                                 "diam nonumy eirmod tempor invidunt ut labore et dolore \n" +
                                 "magna aliquyam erat, sed diam voluptua",
@@ -124,7 +124,7 @@ fun ProfileScreen(
                 )
                 Post(
                     post = Post(
-                        username = "Philipp Lackner",
+                        username = "Fazlul Abid",
                         imageUrl = "",
                         profilePictureUrl = "",
                         description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\n" +
