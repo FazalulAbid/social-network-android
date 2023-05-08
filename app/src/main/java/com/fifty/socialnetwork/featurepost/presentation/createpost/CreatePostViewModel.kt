@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
-import com.fifty.socialnetwork.featurepost.domain.usecase.CreatePostUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.PostUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -31,6 +30,9 @@ class CreatePostViewModel @Inject constructor(
                 )
             }
             is CreatePostEvent.PickImage -> {
+                _chosenImageUri.value = event.uri
+            }
+            is CreatePostEvent.CropImage -> {
                 _chosenImageUri.value = event.uri
             }
             CreatePostEvent.PostImage -> {
