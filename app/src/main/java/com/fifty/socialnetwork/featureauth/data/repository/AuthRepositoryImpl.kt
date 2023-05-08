@@ -6,8 +6,8 @@ import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.SimpleResource
 import com.fifty.socialnetwork.core.util.UiText
-import com.fifty.socialnetwork.featureauth.data.dto.request.CreateAccountRequest
-import com.fifty.socialnetwork.featureauth.data.dto.request.LoginRequest
+import com.fifty.socialnetwork.featureauth.data.datasource.remote.request.CreateAccountRequest
+import com.fifty.socialnetwork.featureauth.data.datasource.remote.request.LoginRequest
 import com.fifty.socialnetwork.featureauth.data.datasource.remote.AuthApi
 import com.fifty.socialnetwork.featureauth.domain.repository.AuthRepository
 import retrofit2.HttpException

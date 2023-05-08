@@ -1,13 +1,17 @@
 package com.fifty.socialnetwork.di
 
+import android.content.Context
 import com.fifty.socialnetwork.featurepost.data.datasource.remote.PostApi
 import com.fifty.socialnetwork.featurepost.data.repository.PostRepositoryImpl
 import com.fifty.socialnetwork.featurepost.domain.repository.PostRepository
+import com.fifty.socialnetwork.featurepost.domain.usecase.CreatePostUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.GetPostsForFollowsUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.PostUseCases
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -31,15 +35,20 @@ object PostModule {
 
     @Provides
     @Singleton
-    fun providePostRepository(api: PostApi): PostRepository {
-        return PostRepositoryImpl(api)
+    fun providePostRepository(
+        api: PostApi,
+        gson: Gson,
+        @ApplicationContext appContext: Context
+    ): PostRepository {
+        return PostRepositoryImpl(api, gson, appContext)
     }
 
     @Provides
     @Singleton
     fun providePostUseCases(repository: PostRepository): PostUseCases {
         return PostUseCases(
-            getPostsForFollowsUseCase = GetPostsForFollowsUseCase(repository)
+            getPostsForFollowsUseCase = GetPostsForFollowsUseCase(repository),
+            createPostUseCase = CreatePostUseCase(repository)
         )
     }
 }

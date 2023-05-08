@@ -1,9 +1,10 @@
 package com.fifty.socialnetwork.featureauth.data.datasource.remote
 
 import com.fifty.socialnetwork.core.data.dto.response.BasicApiResponse
-import com.fifty.socialnetwork.featureauth.data.dto.request.CreateAccountRequest
-import com.fifty.socialnetwork.featureauth.data.dto.request.LoginRequest
-import com.fifty.socialnetwork.featureauth.data.dto.response.AuthResponse
+import com.fifty.socialnetwork.core.util.Constants
+import com.fifty.socialnetwork.featureauth.data.datasource.remote.request.CreateAccountRequest
+import com.fifty.socialnetwork.featureauth.data.datasource.remote.request.LoginRequest
+import com.fifty.socialnetwork.featureauth.data.datasource.remote.response.AuthResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -24,6 +25,7 @@ interface AuthApi {
     suspend fun authenticate()
 
     companion object {
-        const val BASE_URL = "http://192.168.48.34:8001/"
+        //        const val BASE_URL = "http://192.168.48.34:8001/"
+        const val BASE_URL = Constants.DEBUG_BASE_URL
     }
 }

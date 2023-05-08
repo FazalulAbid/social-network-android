@@ -14,4 +14,6 @@ object Constants {
     const val KEY_JWT_TOKEN = "jwt_token"
 
     const val SHARED_PREF_NAME = "shared_pref"
+
+    const val DEBUG_BASE_URL = "http://192.168.64.130:8080/"
 }
