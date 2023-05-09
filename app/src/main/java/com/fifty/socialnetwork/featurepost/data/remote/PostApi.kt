@@ -1,9 +1,9 @@
-package com.fifty.socialnetwork.featurepost.data.datasource.remote
+package com.fifty.socialnetwork.featurepost.data.remote
 
 import com.fifty.socialnetwork.core.data.dto.response.BasicApiResponse
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.util.Constants
-import com.fifty.socialnetwork.featurepost.data.datasource.remote.request.CreatePostRequest
+import com.fifty.socialnetwork.featurepost.data.remote.request.CreatePostRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.Body

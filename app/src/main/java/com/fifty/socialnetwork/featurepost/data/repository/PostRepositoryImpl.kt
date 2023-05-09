@@ -14,8 +14,8 @@ import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.SimpleResource
 import com.fifty.socialnetwork.core.util.UiText
-import com.fifty.socialnetwork.featurepost.data.datasource.remote.PostApi
-import com.fifty.socialnetwork.featurepost.data.datasource.remote.request.CreatePostRequest
+import com.fifty.socialnetwork.featurepost.data.remote.PostApi
+import com.fifty.socialnetwork.featurepost.data.remote.request.CreatePostRequest
 import com.fifty.socialnetwork.featurepost.data.paging.PostSource
 import com.fifty.socialnetwork.featurepost.domain.repository.PostRepository
 import com.google.gson.Gson

@@ -1,6 +1,7 @@
 package com.fifty.socialnetwork.featurepost.presentation.createpost
 
 import android.net.Uri
+import android.provider.SyncStateContract.Constants
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
@@ -13,10 +14,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.isDebugInspectorInfoEnabled
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -34,13 +39,23 @@ import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
 import com.fifty.socialnetwork.core.domain.util.getFileName
 import com.fifty.socialnetwork.core.presentation.util.CropActivityResultContract
+import com.fifty.socialnetwork.core.presentation.util.UiEvent
+import com.fifty.socialnetwork.core.presentation.util.asString
+import com.fifty.socialnetwork.featurepost.util.PostConstants
 import com.fifty.socialnetwork.featurepost.util.PostDescriptionError
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.UUID
 
+@OptIn(DelicateCoroutinesApi::class)
 @Composable
 fun CreatePostScreen(
-    navController: NavController,
+    onNavigate: (String) -> Unit = {},
+    onNavigateUp: () -> Unit = {},
+    scaffoldState: ScaffoldState,
     viewModel: CreatePostViewModel = hiltViewModel()
 ) {
     val imageUri = viewModel.chosenImageUri.value
@@ -56,12 +71,32 @@ fun CreatePostScreen(
         cropActivityLauncher.launch(it)
     }
 
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.ShowSnackBar -> {
+                    GlobalScope.launch {
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            message = event.uiText.asString(context)
+                        )
+                    }
+                }
+                is UiEvent.NavigateUp -> {
+                    onNavigateUp()
+                }
+                is UiEvent.Navigate -> Unit
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
         StandardToolbar(
-            navController = navController,
+            onNavigateUp = onNavigateUp,
             showBackArrow = true,
             title = {
                 Text(
@@ -122,6 +157,7 @@ fun CreatePostScreen(
                 },
                 singleLine = false,
                 maxLines = 5,
+                maxLength = PostConstants.MAX_POST_DESCRIPTION_LENGTH,
                 onValueChange = {
                     viewModel.onEvent(
                         CreatePostEvent.EnterDescription(it)
@@ -133,13 +169,23 @@ fun CreatePostScreen(
                 onClick = {
                     viewModel.onEvent(CreatePostEvent.PostImage)
                 },
+                enabled = !viewModel.isLoading.value,
                 modifier = Modifier.align(Alignment.End)
             ) {
                 Text(
                     text = stringResource(R.string.post)
                 )
                 Spacer(modifier = Modifier.width(SpaceSmall))
-                Icon(imageVector = Icons.Default.Send, contentDescription = null)
+                if (viewModel.isLoading.value) {
+                    CircularProgressIndicator(
+                        color = MaterialTheme.colors.onPrimary,
+                        modifier = Modifier
+                            .size(20.dp)
+                            .align(CenterVertically)
+                    )
+                } else {
+                    Icon(imageVector = Icons.Default.Send, contentDescription = null)
+                }
             }
         }
     }

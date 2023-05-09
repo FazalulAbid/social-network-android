@@ -4,7 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.util.Constants
-import com.fifty.socialnetwork.featurepost.data.datasource.remote.PostApi
+import com.fifty.socialnetwork.featurepost.data.remote.PostApi
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import java.io.IOException

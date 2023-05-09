@@ -32,7 +32,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MainFeedScreen(
-    navController: NavController,
+    onNavigate: (String) -> Unit = {},
+    onNavigateUp: () -> Unit = {},
     scaffoldState: ScaffoldState,
     viewModel: MainFeedViewModel = hiltViewModel()
 ) {
@@ -43,7 +44,7 @@ fun MainFeedScreen(
         modifier = Modifier.fillMaxWidth()
     ) {
         StandardToolbar(
-            navController = navController,
+            onNavigateUp = onNavigateUp,
             title = {
                 Text(
                     text = stringResource(R.string.your_feed),
@@ -52,11 +53,11 @@ fun MainFeedScreen(
                 )
             },
             modifier = Modifier.fillMaxWidth(),
-            showBackArrow = true,
+            showBackArrow = false,
             navActions = {
                 IconButton(
                     onClick = {
-                        navController.navigate(Screen.SearchScreen.route)
+                        onNavigate(Screen.SearchScreen.route)
                     }
                 ) {
                     Icon(
@@ -83,7 +84,7 @@ fun MainFeedScreen(
                             commentCount = post?.commentCount ?: 0
                         ),
                         onPostClick = {
-                            navController.navigate(Screen.PostDetailScreen.route)
+                            onNavigate(Screen.PostDetailScreen.route)
                         }
                     )
                 }

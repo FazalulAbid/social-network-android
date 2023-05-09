@@ -3,8 +3,10 @@ package com.fifty.socialnetwork.core.presentation.components
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.util.Screen
 import com.fifty.socialnetwork.presentation.MainFeedScreen
@@ -30,53 +32,88 @@ fun Navigation(
         startDestination = Screen.SplashScreen.route
     ) {
         composable(Screen.SplashScreen.route) {
-            SplashScreen(navController = navController)
+            SplashScreen(
+                onPopBackStack = navController::popBackStack,
+                onNavigate = navController::navigate,
+            )
         }
         composable(Screen.LoginScreen.route) {
             LoginScreen(
-                navController = navController,
+                onNavigate = navController::navigate,
                 scaffoldState = scaffoldState
             )
         }
         composable(Screen.RegisterScreen.route) {
             RegisterScreen(
-                navController = navController,
+                onPopBackStack = navController::popBackStack,
+                onNavigate = navController::navigate,
+                onNavigateUp = navController::navigateUp,
                 scaffoldState = scaffoldState
             )
         }
         composable(Screen.MainFeedScreen.route) {
             MainFeedScreen(
-                navController = navController,
+                onNavigate = navController::navigate,
+                onNavigateUp = navController::navigateUp ,
                 scaffoldState = scaffoldState
             )
         }
         composable(Screen.ChatScreen.route) {
-            ChatScreen(navController = navController)
+            ChatScreen(
+                onNavigate = navController::navigate,
+                onNavigateUp = navController::navigateUp
+            )
         }
         composable(Screen.ActivityScreen.route) {
-            ActivityScreen(navController = navController)
+            ActivityScreen(
+                onNavigate = navController::navigate,
+                onNavigateUp = navController::navigateUp
+            )
         }
-        composable(Screen.ProfileScreen.route) {
-            ProfileScreen(navController = navController)
+        composable(
+            route = Screen.ProfileScreen.route + "?userId={userId}",
+            arguments = listOf(
+                navArgument(name = "userId") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                }
+            )
+        ) {
+            ProfileScreen(
+                onNavigate = navController::navigate,
+                scaffoldState = scaffoldState
+            )
         }
         composable(Screen.CreatePostScreen.route) {
-            CreatePostScreen(navController = navController)
+            CreatePostScreen(
+                onNavigate = navController::navigate,
+                onNavigateUp = navController::navigateUp,
+                scaffoldState = scaffoldState
+            )
         }
         composable(Screen.SearchScreen.route) {
-            SearchScreen(navController = navController)
+            SearchScreen(
+                onNavigate = navController::navigate,
+                onNavigateUp = navController::navigateUp
+            )
         }
         composable(Screen.EditProfileScreen.route) {
-            EditProfileScreen(navController = navController)
-        }
-        composable(Screen.CreatePostScreen.route) {
-            CreatePostScreen(navController = navController)
+            EditProfileScreen(
+                onNavigate = navController::navigate,
+                onNavigateUp = navController::navigateUp
+            )
         }
         composable(Screen.PersonListScreen.route) {
-            PersonListScreen(navController = navController)
+            PersonListScreen(
+                onNavigate = navController::navigate,
+                onNavigateUp = navController::navigateUp
+            )
         }
         composable(Screen.PostDetailScreen.route) {
             PostDetailScreen(
-                navController = navController,
+                onNavigate = navController::navigate,
+                onNavigateUp = navController::navigateUp   ,
                 post = Post(
                     username = "Fazalul Abid",
                     imageUrl = "",

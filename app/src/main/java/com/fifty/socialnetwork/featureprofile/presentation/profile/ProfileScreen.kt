@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -18,7 +19,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -26,6 +29,7 @@ import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.domain.models.User
@@ -35,12 +39,21 @@ import com.fifty.socialnetwork.featureprofile.presentation.profile.components.Pr
 import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
+import com.fifty.socialnetwork.core.presentation.util.UiEvent
+import com.fifty.socialnetwork.core.presentation.util.asString
+import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Screen
+import com.fifty.socialnetwork.core.util.UiText
 import com.fifty.socialnetwork.core.util.toPx
+import com.fifty.socialnetwork.featureprofile.domain.model.Profile
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(
-    navController: NavController,
+    onNavigate: (String) -> Unit = {},
+    scaffoldState: ScaffoldState,
     profilePictureSize: Dp = ProfilePictureSizeLarge,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
@@ -66,6 +79,9 @@ fun ProfileScreen(
     val maxOffset = remember {
         toolbarHeightExpanded - toolbarHeightCollapsed
     }
+
+    val state = viewModel.state.value
+
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
@@ -82,6 +98,25 @@ fun ProfileScreen(
                 )
                 viewModel.setExpandedRatio((viewModel.toolbarState.value.toolbarOffsetY + maxOffset.toPx()) / maxOffset.toPx())
                 return Offset.Zero
+            }
+        }
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.ShowSnackBar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.uiText.asString(context)
+                    )
+                }
+                is UiEvent.Navigate -> {
+
+                }
+                is UiEvent.NavigateUp -> {
+
+                }
             }
         }
     }
@@ -104,18 +139,23 @@ fun ProfileScreen(
                 )
             }
             item {
-                ProfileHeaderSection(
-                    user = User(
-                        profilePictureUrl = "",
-                        username = "Fazlul Abid",
-                        description = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed\n" +
-                                "diam nonumy eirmod tempor invidunt ut labore et dolore \n" +
-                                "magna aliquyam erat, sed diam voluptua",
-                        followerCount = 234,
-                        followingCount = 534,
-                        postCount = 65
+                state.profile?.let { profile ->
+                    ProfileHeaderSection(
+                        user = User(
+                            userId = profile.userId,
+                            profilePictureUrl = "${Constants.DEBUG_BASE_URL}${profile.profilePictureUrl}",
+                            username = profile.username,
+                            description = profile.bio,
+                            followerCount = profile.followerCount,
+                            followingCount = profile.followingCount,
+                            postCount = profile.postCount
+                        ),
+                        isOwnProfile = profile.isOwnProfile,
+                        onEditClick = {
+                            onNavigate(Screen.EditProfileScreen.route)
+                        }
                     )
-                )
+                }
             }
             items(20) {
                 Spacer(
@@ -135,7 +175,7 @@ fun ProfileScreen(
                     ),
                     showProfileImage = false,
                     onPostClick = {
-                        navController.navigate(Screen.PostDetailScreen.route)
+                        onNavigate(Screen.PostDetailScreen.route)
                     },
                 )
             }
@@ -144,53 +184,64 @@ fun ProfileScreen(
             modifier = Modifier
                 .align(Alignment.TopCenter)
         ) {
-            BannerSection(
-                modifier = Modifier
-                    .height(
-                        (bannerHeight * toolbarState.expandedRatio).coerceIn(
-                            minimumValue = toolbarHeightCollapsed,
-                            maximumValue = bannerHeight
-                        )
+            state.profile?.let { profile ->
+                BannerSection(
+                    modifier = Modifier
+                        .height(
+                            (bannerHeight * toolbarState.expandedRatio).coerceIn(
+                                minimumValue = toolbarHeightCollapsed,
+                                maximumValue = bannerHeight
+                            )
+                        ),
+                    leftIconModifier = Modifier
+                        .graphicsLayer {
+                            translationY = (1f - toolbarState.expandedRatio) *
+                                    -iconCollapsedOffsetY.toPx()
+                            translationX = (1f - toolbarState.expandedRatio) *
+                                    iconHorizontalCenterLength
+                        },
+                    rightIconModifier = Modifier
+                        .graphicsLayer {
+                            translationY = (1f - toolbarState.expandedRatio) *
+                                    -iconCollapsedOffsetY.toPx()
+                            translationX = (1f - toolbarState.expandedRatio) *
+                                    -iconHorizontalCenterLength
+                        },
+                    bannerUrl = "${Constants.DEBUG_BASE_URL}${profile.bannerUrl}",
+                    topSkillsUrls = profile.topSkillsUrls,
+                    shouldShowGitHub = profile.gitHubUrl != null,
+                    shouldShowInstagram = profile.instagramUrl != null,
+                    shouldShowLinkedIn = profile.linkedInUrl != null,
+                )
+                print("${Constants.DEBUG_BASE_URL}${profile.profilePictureUrl} Abid")
+                Image(
+                    painter = rememberImagePainter(
+                        data = "${Constants.DEBUG_BASE_URL}${profile.profilePictureUrl}"
                     ),
-                leftIconModifier = Modifier
-                    .graphicsLayer {
-                        translationY = (1f - toolbarState.expandedRatio) *
-                                -iconCollapsedOffsetY.toPx()
-                        translationX = (1f - toolbarState.expandedRatio) *
-                                iconHorizontalCenterLength
-                    },
-                rightIconModifier = Modifier
-                    .graphicsLayer {
-                        translationY = (1f - toolbarState.expandedRatio) *
-                                -iconCollapsedOffsetY.toPx()
-                        translationX = (1f - toolbarState.expandedRatio) *
-                                -iconHorizontalCenterLength
-                    }
-            )
-            Image(
-                painter = painterResource(id = R.drawable.woman_profile_image),
-                contentDescription = stringResource(id = R.string.profile_image),
-                modifier = Modifier
-                    .align(CenterHorizontally)
-                    .graphicsLayer {
-                        translationY = -profilePictureSize.toPx() / 2f -
-                                (1f - toolbarState.expandedRatio) * imageCollapsedOffsetY.toPx()
-                        transformOrigin = TransformOrigin(
-                            pivotFractionX = 0.5f,
-                            pivotFractionY = 0f
-                        )
-                        val scale = 0.5f + toolbarState.expandedRatio * 0.5f
-                        scaleX = scale
-                        scaleY = scale
-                    }
-                    .size(profilePictureSize)
-                    .clip(CircleShape)
-                    .border(
-                        width = 1.dp,
-                        color = MaterialTheme.colors.onSurface,
-                        shape = CircleShape
-                    )
-            )
+                    contentDescription = stringResource(id = R.string.profile_image),
+                    modifier = Modifier
+                        .align(CenterHorizontally)
+                        .graphicsLayer {
+                            translationY = -profilePictureSize.toPx() / 2f -
+                                    (1f - toolbarState.expandedRatio) * imageCollapsedOffsetY.toPx()
+                            transformOrigin = TransformOrigin(
+                                pivotFractionX = 0.5f,
+                                pivotFractionY = 0f
+                            )
+                            val scale = 0.5f + toolbarState.expandedRatio * 0.5f
+                            scaleX = scale
+                            scaleY = scale
+                        }
+                        .size(profilePictureSize)
+                        .clip(CircleShape)
+                        .border(
+                            width = 1.dp,
+                            color = MaterialTheme.colors.onSurface,
+                            shape = CircleShape
+                        ),
+                    contentScale = ContentScale.Crop
+                )
+            }
         }
     }
 }

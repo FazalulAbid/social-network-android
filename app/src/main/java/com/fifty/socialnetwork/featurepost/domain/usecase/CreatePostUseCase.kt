@@ -1,7 +1,10 @@
 package com.fifty.socialnetwork.featurepost.domain.usecase
 
 import android.net.Uri
+import com.fifty.socialnetwork.R
+import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.SimpleResource
+import com.fifty.socialnetwork.core.util.UiText
 import com.fifty.socialnetwork.featurepost.domain.repository.PostRepository
 
 class CreatePostUseCase(
@@ -10,11 +13,22 @@ class CreatePostUseCase(
 
     suspend operator fun invoke(
         description: String,
-        imageUri: Uri
+        imageUri: Uri?
     ): SimpleResource {
-        return repository.createPost(
-            description,
-            imageUri
-        )
+        if (imageUri == null) {
+            return Resource.Error(
+                uiText = UiText.StringResource(
+                    R.string.error_no_image_picked
+                )
+            )
+        }
+        if (description.isBlank()) {
+            return Resource.Error(
+                uiText = UiText.StringResource(
+                    R.string.error_description_blank
+                )
+            )
+        }
+        return repository.createPost(description, imageUri)
     }
 }

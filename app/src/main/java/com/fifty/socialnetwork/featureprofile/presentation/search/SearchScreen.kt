@@ -22,17 +22,19 @@ import com.fifty.socialnetwork.core.presentation.components.UserProfileItem
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
+import com.fifty.socialnetwork.core.util.Screen
 
 @Composable
 fun SearchScreen(
-    navController: NavController,
+    onNavigate: (String) -> Unit = {},
+    onNavigateUp: () -> Unit = {},
     viewModel: SearchScreenViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         StandardToolbar(
-            navController = navController,
+            onNavigateUp = onNavigateUp,
             showBackArrow = true,
             title = {
                 Text(
@@ -67,6 +69,7 @@ fun SearchScreen(
                 items(10) {
                     UserProfileItem(
                         user = User(
+                            userId = "644f6e9c4133a217d2f5419a",
                             profilePictureUrl = "",
                             username = "Fazalul Abid",
                             description = "Lorem ipsum dolor sit amet, consec tetur elit. Sedc do eiu" +
@@ -82,6 +85,9 @@ fun SearchScreen(
                                 contentDescription = null,
                                 tint = MaterialTheme.colors.onBackground
                             )
+                        },
+                        onItemClick = {
+                            onNavigate(Screen.ProfileScreen.route + "?userId=644f6e9c4133a217d2f5419a")
                         }
                     )
                     Spacer(modifier = Modifier.height(SpaceMedium))

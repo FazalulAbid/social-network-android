@@ -26,13 +26,15 @@ import com.fifty.socialnetwork.core.presentation.ui.theme.*
 
 @Composable
 fun PostDetailScreen(
-    navController: NavController, post: Post
+    onNavigate: (String) -> Unit = {},
+    onNavigateUp: () -> Unit = {},
+    post: Post
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         StandardToolbar(
-            navController = navController,
+            onNavigateUp = onNavigateUp,
             title = {
                 Text(
                     text = stringResource(R.string.your_feed),
