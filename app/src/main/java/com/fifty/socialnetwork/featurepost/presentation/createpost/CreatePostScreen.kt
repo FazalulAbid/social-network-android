@@ -27,7 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.fifty.socialnetwork.R
@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.util.UUID
 
-@OptIn(DelicateCoroutinesApi::class)
+@OptIn(DelicateCoroutinesApi::class, ExperimentalCoilApi::class)
 @Composable
 fun CreatePostScreen(
     onNavigate: (String) -> Unit = {},
@@ -133,10 +133,8 @@ fun CreatePostScreen(
                 )
                 imageUri?.let { uri ->
                     Image(
-                        painter = rememberAsyncImagePainter(
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(uri)
-                                .build()
+                        painter = rememberImagePainter(
+                            data = uri
                         ),
                         contentDescription = stringResource(R.string.post_image),
                         modifier = Modifier.matchParentSize()

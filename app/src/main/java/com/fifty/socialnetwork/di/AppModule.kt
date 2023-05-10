@@ -3,6 +3,8 @@ package com.fifty.socialnetwork.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import coil.ImageLoader
+import coil.decode.SvgDecoder
 import com.fifty.socialnetwork.core.util.Constants
 import com.google.gson.Gson
 import dagger.Module
