@@ -1,13 +1,9 @@
 package com.fifty.socialnetwork.di
 
-import android.provider.ContactsContract.Profile
 import com.fifty.socialnetwork.featureprofile.data.remote.ProfileApi
 import com.fifty.socialnetwork.featureprofile.data.repository.ProfileRepositoryImpl
 import com.fifty.socialnetwork.featureprofile.domain.repository.ProfileRepository
-import com.fifty.socialnetwork.featureprofile.domain.usecase.GetProfileUseCase
-import com.fifty.socialnetwork.featureprofile.domain.usecase.GetSkillsUseCase
-import com.fifty.socialnetwork.featureprofile.domain.usecase.ProfileUseCases
-import com.fifty.socialnetwork.featureprofile.domain.usecase.UpdateProfileUseCase
+import com.fifty.socialnetwork.featureprofile.domain.usecase.*
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -45,7 +41,8 @@ object ProfileModule {
         return ProfileUseCases(
             getProfile = GetProfileUseCase(repository),
             getSkills = GetSkillsUseCase(repository),
-            updateProfileUseCase = UpdateProfileUseCase(repository)
+            updateProfile = UpdateProfileUseCase(repository),
+            setSkillSelected = SetSkillSelectedUseCase()
         )
     }
 }

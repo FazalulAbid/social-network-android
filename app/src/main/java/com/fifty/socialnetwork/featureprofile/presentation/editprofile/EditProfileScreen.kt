@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.presentation.components.StandardTextField
@@ -44,6 +45,7 @@ import com.fifty.socialnetwork.featureprofile.presentation.util.EditProfileError
 import com.google.accompanist.flowlayout.MainAxisAlignment
 import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun EditProfileScreen(
     scaffoldState: ScaffoldState,
@@ -88,7 +90,7 @@ fun EditProfileScreen(
 
                 }
                 is UiEvent.NavigateUp -> {
-
+                    onNavigateUp()
                 }
             }
         }
@@ -126,13 +128,15 @@ fun EditProfileScreen(
         ) {
             BannerEditSection(
                 bannerImage = rememberImagePainter(
-                    data = "${Constants.DEBUG_BASE_URL}${profileState.profile?.bannerUrl}",
+                    data = viewModel.bannerUri.value
+                        ?: "${Constants.DEBUG_BASE_URL}${profileState.profile?.bannerUrl}",
                     builder = {
                         crossfade(true)
                     }
                 ),
                 profileImage = rememberImagePainter(
-                    data = "${Constants.DEBUG_BASE_URL}${profileState.profile?.profilePictureUrl}",
+                    data = viewModel.profilePictureUri.value
+                        ?: "${Constants.DEBUG_BASE_URL}${profileState.profile?.profilePictureUrl}",
                     builder = {
                         crossfade(true)
                     }
@@ -257,14 +261,14 @@ fun EditProfileScreen(
                     mainAxisSpacing = SpaceMedium,
                     crossAxisSpacing = SpaceMedium
                 ) {
-                    viewModel.skills.value.skills.forEach {
-                        Log.d("EditProfileScreen", it.toString())
+                    viewModel.skills.value.skills.forEach { skill ->
                         com.fifty.socialnetwork.featureprofile.presentation.editprofile.components.Chip(
-                            text = it.name,
-                            selected = it in viewModel.skills.value.selectedSkills
-                        ) {
-
-                        }
+                            text = skill.name,
+                            selected = viewModel.skills.value.selectedSkills.any { it.name == skill.name },
+                            onChipClick = {
+                                viewModel.onEvent(EditProfileEvent.SetSkillSelected(skill))
+                            }
+                        )
                     }
                 }
             }

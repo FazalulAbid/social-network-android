@@ -32,12 +32,6 @@ class ProfileViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    init {
-        savedStateHandle.get<String>("userId")?.let { userId ->
-            getProfile(userId)
-        }
-    }
-
     fun setExpandedRatio(ratio: Float) {
         _toolbarState.value = _toolbarState.value.copy(expandedRatio = ratio)
     }
@@ -54,7 +48,7 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getProfile(userId: String) {
+    fun getProfile(userId: String) {
         viewModelScope.launch {
             _state.value = state.value.copy(
                 isLoading = true

@@ -27,6 +27,7 @@ import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.toPx
 import com.fifty.socialnetwork.featureprofile.domain.model.Skill
+import okhttp3.OkHttpClient
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
@@ -79,7 +80,6 @@ fun BannerSection(
                 .padding(SpaceSmall)
         ) {
             topSkills.forEach { skill ->
-                Log.d("BannerSection", skill.toString())
                 Spacer(modifier = Modifier.width(SpaceSmall))
                 Image(
                     painter = rememberImagePainter(
@@ -89,9 +89,6 @@ fun BannerSection(
                                 add(SvgDecoder(LocalContext.current))
                             }
                             .build(),
-                        builder = {
-                            crossfade(true)
-                        }
                     ),
                     contentDescription = null,
                     modifier = Modifier.height(iconSize)

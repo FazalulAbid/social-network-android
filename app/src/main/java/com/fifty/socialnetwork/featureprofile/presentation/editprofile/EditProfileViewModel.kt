@@ -1,7 +1,6 @@
 package com.fifty.socialnetwork.featureprofile.presentation.editprofile
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -12,7 +11,6 @@ import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
 import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.UiText
-import com.fifty.socialnetwork.featureprofile.domain.model.Skill
 import com.fifty.socialnetwork.featureprofile.domain.model.UpdateProfileData
 import com.fifty.socialnetwork.featureprofile.domain.usecase.ProfileUseCases
 import com.fifty.socialnetwork.featureprofile.presentation.profile.ProfileState
@@ -46,7 +44,7 @@ class EditProfileViewModel @Inject constructor(
     private val _bioState = mutableStateOf(StandardTextFieldState())
     val bioState: State<StandardTextFieldState> = _bioState
 
-    private val _skills = mutableStateOf<SkillsState>(SkillsState())
+    private val _skills = mutableStateOf(SkillsState())
     val skills: State<SkillsState> = _skills
 
     private val _profileState = mutableStateOf(ProfileState())
@@ -82,9 +80,8 @@ class EditProfileViewModel @Inject constructor(
                     )
                 }
                 is Resource.Error -> {
-                    _eventFlow.emit(
-                        UiEvent.ShowSnackBar(UiText.StringResource(R.string.error_couldnt_load_skills))
-                    )
+                    _eventFlow.emit(UiEvent.ShowSnackBar(result.uiText ?: UiText.unknownError()))
+                    return@launch
                 }
             }
         }
@@ -143,7 +140,7 @@ class EditProfileViewModel @Inject constructor(
 
     private fun updateProfile() {
         viewModelScope.launch {
-            val result = profileUseCases.updateProfileUseCase(
+            val result = profileUseCases.updateProfile(
                 updateProfileData = UpdateProfileData(
                     username = usernameState.value.text,
                     bio = bioState.value.text,
@@ -208,10 +205,35 @@ class EditProfileViewModel @Inject constructor(
                 _bannerUri.value = event.uri
             }
             is EditProfileEvent.SetSkillSelected -> {
-
+                val result = profileUseCases.setSkillSelected(
+                    selectedSkills = skills.value.selectedSkills,
+                    event.skill
+                )
+                viewModelScope.launch {
+                    when (result) {
+                        is Resource.Success -> {
+                            _skills.value = skills.value.copy(
+                                selectedSkills = result.data ?: kotlin.run {
+                                    _eventFlow.emit(UiEvent.ShowSnackBar(UiText.unknownError()))
+                                    return@launch
+                                }
+                            )
+                        }
+                        is Resource.Error -> {
+                            _eventFlow.emit(
+                                UiEvent.ShowSnackBar(
+                                    uiText = result.uiText ?: UiText.unknownError()
+                                )
+                            )
+                        }
+                    }
+                }
             }
             is EditProfileEvent.UpdateProfile -> {
                 updateProfile()
+                viewModelScope.launch {
+                    _eventFlow.emit(UiEvent.NavigateUp)
+                }
             }
         }
     }
