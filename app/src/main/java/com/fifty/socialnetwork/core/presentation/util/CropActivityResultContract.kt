@@ -11,7 +11,10 @@ import com.yalantis.ucrop.UCrop.RESULT_ERROR
 import java.io.File
 import java.util.*
 
-class CropActivityResultContract() : ActivityResultContract<Uri, Uri?>() {
+class CropActivityResultContract(
+    private val aspectRatioX: Float,
+    private val aspectRatioY: Float
+) : ActivityResultContract<Uri, Uri?>() {
 
     override fun createIntent(context: Context, input: Uri): Intent {
         return UCrop.of(
@@ -23,7 +26,7 @@ class CropActivityResultContract() : ActivityResultContract<Uri, Uri?>() {
                 )
             )
         )
-            .withAspectRatio(16f, 9f)
+            .withAspectRatio(aspectRatioX, aspectRatioY)
             .getIntent(context)
     }
 

@@ -54,7 +54,7 @@ fun Navigation(
         composable(Screen.MainFeedScreen.route) {
             MainFeedScreen(
                 onNavigate = navController::navigate,
-                onNavigateUp = navController::navigateUp ,
+                onNavigateUp = navController::navigateUp,
                 scaffoldState = scaffoldState
             )
         }
@@ -98,10 +98,16 @@ fun Navigation(
                 onNavigateUp = navController::navigateUp
             )
         }
-        composable(Screen.EditProfileScreen.route) {
+        composable(Screen.EditProfileScreen.route + "/{userId}",
+            arguments = listOf(
+                navArgument(name = "userId") {
+                    type = NavType.StringType
+                }
+            )) {
             EditProfileScreen(
                 onNavigate = navController::navigate,
-                onNavigateUp = navController::navigateUp
+                onNavigateUp = navController::navigateUp,
+                scaffoldState = scaffoldState
             )
         }
         composable(Screen.PersonListScreen.route) {
@@ -113,7 +119,7 @@ fun Navigation(
         composable(Screen.PostDetailScreen.route) {
             PostDetailScreen(
                 onNavigate = navController::navigate,
-                onNavigateUp = navController::navigateUp   ,
+                onNavigateUp = navController::navigateUp,
                 post = Post(
                     username = "Fazalul Abid",
                     imageUrl = "",

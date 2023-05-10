@@ -5,7 +5,10 @@ import com.fifty.socialnetwork.featureprofile.data.remote.ProfileApi
 import com.fifty.socialnetwork.featureprofile.data.repository.ProfileRepositoryImpl
 import com.fifty.socialnetwork.featureprofile.domain.repository.ProfileRepository
 import com.fifty.socialnetwork.featureprofile.domain.usecase.GetProfileUseCase
+import com.fifty.socialnetwork.featureprofile.domain.usecase.GetSkillsUseCase
 import com.fifty.socialnetwork.featureprofile.domain.usecase.ProfileUseCases
+import com.fifty.socialnetwork.featureprofile.domain.usecase.UpdateProfileUseCase
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,15 +35,17 @@ object ProfileModule {
 
     @Provides
     @Singleton
-    fun provideProfileRepository(api: ProfileApi): ProfileRepository {
-        return ProfileRepositoryImpl(api)
+    fun provideProfileRepository(api: ProfileApi, gson: Gson): ProfileRepository {
+        return ProfileRepositoryImpl(api, gson)
     }
 
     @Provides
     @Singleton
     fun provideProfileUseCases(repository: ProfileRepository): ProfileUseCases {
         return ProfileUseCases(
-            getProfile = GetProfileUseCase(repository)
+            getProfile = GetProfileUseCase(repository),
+            getSkills = GetSkillsUseCase(repository),
+            updateProfileUseCase = UpdateProfileUseCase(repository)
         )
     }
 }

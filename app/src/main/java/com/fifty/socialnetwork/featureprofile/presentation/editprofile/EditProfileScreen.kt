@@ -1,17 +1,18 @@
 package com.fifty.socialnetwork.featureprofile.presentation.editprofile
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -20,7 +21,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,26 +29,71 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.presentation.components.StandardTextField
 import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
-import com.fifty.socialnetwork.core.domain.states.StandardTextFieldState
+import com.fifty.socialnetwork.core.presentation.util.CropActivityResultContract
+import com.fifty.socialnetwork.core.presentation.util.UiEvent
+import com.fifty.socialnetwork.core.presentation.util.asString
+import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.featureprofile.presentation.util.EditProfileError
 import com.google.accompanist.flowlayout.MainAxisAlignment
-import kotlin.random.Random
+import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun EditProfileScreen(
+    scaffoldState: ScaffoldState,
     onNavigate: (String) -> Unit = {},
     onNavigateUp: () -> Unit = {},
     viewModel: EditProfileViewModel = hiltViewModel(),
     profilePictureSize: Dp = ProfilePictureSizeLarge
 ) {
+    val profileState = viewModel.profileState.value
+
+    val cropProfilePictureLauncher = rememberLauncherForActivityResult(
+        contract = CropActivityResultContract(1f, 1f)
+    ) {
+        viewModel.onEvent(EditProfileEvent.CropProfilePicture(it))
+    }
+    val cropBannerImageLauncher = rememberLauncherForActivityResult(
+        contract = CropActivityResultContract(5f, 2f)
+    ) {
+        viewModel.onEvent(EditProfileEvent.CropBannerImage(it))
+    }
+    val profilePictureGalleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {
+        cropProfilePictureLauncher.launch(it)
+    }
+    val bannerImageGalleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) {
+        cropBannerImageLauncher.launch(it)
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(key1 = true) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvent.ShowSnackBar -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = event.uiText.asString(context)
+                    )
+                }
+                is UiEvent.Navigate -> {
+
+                }
+                is UiEvent.NavigateUp -> {
+
+                }
+            }
+        }
+    }
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -56,7 +102,7 @@ fun EditProfileScreen(
             showBackArrow = true,
             navActions = {
                 IconButton(onClick = {
-
+                    viewModel.onEvent(EditProfileEvent.UpdateProfile)
                 }) {
                     Icon(
                         imageVector = Icons.Default.Check,
@@ -79,9 +125,25 @@ fun EditProfileScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             BannerEditSection(
-                bannerImage = painterResource(id = R.drawable.cover_image),
-                profileImage = painterResource(id = R.drawable.woman_profile_image),
-                profilePictureSize = profilePictureSize
+                bannerImage = rememberImagePainter(
+                    data = "${Constants.DEBUG_BASE_URL}${profileState.profile?.bannerUrl}",
+                    builder = {
+                        crossfade(true)
+                    }
+                ),
+                profileImage = rememberImagePainter(
+                    data = "${Constants.DEBUG_BASE_URL}${profileState.profile?.profilePictureUrl}",
+                    builder = {
+                        crossfade(true)
+                    }
+                ),
+                profilePictureSize = profilePictureSize,
+                onBannerClick = {
+                    bannerImageGalleryLauncher.launch("image/*")
+                },
+                onProfilePictureClick = {
+                    profilePictureGalleryLauncher.launch("image/*")
+                }
             )
             Column(
                 modifier = Modifier
@@ -92,8 +154,8 @@ fun EditProfileScreen(
                 StandardTextField(
                     text = viewModel.usernameState.value.text,
                     onValueChange = {
-                        viewModel.setUsernameState(
-                            StandardTextFieldState(text = it)
+                        viewModel.onEvent(
+                            EditProfileEvent.EnteredUsername(it)
                         )
                     },
                     modifier = Modifier
@@ -120,8 +182,8 @@ fun EditProfileScreen(
                         else -> ""
                     }, leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_github_logo),
                     onValueChange = {
-                        viewModel.setGithubTextFieldState(
-                            StandardTextFieldState(text = it)
+                        viewModel.onEvent(
+                            EditProfileEvent.EnteredGitHubUrl(it)
                         )
                     }
                 )
@@ -138,8 +200,8 @@ fun EditProfileScreen(
                         else -> ""
                     }, leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_instagram_logo),
                     onValueChange = {
-                        viewModel.setInstagramTextFieldState(
-                            StandardTextFieldState(text = it)
+                        viewModel.onEvent(
+                            EditProfileEvent.EnteredInstagramUrl(it)
                         )
                     }
                 )
@@ -156,8 +218,8 @@ fun EditProfileScreen(
                         else -> ""
                     }, leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_linkedin_logo),
                     onValueChange = {
-                        viewModel.setLinkedInTextFieldState(
-                            StandardTextFieldState(text = it)
+                        viewModel.onEvent(
+                            EditProfileEvent.EnteredLinkedInUrl(it)
                         )
                     }
                 )
@@ -176,8 +238,8 @@ fun EditProfileScreen(
                     maxLines = 3,
                     leadingIcon = Icons.Default.Description,
                     onValueChange = {
-                        viewModel.setBioState(
-                            StandardTextFieldState(text = it)
+                        viewModel.onEvent(
+                            EditProfileEvent.EnteredBio(it)
                         )
                     }
                 )
@@ -195,20 +257,11 @@ fun EditProfileScreen(
                     mainAxisSpacing = SpaceMedium,
                     crossAxisSpacing = SpaceMedium
                 ) {
-                    listOf(
-                        "Kotlin",
-                        "JavaScript",
-                        "Assembly",
-                        "C++",
-                        "C",
-                        "C#",
-                        "Dart",
-                        "TypeScript",
-                        "Python",
-                    ).forEach {
+                    viewModel.skills.value.skills.forEach {
+                        Log.d("EditProfileScreen", it.toString())
                         com.fifty.socialnetwork.featureprofile.presentation.editprofile.components.Chip(
-                            text = it,
-                            selected = (Random.nextInt(2) == 0)
+                            text = it.name,
+                            selected = it in viewModel.skills.value.selectedSkills
                         ) {
 
                         }
@@ -225,7 +278,7 @@ fun BannerEditSection(
     profileImage: Painter,
     profilePictureSize: Dp = ProfilePictureSizeLarge,
     onBannerClick: () -> Unit = {},
-    onProfileImageClick: () -> Unit = {}
+    onProfilePictureClick: () -> Unit = {}
 ) {
     val bannerHeight = (LocalConfiguration.current.screenWidthDp / 2.5).dp
     Box(
@@ -236,10 +289,13 @@ fun BannerEditSection(
         Image(
             painter = bannerImage,
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(bannerHeight),
-            contentScale = ContentScale.Crop
+                .height(bannerHeight)
+                .clickable {
+                    onBannerClick()
+                }
         )
         Image(
             painter = profileImage,
@@ -253,6 +309,10 @@ fun BannerEditSection(
                     color = MaterialTheme.colors.onSurface,
                     shape = CircleShape
                 )
+                .clickable {
+                    onProfilePictureClick()
+                },
+            contentScale = ContentScale.Crop
         )
     }
 }

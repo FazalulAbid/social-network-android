@@ -17,10 +17,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
-import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.toPx
+import com.fifty.socialnetwork.featureprofile.domain.model.Skill
 
 @Composable
 fun BannerSection(
@@ -29,7 +28,7 @@ fun BannerSection(
     leftIconModifier: Modifier = Modifier,
     rightIconModifier: Modifier = Modifier,
     bannerUrl: String? = null,
-    topSkillsUrls: List<String> = emptyList(),
+    topSkills: List<Skill> = emptyList(),
     shouldShowGitHub: Boolean = false,
     shouldShowInstagram: Boolean = false,
     shouldShowLinkedIn: Boolean = false,
@@ -71,11 +70,11 @@ fun BannerSection(
                 .align(Alignment.BottomStart)
                 .padding(SpaceSmall)
         ) {
-            topSkillsUrls.forEach { skillUrl ->
+            topSkills.forEach { skillUrl ->
                 Spacer(modifier = Modifier.width(SpaceSmall))
                 Image(
                     painter = rememberImagePainter(
-                        data = skillUrl,
+                        data = skillUrl.imageUrl,
                         builder = {
                             crossfade(true)
                         }

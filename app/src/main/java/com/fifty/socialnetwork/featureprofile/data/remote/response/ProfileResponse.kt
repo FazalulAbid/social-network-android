@@ -1,6 +1,7 @@
 package com.fifty.socialnetwork.featureprofile.data.remote.response
 
 import com.fifty.socialnetwork.featureprofile.domain.model.Profile
+import com.fifty.socialnetwork.featureprofile.domain.model.Skill
 
 data class ProfileResponse(
     val userId: String,
@@ -11,7 +12,7 @@ data class ProfileResponse(
     val postCount: Int,
     val profilePictureUrl: String,
     val bannerUrl: String,
-    val topSkillsUrls: List<String>,
+    val topSkills: List<SkillDto>,
     val gitHubUrl: String?,
     val instagramUrl: String?,
     val linkedInUrl: String?,
@@ -28,7 +29,7 @@ data class ProfileResponse(
             postCount = postCount,
             profilePictureUrl = profilePictureUrl,
             bannerUrl = bannerUrl,
-            topSkillsUrls = topSkillsUrls,
+            topSkills = topSkills.map { it.toSkill() },
             gitHubUrl = gitHubUrl,
             instagramUrl = instagramUrl,
             linkedInUrl = linkedInUrl,

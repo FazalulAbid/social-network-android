@@ -22,13 +22,11 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Post
@@ -43,12 +41,8 @@ import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.presentation.util.asString
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Screen
-import com.fifty.socialnetwork.core.util.UiText
 import com.fifty.socialnetwork.core.util.toPx
-import com.fifty.socialnetwork.featureprofile.domain.model.Profile
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(
@@ -152,7 +146,7 @@ fun ProfileScreen(
                         ),
                         isOwnProfile = profile.isOwnProfile,
                         onEditClick = {
-                            onNavigate(Screen.EditProfileScreen.route)
+                            onNavigate(Screen.EditProfileScreen.route + "/${profile.userId}")
                         }
                     )
                 }
@@ -208,7 +202,7 @@ fun ProfileScreen(
                                     -iconHorizontalCenterLength
                         },
                     bannerUrl = "${Constants.DEBUG_BASE_URL}${profile.bannerUrl}",
-                    topSkillsUrls = profile.topSkillsUrls,
+                    topSkills = profile.topSkills,
                     shouldShowGitHub = profile.gitHubUrl != null,
                     shouldShowInstagram = profile.instagramUrl != null,
                     shouldShowLinkedIn = profile.linkedInUrl != null,
