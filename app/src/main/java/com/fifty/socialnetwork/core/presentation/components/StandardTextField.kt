@@ -24,7 +24,7 @@ import com.fifty.socialnetwork.core.presentation.ui.theme.IconSizeMedium
 fun StandardTextField(
     text: String = "",
     hint: String = "",
-    maxLength: Int = 40,
+    maxLength: Int = 400,
     error: String = "",
     textStyle: TextStyle = TextStyle(
         color = MaterialTheme.colors.onBackground

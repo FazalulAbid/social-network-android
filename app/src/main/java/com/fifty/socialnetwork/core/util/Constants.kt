@@ -15,5 +15,5 @@ object Constants {
 
     const val SHARED_PREF_NAME = "shared_pref"
 
-    const val DEBUG_BASE_URL = "http://192.168.64.132:8080/"
+    const val DEBUG_BASE_URL = "http://192.168.64.122:8080/"
 }

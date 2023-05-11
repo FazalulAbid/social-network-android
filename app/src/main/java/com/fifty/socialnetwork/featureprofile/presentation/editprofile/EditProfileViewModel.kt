@@ -159,6 +159,7 @@ class EditProfileViewModel @Inject constructor(
                             UiText.StringResource(R.string.updated_profile)
                         )
                     )
+                    _eventFlow.emit(UiEvent.NavigateUp)
                 }
                 is Resource.Error -> {
                     _eventFlow.emit(
@@ -231,9 +232,6 @@ class EditProfileViewModel @Inject constructor(
             }
             is EditProfileEvent.UpdateProfile -> {
                 updateProfile()
-                viewModelScope.launch {
-                    _eventFlow.emit(UiEvent.NavigateUp)
-                }
             }
         }
     }
