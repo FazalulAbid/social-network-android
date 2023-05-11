@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import coil.ImageLoader
 import coil.decode.SvgDecoder
+import com.fifty.socialnetwork.core.domain.usecase.GetOwnUserIdUseCase
 import com.fifty.socialnetwork.core.util.Constants
 import com.google.gson.Gson
 import dagger.Module
@@ -45,5 +46,11 @@ object AppModule {
     @Singleton
     fun provideGson(): Gson {
         return Gson()
+    }
+
+    @Provides
+    @Singleton
+    fun providesGetOwnUserIdUseCase(sharedPreferences: SharedPreferences): GetOwnUserIdUseCase {
+        return GetOwnUserIdUseCase(sharedPreferences)
     }
 }

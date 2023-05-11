@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
+import com.fifty.socialnetwork.core.domain.usecase.GetOwnUserIdUseCase
 import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.UiText
@@ -22,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val profileUseCases: ProfileUseCases,
+    private val getOwnUserId: GetOwnUserIdUseCase,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -35,7 +37,7 @@ class ProfileViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
     val posts = profileUseCases.getPostsForProfile(
-        savedStateHandle.get<String>("userId") ?: ""
+        savedStateHandle.get<String>("userId") ?: getOwnUserId()
     ).cachedIn(viewModelScope)
 
     fun setExpandedRatio(ratio: Float) {
@@ -54,12 +56,14 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    fun getProfile(userId: String) {
+    fun getProfile(userId: String?) {
         viewModelScope.launch {
             _state.value = state.value.copy(
                 isLoading = true
             )
-            val result = profileUseCases.getProfile(userId)
+            val result = profileUseCases.getProfile(
+                userId ?: getOwnUserId()
+            )
             when (result) {
                 is Resource.Success -> {
                     _state.value = state.value.copy(
@@ -78,10 +82,6 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
             }
-        }
-        viewModelScope.launch {
-            val posts = profileUseCases.getPostsForProfile(userId)
-
         }
     }
 }

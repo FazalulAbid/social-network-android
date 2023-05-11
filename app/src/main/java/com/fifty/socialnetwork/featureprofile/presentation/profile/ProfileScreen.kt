@@ -6,8 +6,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScaffoldState
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -23,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
@@ -35,6 +37,7 @@ import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.domain.models.User
 import com.fifty.socialnetwork.core.presentation.components.Post
+import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.featureprofile.presentation.profile.components.BannerSection
 import com.fifty.socialnetwork.featureprofile.presentation.profile.components.ProfileHeaderSection
 import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeLarge
@@ -45,13 +48,16 @@ import com.fifty.socialnetwork.core.presentation.util.asString
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Screen
 import com.fifty.socialnetwork.core.util.toPx
+import com.fifty.socialnetwork.featureprofile.presentation.editprofile.EditProfileEvent
 import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun ProfileScreen(
-    userId: String,
-    onNavigate: (String) -> Unit = {},
     scaffoldState: ScaffoldState,
+    userId: String? = null,
+    onNavigate: (String) -> Unit = {},
+    onNavigateUp: () -> Unit = {},
     profilePictureSize: Dp = ProfilePictureSizeLarge,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
@@ -211,7 +217,6 @@ fun ProfileScreen(
                     shouldShowInstagram = profile.instagramUrl != null && profile.instagramUrl.isNotBlank(),
                     shouldShowLinkedIn = profile.linkedInUrl != null && profile.linkedInUrl.isNotBlank(),
                 )
-                print("${Constants.DEBUG_BASE_URL}${profile.profilePictureUrl} Abid")
                 Image(
                     painter = rememberImagePainter(
                         data = "${Constants.DEBUG_BASE_URL}${profile.profilePictureUrl}"

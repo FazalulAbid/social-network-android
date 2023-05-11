@@ -13,7 +13,7 @@ import com.fifty.socialnetwork.featureauth.domain.repository.AuthRepository
 import retrofit2.HttpException
 import java.io.IOException
 
-class  AuthRepositoryImpl(
+class AuthRepositoryImpl(
     private val api: AuthApi,
     private val sharedPreferences: SharedPreferences
 ) : AuthRepository {
@@ -52,9 +52,10 @@ class  AuthRepositoryImpl(
         return try {
             val response = api.login(request)
             if (response.successful) {
-                response.data?.token?.let { token ->
+                response.data?.let { authResponse ->
                     sharedPreferences.edit()
-                        .putString(Constants.KEY_JWT_TOKEN, token)
+                        .putString(Constants.KEY_JWT_TOKEN, authResponse.token)
+                        .putString(Constants.KEY_USER_ID, authResponse.userId)
                         .apply()
                 }
                 Resource.Success(Unit)
