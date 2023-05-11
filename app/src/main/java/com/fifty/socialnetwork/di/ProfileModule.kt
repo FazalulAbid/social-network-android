@@ -1,5 +1,6 @@
 package com.fifty.socialnetwork.di
 
+import com.fifty.socialnetwork.core.data.remote.PostApi
 import com.fifty.socialnetwork.featureprofile.data.remote.ProfileApi
 import com.fifty.socialnetwork.featureprofile.data.repository.ProfileRepositoryImpl
 import com.fifty.socialnetwork.featureprofile.domain.repository.ProfileRepository
@@ -31,8 +32,12 @@ object ProfileModule {
 
     @Provides
     @Singleton
-    fun provideProfileRepository(api: ProfileApi, gson: Gson): ProfileRepository {
-        return ProfileRepositoryImpl(api, gson)
+    fun provideProfileRepository(
+        profileApi: ProfileApi,
+        postApi: PostApi,
+        gson: Gson
+    ): ProfileRepository {
+        return ProfileRepositoryImpl(profileApi, postApi, gson)
     }
 
     @Provides
@@ -42,7 +47,8 @@ object ProfileModule {
             getProfile = GetProfileUseCase(repository),
             getSkills = GetSkillsUseCase(repository),
             updateProfile = UpdateProfileUseCase(repository),
-            setSkillSelected = SetSkillSelectedUseCase()
+            setSkillSelected = SetSkillSelectedUseCase(),
+            getPostsForProfile = GetPostsForProfileUseCase(repository)
         )
     }
 }

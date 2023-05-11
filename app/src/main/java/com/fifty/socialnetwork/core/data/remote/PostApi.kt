@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.featurepost.data.remote
+package com.fifty.socialnetwork.core.data.remote
 
 import com.fifty.socialnetwork.core.data.dto.response.BasicApiResponse
 import com.fifty.socialnetwork.core.domain.models.Post
@@ -17,6 +17,13 @@ interface PostApi {
 
     @GET("/api/post/get")
     suspend fun getPostsForFollows(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): List<Post>
+
+    @GET("/api/user/posts")
+    suspend fun getPostForProfile(
+        @Query("userId") userId: String,
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int
     ): List<Post>

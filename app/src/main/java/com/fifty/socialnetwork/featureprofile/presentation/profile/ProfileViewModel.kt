@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.UiText
@@ -13,6 +14,7 @@ import com.fifty.socialnetwork.featureprofile.domain.usecase.ProfileUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.concurrent.Flow
 import javax.inject.Inject
@@ -31,6 +33,10 @@ class ProfileViewModel @Inject constructor(
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
+
+    val posts = profileUseCases.getPostsForProfile(
+        savedStateHandle.get<String>("userId") ?: ""
+    ).cachedIn(viewModelScope)
 
     fun setExpandedRatio(ratio: Float) {
         _toolbarState.value = _toolbarState.value.copy(expandedRatio = ratio)
@@ -72,6 +78,10 @@ class ProfileViewModel @Inject constructor(
                     )
                 }
             }
+        }
+        viewModelScope.launch {
+            val posts = profileUseCases.getPostsForProfile(userId)
+
         }
     }
 }

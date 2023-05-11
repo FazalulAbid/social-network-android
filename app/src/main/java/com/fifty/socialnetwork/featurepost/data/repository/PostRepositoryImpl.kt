@@ -1,7 +1,5 @@
 package com.fifty.socialnetwork.featurepost.data.repository
 
-import android.content.ContentResolver
-import android.content.Context
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.paging.Pager
@@ -9,25 +7,19 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Post
-import com.fifty.socialnetwork.core.domain.util.getFileName
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.SimpleResource
 import com.fifty.socialnetwork.core.util.UiText
-import com.fifty.socialnetwork.featurepost.data.remote.PostApi
+import com.fifty.socialnetwork.core.data.remote.PostApi
 import com.fifty.socialnetwork.featurepost.data.remote.request.CreatePostRequest
 import com.fifty.socialnetwork.featurepost.data.paging.PostSource
 import com.fifty.socialnetwork.featurepost.domain.repository.PostRepository
 import com.google.gson.Gson
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.io.IOException
 
 class PostRepositoryImpl(
@@ -37,7 +29,7 @@ class PostRepositoryImpl(
 
     override val posts: Flow<PagingData<Post>>
         get() = Pager(PagingConfig(pageSize = Constants.PAGE_SIZE_POSTS)) {
-            PostSource(api)
+            PostSource(api, PostSource.Source.Follows)
         }.flow
 
     override suspend fun createPost(

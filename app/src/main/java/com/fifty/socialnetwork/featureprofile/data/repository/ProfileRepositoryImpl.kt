@@ -2,30 +2,38 @@ package com.fifty.socialnetwork.featureprofile.data.repository
 
 import android.net.Uri
 import androidx.core.net.toFile
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.fifty.socialnetwork.R
+import com.fifty.socialnetwork.core.data.remote.PostApi
+import com.fifty.socialnetwork.core.domain.models.Post
+import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.SimpleResource
 import com.fifty.socialnetwork.core.util.UiText
-import com.fifty.socialnetwork.featureauth.data.remote.request.CreateAccountRequest
+import com.fifty.socialnetwork.featurepost.data.paging.PostSource
 import com.fifty.socialnetwork.featureprofile.data.remote.ProfileApi
 import com.fifty.socialnetwork.featureprofile.domain.model.Profile
 import com.fifty.socialnetwork.featureprofile.domain.model.Skill
 import com.fifty.socialnetwork.featureprofile.domain.model.UpdateProfileData
 import com.fifty.socialnetwork.featureprofile.domain.repository.ProfileRepository
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.HttpException
 import java.io.IOException
 
 class ProfileRepositoryImpl(
-    private val api: ProfileApi,
+    private val profileApi: ProfileApi,
+    private val postApi: PostApi,
     private val gson: Gson
 ) : ProfileRepository {
 
     override suspend fun getProfile(userId: String): Resource<Profile> {
         return try {
-            val response = api.getProfile(userId)
+            val response = profileApi.getProfile(userId)
             if (response.successful) {
                 Resource.Success(response.data?.toProfile())
             } else {
@@ -53,7 +61,7 @@ class ProfileRepositoryImpl(
         val profilePictureFile = profilePictureUri?.toFile()
 
         return try {
-            val response = api.updateProfile(
+            val response = profileApi.updateProfile(
                 bannerImage = bannerFile?.let {
                     MultipartBody.Part
                         .createFormData(
@@ -96,7 +104,7 @@ class ProfileRepositoryImpl(
 
     override suspend fun getSkills(): Resource<List<Skill>> {
         return try {
-            val response = api.getSkills()
+            val response = profileApi.getSkills()
             Resource.Success(
                 data = response.map { it.toSkill() }
             )
@@ -109,5 +117,11 @@ class ProfileRepositoryImpl(
                 uiText = UiText.StringResource(R.string.oops_something_went_wrong)
             )
         }
+    }
+
+    override fun getPostsPaged(userId: String): Flow<PagingData<Post>> {
+        return Pager(PagingConfig(pageSize = Constants.PAGE_SIZE_POSTS)) {
+            PostSource(postApi, PostSource.Source.Profile(userId))
+        }.flow
     }
 }

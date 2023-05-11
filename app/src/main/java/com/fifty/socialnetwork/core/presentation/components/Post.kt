@@ -19,8 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -31,11 +31,14 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.annotation.ExperimentalCoilApi
+import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.presentation.ui.theme.*
 import com.fifty.socialnetwork.core.util.Constants
 
+@OptIn(ExperimentalCoilApi::class)
 @Composable
 fun Post(
     modifier: Modifier = Modifier,
@@ -60,8 +63,14 @@ fun Post(
                 }
         ) {
             Image(
-                painter = painterResource(id = R.drawable.barcelona),
-                contentDescription = "Post image"
+                painter = rememberImagePainter(
+                    data = "${Constants.DEBUG_BASE_URL}${post.imageUrl}",
+                    builder = {
+                        crossfade(true)
+                    }
+                ),
+                contentDescription = "Post image",
+                contentScale = ContentScale.Crop
             )
             Column(
                 modifier = Modifier
@@ -69,7 +78,7 @@ fun Post(
                     .padding(SpaceMedium)
             ) {
                 ActionRow(
-                    username = "Fazalul Abid",
+                    username = post.username,
                     modifier = Modifier.fillMaxWidth(),
                     onLikeClick = { isLiked ->
 
@@ -133,7 +142,12 @@ fun Post(
         }
         if (showProfileImage) {
             Image(
-                painter = painterResource(id = R.drawable.woman_profile_image),
+                painter = rememberImagePainter(
+                    data = "${Constants.DEBUG_BASE_URL}${post.profilePictureUrl}",
+                    builder = {
+                        crossfade(true)
+                    }
+                ),
                 contentDescription = "Profile picture",
                 modifier = Modifier
                     .size(ProfilePictureSizeMedium)

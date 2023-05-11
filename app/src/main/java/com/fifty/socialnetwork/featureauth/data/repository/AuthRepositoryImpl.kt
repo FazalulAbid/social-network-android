@@ -13,7 +13,7 @@ import com.fifty.socialnetwork.featureauth.domain.repository.AuthRepository
 import retrofit2.HttpException
 import java.io.IOException
 
-class AuthRepositoryImpl(
+class  AuthRepositoryImpl(
     private val api: AuthApi,
     private val sharedPreferences: SharedPreferences
 ) : AuthRepository {
