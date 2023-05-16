@@ -10,7 +10,7 @@ import androidx.navigation.navArgument
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.util.Screen
 import com.fifty.socialnetwork.presentation.MainFeedScreen
-import com.fifty.socialnetwork.featureactivity.presentation.activity.ActivityScreen
+import com.fifty.socialnetwork.featureactivity.presentation.ActivityScreen
 import com.fifty.socialnetwork.featurechat.presentation.chat.ChatScreen
 import com.fifty.socialnetwork.featurepost.presentation.createpost.CreatePostScreen
 import com.fifty.socialnetwork.featureprofile.presentation.editprofile.EditProfileScreen

@@ -23,7 +23,7 @@ class CreatePostViewModel @Inject constructor(
     private val postUseCase: PostUseCases
 ) : ViewModel() {
 
-    private val _descriptionState = mutableStateOf<StandardTextFieldState>(StandardTextFieldState())
+    private val _descriptionState = mutableStateOf(StandardTextFieldState())
     val descriptionState: State<StandardTextFieldState> = _descriptionState
 
     private val _isLoading = mutableStateOf(false)

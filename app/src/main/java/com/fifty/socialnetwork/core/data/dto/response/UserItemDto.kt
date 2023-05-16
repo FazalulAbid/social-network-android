@@ -1,9 +1,8 @@
-package com.fifty.socialnetwork.featureprofile.data.remote.response
+package com.fifty.socialnetwork.core.data.dto.response
 
-import com.fifty.socialnetwork.core.domain.models.User
-import com.fifty.socialnetwork.featureprofile.domain.model.UserItem
+import com.fifty.socialnetwork.core.domain.models.UserItem
 
-data class UserResponseItem(
+data class UserItemDto(
     val userId: String,
     val username: String,
     val profilePictureUrl: String,

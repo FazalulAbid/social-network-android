@@ -117,9 +117,11 @@ fun ProfileScreen(
                         message = event.uiText.asString(context)
                     )
                 }
+
                 is UiEvent.Navigate -> {
 
                 }
+
                 is UiEvent.NavigateUp -> {
 
                 }
@@ -156,6 +158,7 @@ fun ProfileScreen(
                             followingCount = profile.followingCount,
                             postCount = profile.postCount
                         ),
+                        isFollowing = profile.isFollowing,
                         isOwnProfile = profile.isOwnProfile,
                         onEditClick = {
                             onNavigate(Screen.EditProfileScreen.route + "/${profile.userId}")

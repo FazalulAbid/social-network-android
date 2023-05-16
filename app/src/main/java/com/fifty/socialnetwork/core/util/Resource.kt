@@ -1,7 +1,5 @@
 package com.fifty.socialnetwork.core.util
 
-import androidx.annotation.StringRes
-
 typealias SimpleResource = Resource<Unit>
 
 sealed class Resource<T>(val data: T? = null,val  uiText: UiText? = null) {

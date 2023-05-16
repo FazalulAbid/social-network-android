@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.featureprofile.domain.model
+package com.fifty.socialnetwork.core.domain.models
 
 data class UserItem(
     val userId: String,

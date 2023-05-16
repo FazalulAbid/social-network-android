@@ -66,3 +66,14 @@ class MainActivity : ComponentActivity() {
         return doesRouteMatch || isOwnProfile
     }
 }
+
+class Solution {
+    fun findTheDifference(s: String, t: String): Char {
+        t.forEach { char ->
+            if (!s.contains(char)) {
+                return char
+            }
+        }
+        return s.last()
+    }
+}

@@ -19,7 +19,7 @@ fun ProfileStats(
     user: User,
     modifier: Modifier = Modifier,
     isOwnProfile: Boolean = true,
-    isFollowing: Boolean = false,
+    isFollowing: Boolean = true,
     onFollowClick: () -> Unit = {}
 ) {
     Row(
