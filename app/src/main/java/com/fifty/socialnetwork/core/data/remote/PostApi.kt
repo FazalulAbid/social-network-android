@@ -5,6 +5,7 @@ import com.fifty.socialnetwork.core.data.remote.dto.CommentDto
 import com.fifty.socialnetwork.core.domain.models.Comment
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.util.Constants
+import com.fifty.socialnetwork.featurepost.data.remote.request.CreateCommentRequest
 import com.fifty.socialnetwork.featurepost.data.remote.request.CreatePostRequest
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -46,6 +47,11 @@ interface PostApi {
     suspend fun getCommentsForPost(
         @Query("postId") postId: String
     ): List<CommentDto>
+
+    @POST("/api/comment/create")
+    suspend fun createComment(
+        @Body request: CreateCommentRequest
+    ): BasicApiResponse<Unit>
 
     companion object {
         //        const val BASE_URL = "http://192.168.48.34:8001/"

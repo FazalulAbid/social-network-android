@@ -15,6 +15,7 @@ import com.fifty.socialnetwork.core.data.remote.PostApi
 import com.fifty.socialnetwork.core.domain.models.Comment
 import com.fifty.socialnetwork.featurepost.data.remote.request.CreatePostRequest
 import com.fifty.socialnetwork.featurepost.data.paging.PostSource
+import com.fifty.socialnetwork.featurepost.data.remote.request.CreateCommentRequest
 import com.fifty.socialnetwork.featurepost.domain.repository.PostRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -98,6 +99,32 @@ class PostRepositoryImpl(
                 it.toComment()
             }
             Resource.Success(comments)
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.error_could_not_reach_server)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.oops_something_went_wrong)
+            )
+        }
+    }
+
+    override suspend fun createComment(postId: String, comment: String): SimpleResource {
+        return try {
+            val response = api.createComment(
+                CreateCommentRequest(
+                    comment = comment,
+                    postId = postId
+                )
+            )
+            if (response.successful) {
+                Resource.Success(response.data)
+            } else {
+                response.message?.let { msg ->
+                    Resource.Error(UiText.DynamicString(msg))
+                } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
+            }
         } catch (e: IOException) {
             Resource.Error(
                 uiText = UiText.StringResource(R.string.error_could_not_reach_server)

@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -29,6 +30,7 @@ fun StandardTextField(
     textStyle: TextStyle = TextStyle(
         color = MaterialTheme.colors.onBackground
     ),
+    backgroundColor: Color = MaterialTheme.colors.surface,
     singleLine: Boolean = true,
     maxLines: Int = 1,
     leadingIcon: ImageVector? = null,
@@ -40,8 +42,9 @@ fun StandardTextField(
     modifier: Modifier
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
+            .then(modifier)
     ) {
         TextField(
             value = text,
@@ -51,6 +54,9 @@ fun StandardTextField(
                 }
             },
             textStyle = textStyle,
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = backgroundColor
+            ),
             placeholder = {
                 Text(
                     text = hint,
