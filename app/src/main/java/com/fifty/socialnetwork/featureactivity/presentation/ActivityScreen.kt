@@ -59,7 +59,8 @@ fun ActivityScreen(
                                 formattedTime = activity.formattedTime
                             ),
                             modifier = Modifier
-                                .padding(bottom = SpaceMedium)
+                                .padding(bottom = SpaceMedium),
+                            onNavigate = onNavigate
                         )
                     }
                 }
