@@ -44,7 +44,11 @@ fun Post(
     modifier: Modifier = Modifier,
     post: Post,
     showProfileImage: Boolean = true,
-    onPostClick: () -> Unit = {}
+    onPostClick: () -> Unit = {},
+    onLikeClick: () -> Unit = {},
+    onCommentClick: () -> Unit = {},
+    onShareClick: () -> Unit = {},
+    onUsernameClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier
@@ -80,18 +84,10 @@ fun Post(
                 ActionRow(
                     username = post.username,
                     modifier = Modifier.fillMaxWidth(),
-                    onLikeClick = { isLiked ->
-
-                    },
-                    onCommentClick = {
-
-                    },
-                    onShareClick = {
-
-                    },
-                    onUsernameClick = { username ->
-
-                    }
+                    onLikeClick = onLikeClick,
+                    onCommentClick = onCommentClick,
+                    onShareClick = onShareClick,
+                    onUsernameClick =onUsernameClick
                 )
                 Spacer(modifier = Modifier.height(SpaceMedium))
                 Text(
@@ -163,7 +159,7 @@ fun EngagementButtons(
     modifier: Modifier = Modifier,
     isLiked: Boolean = false,
     iconSize: Dp = 30.dp,
-    onLikeClick: (Boolean) -> Unit = {},
+    onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
 ) {
@@ -174,14 +170,14 @@ fun EngagementButtons(
     ) {
         IconButton(
             onClick = {
-                onLikeClick(!isLiked)
+                onLikeClick()
             },
             modifier = Modifier.size(iconSize)
         ) {
             Icon(
                 imageVector = Icons.Filled.Favorite,
                 tint = if (isLiked) {
-                    Color.Red
+                    MaterialTheme.colors.primary
                 } else {
                     TextWhite
                 },
@@ -194,9 +190,7 @@ fun EngagementButtons(
         }
         Spacer(modifier = Modifier.width(SpaceMedium))
         IconButton(
-            onClick = {
-                onLikeClick(!isLiked)
-            },
+            onClick = onCommentClick,
             modifier = Modifier.size(iconSize)
         ) {
             Icon(
@@ -206,9 +200,7 @@ fun EngagementButtons(
         }
         Spacer(modifier = Modifier.width(SpaceMedium))
         IconButton(
-            onClick = {
-                onLikeClick(!isLiked)
-            },
+            onClick = onShareClick,
             modifier = Modifier.size(iconSize)
         ) {
             Icon(
@@ -223,11 +215,11 @@ fun EngagementButtons(
 fun ActionRow(
     modifier: Modifier = Modifier,
     isLiked: Boolean = false,
-    onLikeClick: (Boolean) -> Unit = {},
+    onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
     username: String,
-    onUsernameClick: (String) -> Unit = {}
+    onUsernameClick: () -> Unit = {}
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -242,7 +234,7 @@ fun ActionRow(
             ),
             modifier = Modifier
                 .clickable {
-                    onUsernameClick(username)
+                    onUsernameClick()
                 }
         )
         EngagementButtons(

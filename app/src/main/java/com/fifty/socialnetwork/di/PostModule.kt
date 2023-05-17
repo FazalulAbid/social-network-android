@@ -9,6 +9,7 @@ import com.fifty.socialnetwork.featurepost.domain.usecase.GetCommentsForPostUseC
 import com.fifty.socialnetwork.featurepost.domain.usecase.GetPostDetailsUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.GetPostsForFollowsUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.PostUseCases
+import com.fifty.socialnetwork.featurepost.domain.usecase.ToggleLikeForParentUseCase
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -51,7 +52,8 @@ object PostModule {
             createPostUseCase = CreatePostUseCase(repository),
             getPostDetails = GetPostDetailsUseCase(repository),
             getCommentsForPost = GetCommentsForPostUseCase(repository),
-            createComment = CreateCommentUseCase(repository)
+            createComment = CreateCommentUseCase(repository),
+            toggleLikeForParent = ToggleLikeForParentUseCase(repository)
         )
     }
 }
