@@ -112,29 +112,25 @@ fun Navigation(
                 scaffoldState = scaffoldState
             )
         }
-        composable(Screen.PersonListScreen.route) {
-            PersonListScreen(
+        composable(
+            Screen.PostDetailScreen.route + "/{postId}",
+            arguments = listOf(
+                navArgument(
+                    name = "postId"
+                ) {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            PostDetailScreen(
                 onNavigate = navController::navigate,
                 onNavigateUp = navController::navigateUp
             )
         }
-        composable(Screen.PostDetailScreen.route) {
-            PostDetailScreen(
+        composable(Screen.PersonListScreen.route) {
+            PersonListScreen(
                 onNavigate = navController::navigate,
-                onNavigateUp = navController::navigateUp,
-                post = Post(
-                    username = "Fazalul Abid",
-                    imageUrl = "",
-                    profilePictureUrl = "",
-                    description = "Lorem ipsum dolor sit amet, consec tetur elit. " +
-                            "Sedc do eiu consectetur smod tempor consectetur incididunt " +
-                            "ut labore et dolore magna atur smod tempor consectetur tur" +
-                            "ut labore et dolore magna atur smod tempor consectetur tur" +
-                            "ut labore et dolore magna atur smod tempor consectetur tur" +
-                            " smod tempor consecteturv tur smod tempor consecteturliqua.",
-                    likeCount = 12,
-                    commentCount = 7
-                )
+                onNavigateUp = navController::navigateUp
             )
         }
     }

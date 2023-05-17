@@ -1,6 +1,8 @@
 package com.fifty.socialnetwork.core.data.remote
 
 import com.fifty.socialnetwork.core.data.dto.response.BasicApiResponse
+import com.fifty.socialnetwork.core.data.remote.dto.CommentDto
+import com.fifty.socialnetwork.core.domain.models.Comment
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.featurepost.data.remote.request.CreatePostRequest
@@ -34,6 +36,16 @@ interface PostApi {
         @Part postData: MultipartBody.Part,
         @Part postImage: MultipartBody.Part
     ): BasicApiResponse<Unit>
+
+    @GET("/api/post/details")
+    suspend fun getPostDetails(
+        @Query("postId") postId: String
+    ): BasicApiResponse<Post>
+
+    @GET("/api/comment/get")
+    suspend fun getCommentsForPost(
+        @Query("postId") postId: String
+    ): List<CommentDto>
 
     companion object {
         //        const val BASE_URL = "http://192.168.48.34:8001/"

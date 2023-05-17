@@ -4,6 +4,8 @@ import com.fifty.socialnetwork.core.data.remote.PostApi
 import com.fifty.socialnetwork.featurepost.data.repository.PostRepositoryImpl
 import com.fifty.socialnetwork.featurepost.domain.repository.PostRepository
 import com.fifty.socialnetwork.featurepost.domain.usecase.CreatePostUseCase
+import com.fifty.socialnetwork.featurepost.domain.usecase.GetCommentsForPostUseCase
+import com.fifty.socialnetwork.featurepost.domain.usecase.GetPostDetailsUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.GetPostsForFollowsUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.PostUseCases
 import com.google.gson.Gson
@@ -45,7 +47,9 @@ object PostModule {
     fun providePostUseCases(repository: PostRepository): PostUseCases {
         return PostUseCases(
             getPostsForFollowsUseCase = GetPostsForFollowsUseCase(repository),
-            createPostUseCase = CreatePostUseCase(repository)
+            createPostUseCase = CreatePostUseCase(repository),
+            getPostDetails = GetPostDetailsUseCase(repository),
+            getCommentsForPost = GetCommentsForPostUseCase(repository)
         )
     }
 }
