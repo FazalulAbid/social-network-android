@@ -1,6 +1,7 @@
 package com.fifty.socialnetwork.featurepost.presentation.postdetail
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -18,13 +19,15 @@ import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Comment
 import com.fifty.socialnetwork.core.presentation.ui.theme.*
+import com.fifty.socialnetwork.core.util.Constants
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun Comment(
     modifier: Modifier = Modifier,
     comment: Comment,
-    onLikeClick: (Boolean) -> Unit = {}
+    onLikeClick: (Boolean) -> Unit = {},
+    onLikedByClick: () -> Unit = {},
 ) {
     Card(
         modifier = modifier,
@@ -46,7 +49,7 @@ fun Comment(
                 ) {
                     Image(
                         painter = rememberImagePainter(
-                            data = comment.profileImageUrl,
+                            data = "${Constants.DEBUG_BASE_URL}${comment.profileImageUrl}",
                             builder = {
                                 crossfade(true)
                             }
@@ -92,9 +95,14 @@ fun Comment(
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.body2,
                         color = MaterialTheme.colors.onBackground,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                onLikedByClick()
+                            }
                     )
                 }
+                Spacer(modifier = Modifier.height(SpaceMedium))
                 IconButton(
                     onClick =
                     {

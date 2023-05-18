@@ -2,7 +2,7 @@ package com.fifty.socialnetwork.featureprofile.domain.usecase
 
 import com.fifty.socialnetwork.core.domain.models.UserItem
 import com.fifty.socialnetwork.core.util.Resource
-import com.fifty.socialnetwork.featureprofile.domain.repository.ProfileRepository
+import com.fifty.socialnetwork.core.domain.repository.ProfileRepository
 
 class SearchUserUseCase(
     private val repository: ProfileRepository

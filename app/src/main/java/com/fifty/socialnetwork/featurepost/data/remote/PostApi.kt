@@ -1,15 +1,13 @@
-package com.fifty.socialnetwork.core.data.remote
+package com.fifty.socialnetwork.featurepost.data.remote
 
 import com.fifty.socialnetwork.core.data.dto.response.BasicApiResponse
+import com.fifty.socialnetwork.featurepost.data.remote.dto.UserItemDto
 import com.fifty.socialnetwork.core.data.remote.dto.CommentDto
-import com.fifty.socialnetwork.core.domain.models.Comment
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.featurepost.data.remote.request.CreateCommentRequest
-import com.fifty.socialnetwork.featurepost.data.remote.request.CreatePostRequest
 import com.fifty.socialnetwork.featurepost.data.remote.request.LikeUpdateRequest
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -65,6 +63,11 @@ interface PostApi {
         @Query("parentId") parentId: String,
         @Query("parentType") parentType: Int
     ): BasicApiResponse<Unit>
+
+    @GET("/api/like/parent")
+    suspend fun getLikesForParent(
+        @Query("parentId") parentId: String
+    ): List<UserItemDto>
 
     companion object {
         //        const val BASE_URL = "http://192.168.48.34:8001/"

@@ -11,8 +11,9 @@ import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.SimpleResource
 import com.fifty.socialnetwork.core.util.UiText
-import com.fifty.socialnetwork.core.data.remote.PostApi
+import com.fifty.socialnetwork.featurepost.data.remote.PostApi
 import com.fifty.socialnetwork.core.domain.models.Comment
+import com.fifty.socialnetwork.core.domain.models.UserItem
 import com.fifty.socialnetwork.featurepost.data.remote.request.CreatePostRequest
 import com.fifty.socialnetwork.featurepost.data.paging.PostSource
 import com.fifty.socialnetwork.featurepost.data.remote.request.CreateCommentRequest
@@ -176,6 +177,23 @@ class PostRepositoryImpl(
                     Resource.Error(UiText.DynamicString(msg))
                 } ?: Resource.Error(UiText.StringResource(R.string.error_unknown))
             }
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.error_could_not_reach_server)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.oops_something_went_wrong)
+            )
+        }
+    }
+
+    override suspend fun getLikesForParent(parentId: String): Resource<List<UserItem>> {
+        return try {
+            val response = api.getLikesForParent(
+                parentId = parentId
+            )
+            Resource.Success(response.map { it.toUserItem() })
         } catch (e: IOException) {
             Resource.Error(
                 uiText = UiText.StringResource(R.string.error_could_not_reach_server)

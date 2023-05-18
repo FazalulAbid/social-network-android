@@ -49,7 +49,7 @@ class PostDetailViewModel @Inject constructor(
 
     fun onEvent(event: PostDetailEvent) {
         when (event) {
-            PostDetailEvent.LikePost -> {
+            is PostDetailEvent.LikePost -> {
                 val isLiked = state.value.post?.isLiked == true
                 toggleLikeForParent(
                     parentId = state.value.post?.id ?: return,
@@ -76,7 +76,7 @@ class PostDetailViewModel @Inject constructor(
                 )
             }
 
-            PostDetailEvent.SharePost -> {
+            is PostDetailEvent.SharePost -> {
 
             }
 
@@ -91,8 +91,8 @@ class PostDetailViewModel @Inject constructor(
 
     private fun toggleLikeForParent(
         parentId: String,
-        isLiked: Boolean,
-        parentType: Int
+        parentType: Int,
+        isLiked: Boolean
     ) {
         viewModelScope.launch {
             when (parentType) {
@@ -121,7 +121,6 @@ class PostDetailViewModel @Inject constructor(
             )
             when (result) {
                 is Resource.Success -> Unit
-
                 is Resource.Error -> {
                     when (parentType) {
                         ParentType.Post.type -> {

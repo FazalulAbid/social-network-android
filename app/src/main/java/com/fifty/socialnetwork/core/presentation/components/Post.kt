@@ -74,7 +74,10 @@ fun Post(
                     }
                 ),
                 contentDescription = "Post image",
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 9f)
             )
             Column(
                 modifier = Modifier
@@ -82,12 +85,12 @@ fun Post(
                     .padding(SpaceMedium)
             ) {
                 ActionRow(
-                    username = post.username,
+                    username = "Abid Fazal",
                     modifier = Modifier.fillMaxWidth(),
                     onLikeClick = onLikeClick,
                     onCommentClick = onCommentClick,
                     onShareClick = onShareClick,
-                    onUsernameClick =onUsernameClick
+                    onUsernameClick = onUsernameClick
                 )
                 Spacer(modifier = Modifier.height(SpaceMedium))
                 Text(
@@ -99,7 +102,7 @@ fun Post(
                             )
                         ) {
                             append(
-                                LocalContext.current.getString(
+                                " " + LocalContext.current.getString(
                                     R.string.read_more
                                 )
                             )

@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import coil.ImageLoader
 import coil.decode.SvgDecoder
+import com.fifty.socialnetwork.core.domain.repository.ProfileRepository
 import com.fifty.socialnetwork.core.domain.usecase.GetOwnUserIdUseCase
+import com.fifty.socialnetwork.core.domain.usecase.ToggleFollowStateForUserUseCase
 import com.fifty.socialnetwork.core.util.Constants
 import com.google.gson.Gson
 import dagger.Module

@@ -2,9 +2,7 @@ package com.fifty.socialnetwork.featureactivity.data.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.util.Constants
-import com.fifty.socialnetwork.core.data.remote.PostApi
 import com.fifty.socialnetwork.core.domain.models.Activity
 import com.fifty.socialnetwork.featureactivity.data.remote.ActivityApi
 import retrofit2.HttpException

@@ -2,6 +2,7 @@ package com.fifty.socialnetwork.core.presentation.components
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,7 +16,7 @@ import com.fifty.socialnetwork.featurechat.presentation.chat.ChatScreen
 import com.fifty.socialnetwork.featurepost.presentation.createpost.CreatePostScreen
 import com.fifty.socialnetwork.featureprofile.presentation.editprofile.EditProfileScreen
 import com.fifty.socialnetwork.featureauth.presentation.login.LoginScreen
-import com.fifty.socialnetwork.presentation.personlist.PersonListScreen
+import com.fifty.socialnetwork.featurepost.presentation.personlist.PersonListScreen
 import com.fifty.socialnetwork.featurepost.presentation.postdetail.PostDetailScreen
 import com.fifty.socialnetwork.featureprofile.presentation.profile.ProfileScreen
 import com.fifty.socialnetwork.featureauth.presentation.register.RegisterScreen
@@ -128,8 +129,16 @@ fun Navigation(
                 onNavigateUp = navController::navigateUp
             )
         }
-        composable(Screen.PersonListScreen.route) {
+        composable(
+            Screen.PersonListScreen.route + "/{parentId}",
+            arguments = listOf(
+                navArgument("parentId") {
+                    type = NavType.StringType
+                }
+            )
+        ) {
             PersonListScreen(
+                scaffoldState = scaffoldState,
                 onNavigate = navController::navigate,
                 onNavigateUp = navController::navigateUp
             )

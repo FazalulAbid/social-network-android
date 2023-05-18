@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.User
+import com.fifty.socialnetwork.core.domain.models.UserItem
 import com.fifty.socialnetwork.core.presentation.components.StandardTextField
 import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.core.presentation.components.UserProfileItem
@@ -75,15 +76,7 @@ fun SearchScreen(
                 ) {
                     items(state.userItems) { user ->
                         UserProfileItem(
-                            user = User(
-                                userId = user.userId,
-                                profilePictureUrl = "${Constants.DEBUG_BASE_URL}${user.profilePictureUrl}",
-                                username = user.username,
-                                description = user.bio,
-                                followerCount = 0,
-                                followingCount = 0,
-                                postCount = 0
-                            ),
+                            user = user,
                             actionIcon = {
                                 IconButton(
                                     onClick = {

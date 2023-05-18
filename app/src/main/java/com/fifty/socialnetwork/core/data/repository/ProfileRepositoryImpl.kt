@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.featureprofile.data.repository
+package com.fifty.socialnetwork.core.data.repository
 
 import android.net.Uri
 import androidx.core.net.toFile
@@ -6,7 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.core.data.remote.PostApi
+import com.fifty.socialnetwork.featurepost.data.remote.PostApi
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.domain.models.UserItem
 import com.fifty.socialnetwork.core.util.Constants
@@ -19,7 +19,7 @@ import com.fifty.socialnetwork.featureprofile.data.remote.request.FollowUpdateRe
 import com.fifty.socialnetwork.featureprofile.domain.model.Profile
 import com.fifty.socialnetwork.featureprofile.domain.model.Skill
 import com.fifty.socialnetwork.featureprofile.domain.model.UpdateProfileData
-import com.fifty.socialnetwork.featureprofile.domain.repository.ProfileRepository
+import com.fifty.socialnetwork.core.domain.repository.ProfileRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
@@ -121,10 +121,27 @@ class ProfileRepositoryImpl(
         }
     }
 
-    override fun getPostsPaged(userId: String): Flow<PagingData<Post>> {
-        return Pager(PagingConfig(pageSize = Constants.DEFAULT_PAGE_SIZE)) {
-            PostSource(postApi, PostSource.Source.Profile(userId))
-        }.flow
+    override suspend fun getPostsPaged(
+        page: Int,
+        pageSize: Int,
+        userId: String
+    ): Resource<List<Post>> {
+        return try {
+            val posts = postApi.getPostForProfile(
+                userId = userId,
+                page = page,
+                pageSize = pageSize
+            )
+            Resource.Success(data = posts)
+        } catch (e: IOException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.error_could_not_reach_server)
+            )
+        } catch (e: HttpException) {
+            Resource.Error(
+                uiText = UiText.StringResource(R.string.oops_something_went_wrong)
+            )
+        }
     }
 
     override suspend fun searchUser(query: String): Resource<List<UserItem>> {

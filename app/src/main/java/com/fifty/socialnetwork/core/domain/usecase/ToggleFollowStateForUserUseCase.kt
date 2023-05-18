@@ -1,7 +1,7 @@
-package com.fifty.socialnetwork.featureprofile.domain.usecase
+package com.fifty.socialnetwork.core.domain.usecase
 
 import com.fifty.socialnetwork.core.util.SimpleResource
-import com.fifty.socialnetwork.featureprofile.domain.repository.ProfileRepository
+import com.fifty.socialnetwork.core.domain.repository.ProfileRepository
 
 class ToggleFollowStateForUserUseCase(
     private val repository: ProfileRepository

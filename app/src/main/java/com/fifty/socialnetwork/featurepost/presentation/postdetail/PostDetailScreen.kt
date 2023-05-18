@@ -2,6 +2,7 @@ package com.fifty.socialnetwork.featurepost.presentation.postdetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -29,6 +30,8 @@ import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.core.presentation.ui.theme.*
 import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.presentation.util.asString
+import com.fifty.socialnetwork.core.util.Constants
+import com.fifty.socialnetwork.core.util.Screen
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalCoilApi::class)
@@ -96,13 +99,15 @@ fun PostDetailScreen(
                             state.post?.let { post ->
                                 Image(
                                     painter = rememberImagePainter(
-                                        data = state.post.imageUrl,
+                                        data = "${Constants.DEBUG_BASE_URL}${state.post.imageUrl}",
                                         builder = {
                                             crossfade(true)
                                         }
                                     ),
                                     contentDescription = "Post image",
-                                    modifier = Modifier.fillMaxWidth()
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .aspectRatio(16f / 9f)
                                 )
                                 Column(
                                     modifier = Modifier
@@ -137,14 +142,17 @@ fun PostDetailScreen(
                                             R.string.liked_by_x_people, state.post.likeCount
                                         ),
                                         fontWeight = FontWeight.Bold,
-                                        style = MaterialTheme.typography.body2
+                                        style = MaterialTheme.typography.body2,
+                                        modifier = Modifier.clickable {
+                                            onNavigate(Screen.PersonListScreen.route + "/${post.id}")
+                                        }
                                     )
                                 }
                             }
                         }
                         Image(
                             painter = rememberImagePainter(
-                                data = state.post?.profilePictureUrl,
+                                data = "${Constants.DEBUG_BASE_URL}${state.post?.profilePictureUrl}",
                                 builder = {
                                     crossfade(true)
                                 }
@@ -175,6 +183,9 @@ fun PostDetailScreen(
                     comment = comment,
                     onLikeClick = {
                         viewModel.onEvent(PostDetailEvent.LikeComment(comment.id))
+                    },
+                    onLikedByClick = {
+                        onNavigate(Screen.PersonListScreen.route + "/${comment.id}")
                     }
                 )
             }

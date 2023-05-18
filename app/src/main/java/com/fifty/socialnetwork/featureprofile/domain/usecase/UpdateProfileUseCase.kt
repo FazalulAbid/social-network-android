@@ -1,13 +1,12 @@
 package com.fifty.socialnetwork.featureprofile.domain.usecase
 
 import android.net.Uri
-import android.util.Patterns
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.SimpleResource
 import com.fifty.socialnetwork.core.util.UiText
 import com.fifty.socialnetwork.featureprofile.domain.model.UpdateProfileData
-import com.fifty.socialnetwork.featureprofile.domain.repository.ProfileRepository
+import com.fifty.socialnetwork.core.domain.repository.ProfileRepository
 import com.fifty.socialnetwork.featureprofile.domain.util.ProfileConstants
 
 class UpdateProfileUseCase(

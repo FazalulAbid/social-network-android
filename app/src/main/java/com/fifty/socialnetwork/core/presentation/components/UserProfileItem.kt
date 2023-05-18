@@ -16,19 +16,22 @@ import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.User
+import com.fifty.socialnetwork.core.domain.models.UserItem
 import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
+import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.presentation.ui.theme.*
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
 @Composable
 fun UserProfileItem(
-    user: User,
+    user: UserItem,
     modifier: Modifier = Modifier,
     actionIcon: @Composable () -> Unit = {},
     onItemClick: () -> Unit = {},
-    onActionItemClick: () -> Unit = {}
+    onActionItemClick: () -> Unit = {},
+    ownUserId: String = ""
 ) {
     Card(
         modifier = modifier,
@@ -48,7 +51,7 @@ fun UserProfileItem(
         ) {
             Image(
                 painter = rememberImagePainter(
-                    data = user.profilePictureUrl,
+                    data = "${Constants.DEBUG_BASE_URL}${user.profilePictureUrl}",
                     builder = {
                         crossfade(true)
                     }
@@ -62,8 +65,8 @@ fun UserProfileItem(
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .fillMaxWidth(0.8f)
                     .padding(horizontal = SpaceSmall)
+                    .weight(1f)
             ) {
                 Text(
                     text = user.username,
@@ -73,17 +76,19 @@ fun UserProfileItem(
                 )
                 Spacer(modifier = Modifier.height(SpaceSmall))
                 Text(
-                    text = user.description,
+                    text = user.bio,
                     style = MaterialTheme.typography.body2,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2
                 )
             }
-            Spacer(modifier = Modifier.width(SpaceSmall))
-            IconButton(
-                onClick = onActionItemClick
-            ) {
-                actionIcon()
+            if (user.userId != ownUserId) {
+                Spacer(modifier = Modifier.width(SpaceSmall))
+                IconButton(
+                    onClick = onActionItemClick
+                ) {
+                    actionIcon()
+                }
             }
         }
     }

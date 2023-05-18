@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.core.data.dto.response
+package com.fifty.socialnetwork.featurepost.data.remote.dto
 
 import com.fifty.socialnetwork.core.domain.models.UserItem
 

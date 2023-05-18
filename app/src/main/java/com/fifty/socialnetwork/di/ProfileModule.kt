@@ -1,9 +1,10 @@
 package com.fifty.socialnetwork.di
 
-import com.fifty.socialnetwork.core.data.remote.PostApi
+import com.fifty.socialnetwork.core.domain.usecase.ToggleFollowStateForUserUseCase
+import com.fifty.socialnetwork.featurepost.data.remote.PostApi
 import com.fifty.socialnetwork.featureprofile.data.remote.ProfileApi
-import com.fifty.socialnetwork.featureprofile.data.repository.ProfileRepositoryImpl
-import com.fifty.socialnetwork.featureprofile.domain.repository.ProfileRepository
+import com.fifty.socialnetwork.core.data.repository.ProfileRepositoryImpl
+import com.fifty.socialnetwork.core.domain.repository.ProfileRepository
 import com.fifty.socialnetwork.featureprofile.domain.usecase.*
 import com.google.gson.Gson
 import dagger.Module
@@ -52,5 +53,11 @@ object ProfileModule {
             searchUser = SearchUserUseCase(repository),
             toggleFollowStateForUser = ToggleFollowStateForUserUseCase(repository)
         )
+    }
+
+    @Provides
+    @Singleton
+    fun providesToggleFollowForUserUseCase(repository: ProfileRepository): ToggleFollowStateForUserUseCase {
+        return ToggleFollowStateForUserUseCase(repository)
     }
 }

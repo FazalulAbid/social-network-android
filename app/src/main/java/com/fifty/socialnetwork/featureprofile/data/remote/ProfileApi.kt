@@ -1,10 +1,8 @@
 package com.fifty.socialnetwork.featureprofile.data.remote
 
 import com.fifty.socialnetwork.core.data.dto.response.BasicApiResponse
-import com.fifty.socialnetwork.core.data.dto.response.UserItemDto
-import com.fifty.socialnetwork.core.domain.models.User
+import com.fifty.socialnetwork.featurepost.data.remote.dto.UserItemDto
 import com.fifty.socialnetwork.core.util.Constants
-import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.featureprofile.data.remote.request.FollowUpdateRequest
 import com.fifty.socialnetwork.featureprofile.data.remote.response.ProfileResponse
 import com.fifty.socialnetwork.featureprofile.data.remote.response.SkillDto

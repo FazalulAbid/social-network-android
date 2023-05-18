@@ -1,11 +1,12 @@
 package com.fifty.socialnetwork.di
 
-import com.fifty.socialnetwork.core.data.remote.PostApi
+import com.fifty.socialnetwork.featurepost.data.remote.PostApi
 import com.fifty.socialnetwork.featurepost.data.repository.PostRepositoryImpl
 import com.fifty.socialnetwork.featurepost.domain.repository.PostRepository
 import com.fifty.socialnetwork.featurepost.domain.usecase.CreateCommentUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.CreatePostUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.GetCommentsForPostUseCase
+import com.fifty.socialnetwork.featurepost.domain.usecase.GetLikesForParentUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.GetPostDetailsUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.GetPostsForFollowsUseCase
 import com.fifty.socialnetwork.featurepost.domain.usecase.PostUseCases
@@ -53,7 +54,8 @@ object PostModule {
             getPostDetails = GetPostDetailsUseCase(repository),
             getCommentsForPost = GetCommentsForPostUseCase(repository),
             createComment = CreateCommentUseCase(repository),
-            toggleLikeForParent = ToggleLikeForParentUseCase(repository)
+            toggleLikeForParent = ToggleLikeForParentUseCase(repository),
+            getLikesForParent = GetLikesForParentUseCase(repository)
         )
     }
 }
