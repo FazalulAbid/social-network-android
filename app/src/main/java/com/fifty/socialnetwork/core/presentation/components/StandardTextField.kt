@@ -10,6 +10,8 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -39,7 +41,8 @@ fun StandardTextField(
     onValueChange: (String) -> Unit,
     onPasswordToggleClick: (Boolean) -> Unit = {},
     showPasswordToggle: Boolean = false,
-    modifier: Modifier
+    modifier: Modifier,
+    focusRequester: FocusRequester = FocusRequester()
 ) {
     Column(
         modifier = Modifier
@@ -104,7 +107,9 @@ fun StandardTextField(
                     }
                 }
             } else null,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester = focusRequester),
         )
         if (error.isNotEmpty()) {
             Text(

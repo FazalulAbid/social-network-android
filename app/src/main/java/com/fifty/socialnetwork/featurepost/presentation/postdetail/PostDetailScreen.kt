@@ -1,5 +1,7 @@
 package com.fifty.socialnetwork.featurepost.presentation.postdetail
 
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,13 +14,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
@@ -29,6 +35,7 @@ import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.core.presentation.ui.theme.*
 import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.presentation.util.asString
+import com.fifty.socialnetwork.core.presentation.util.showKeyboard
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Screen
 import kotlinx.coroutines.flow.collectLatest
@@ -39,13 +46,22 @@ fun PostDetailScreen(
     scaffoldState: ScaffoldState,
     onNavigate: (String) -> Unit = {},
     onNavigateUp: () -> Unit = {},
-    viewModel: PostDetailViewModel = hiltViewModel()
+    viewModel: PostDetailViewModel = hiltViewModel(),
+    shouldShowKeyboard: Boolean = false
 ) {
     val state = viewModel.state.value
     val commentTextFieldState = viewModel.commentTextFieldState.value
 
+    val focusRequester = remember {
+        FocusRequester()
+    }
+
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
+        if (shouldShowKeyboard) {
+            context.showKeyboard()
+            focusRequester.requestFocus()
+        }
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is UiEvent.ShowSnackBar -> {
@@ -103,6 +119,7 @@ fun PostDetailScreen(
                                             crossfade(true)
                                         }
                                     ),
+                                    contentScale = ContentScale.Crop,
                                     contentDescription = "Post image",
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -120,7 +137,8 @@ fun PostDetailScreen(
                                             viewModel.onEvent(PostDetailEvent.LikePost)
                                         },
                                         onCommentClick = {
-
+                                            context.showKeyboard()
+                                            focusRequester.requestFocus()
                                         },
                                         onShareClick = {
 
@@ -204,7 +222,8 @@ fun PostDetailScreen(
                 onValueChange = {
                     viewModel.onEvent(PostDetailEvent.EnteredComment(it))
                 },
-                hint = stringResource(id = R.string.enter_a_comment)
+                hint = stringResource(id = R.string.enter_a_comment),
+                focusRequester = focusRequester
             )
             if (viewModel.commentState.value.isLoading) {
                 CircularProgressIndicator(

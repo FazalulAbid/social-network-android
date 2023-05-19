@@ -29,6 +29,7 @@ import androidx.paging.compose.items
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.presentation.components.Post
 import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.util.Screen
 import com.fifty.socialnetwork.featurepost.presentation.mainfeed.MainFeedEvent
 import com.fifty.socialnetwork.featurepost.presentation.mainfeed.MainFeedViewModel
@@ -96,8 +97,14 @@ fun MainFeedScreen(
                         },
                         onLikeClick = {
                             viewModel.onEvent(MainFeedEvent.LikedPost(post.id))
+                        },
+                        onCommentClick = {
+                            onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
                         }
                     )
+                    if (i < pagingState.items.size - 1) {
+                        Spacer(modifier = Modifier.height(SpaceLarge))
+                    }
                 }
                 item {
                     Spacer(modifier = Modifier.height(90.dp))
