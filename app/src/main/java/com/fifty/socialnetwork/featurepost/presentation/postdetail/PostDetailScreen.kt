@@ -15,7 +15,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -139,7 +138,7 @@ fun PostDetailScreen(
                                     Spacer(modifier = Modifier.height(SpaceMedium))
                                     Text(
                                         text = stringResource(
-                                            R.string.liked_by_x_people, state.post.likeCount
+                                            R.string.x_likes, state.post.likeCount
                                         ),
                                         fontWeight = FontWeight.Bold,
                                         style = MaterialTheme.typography.body2,

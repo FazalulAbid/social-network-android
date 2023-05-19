@@ -43,6 +43,7 @@ import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.featureprofile.presentation.profile.components.BannerSection
 import com.fifty.socialnetwork.featureprofile.presentation.profile.components.ProfileHeaderSection
 import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeLarge
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.core.presentation.util.UiEvent
@@ -179,10 +180,7 @@ fun ProfileScreen(
                 if (i >= pagingState.items.size - 1 && !pagingState.endReached && !pagingState.isLoading) {
                     viewModel.loadNextPosts()
                 }
-                Spacer(
-                    modifier = Modifier
-                        .height(SpaceMedium)
-                )
+
                 Post(
                     post = post,
                     showProfileImage = false,
@@ -193,6 +191,9 @@ fun ProfileScreen(
                         viewModel.onEvent(ProfileEvent.LikePost(post.id))
                     }
                 )
+            }
+            item {
+                Spacer(modifier = Modifier.height(90.dp))
             }
         }
         Column(

@@ -69,11 +69,13 @@ fun EditProfileScreen(
     val profilePictureGalleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) {
+        if (it == null) return@rememberLauncherForActivityResult
         cropProfilePictureLauncher.launch(it)
     }
     val bannerImageGalleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) {
+        if (it == null) return@rememberLauncherForActivityResult
         cropBannerImageLauncher.launch(it)
     }
 
@@ -86,9 +88,11 @@ fun EditProfileScreen(
                         message = event.uiText.asString(context)
                     )
                 }
+
                 is UiEvent.Navigate -> {
 
                 }
+
                 is UiEvent.NavigateUp -> {
                     onNavigateUp()
                 }
@@ -169,6 +173,7 @@ fun EditProfileScreen(
                         is EditProfileError.FieldEmpty -> {
                             stringResource(id = R.string.this_field_cant_be_empty)
                         }
+
                         else -> ""
                     },
                     leadingIcon = Icons.Default.Person
@@ -183,6 +188,7 @@ fun EditProfileScreen(
                         is EditProfileError.FieldEmpty -> {
                             stringResource(id = R.string.this_field_cant_be_empty)
                         }
+
                         else -> ""
                     }, leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_github_logo),
                     onValueChange = {
@@ -201,6 +207,7 @@ fun EditProfileScreen(
                         is EditProfileError.FieldEmpty -> {
                             stringResource(id = R.string.this_field_cant_be_empty)
                         }
+
                         else -> ""
                     }, leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_instagram_logo),
                     onValueChange = {
@@ -219,6 +226,7 @@ fun EditProfileScreen(
                         is EditProfileError.FieldEmpty -> {
                             stringResource(id = R.string.this_field_cant_be_empty)
                         }
+
                         else -> ""
                     }, leadingIcon = ImageVector.vectorResource(id = R.drawable.ic_linkedin_logo),
                     onValueChange = {
@@ -237,6 +245,7 @@ fun EditProfileScreen(
                         is EditProfileError.FieldEmpty -> {
                             stringResource(id = R.string.this_field_cant_be_empty)
                         }
+
                         else -> ""
                     }, singleLine = false,
                     maxLines = 3,

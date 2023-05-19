@@ -9,6 +9,8 @@ import com.fifty.socialnetwork.core.domain.repository.ProfileRepository
 import com.fifty.socialnetwork.core.domain.usecase.GetOwnUserIdUseCase
 import com.fifty.socialnetwork.core.domain.usecase.ToggleFollowStateForUserUseCase
 import com.fifty.socialnetwork.core.util.Constants
+import com.fifty.socialnetwork.core.util.DefaultPostLiker
+import com.fifty.socialnetwork.core.util.PostLiker
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -42,6 +44,12 @@ object AppModule {
                     .build()
                 it.proceed(modifiedRequest)
             }.build()
+    }
+
+    @Provides
+    @Singleton
+    fun providePostLiker(): PostLiker {
+        return DefaultPostLiker()
     }
 
     @Provides

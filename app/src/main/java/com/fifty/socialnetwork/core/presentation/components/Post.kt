@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -85,8 +84,9 @@ fun Post(
                     .padding(SpaceMedium)
             ) {
                 ActionRow(
-                    username = "Abid Fazal",
+                    username = post.username,
                     modifier = Modifier.fillMaxWidth(),
+                    isLiked = post.isLiked,
                     onLikeClick = onLikeClick,
                     onCommentClick = onCommentClick,
                     onShareClick = onShareClick,
@@ -120,7 +120,7 @@ fun Post(
                 ) {
                     Text(
                         text = stringResource(
-                            R.string.liked_by_x_people,
+                            R.string.x_likes,
                             post.likeCount
                         ),
                         fontWeight = FontWeight.Bold,
@@ -130,7 +130,7 @@ fun Post(
                     Text(
                         text = stringResource(
                             R.string.x_comments,
-                            post.likeCount
+                            post.commentCount
                         ),
                         fontWeight = FontWeight.Bold,
                         fontSize = 16.sp,

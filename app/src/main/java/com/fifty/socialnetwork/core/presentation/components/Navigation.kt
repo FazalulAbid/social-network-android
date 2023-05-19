@@ -2,15 +2,13 @@ package com.fifty.socialnetwork.core.presentation.components
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.util.Screen
-import com.fifty.socialnetwork.presentation.MainFeedScreen
+import com.fifty.socialnetwork.featurepost.presentation.mainfeed.MainFeedScreen
 import com.fifty.socialnetwork.featureactivity.presentation.ActivityScreen
 import com.fifty.socialnetwork.featurechat.presentation.chat.ChatScreen
 import com.fifty.socialnetwork.featurepost.presentation.createpost.CreatePostScreen
