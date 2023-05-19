@@ -144,7 +144,7 @@ fun PostDetailScreen(
 
                                         },
                                         onUsernameClick = {
-
+                                            onNavigate(Screen.ProfileScreen.route + "?userId=${post.userId}")
                                         },
                                         isLiked = state.post.isLiked
                                     )
