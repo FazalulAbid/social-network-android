@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
@@ -53,6 +54,7 @@ import java.util.UUID
 @OptIn(DelicateCoroutinesApi::class, ExperimentalCoilApi::class)
 @Composable
 fun CreatePostScreen(
+    imageLoader: ImageLoader,
     onNavigate: (String) -> Unit = {},
     onNavigateUp: () -> Unit = {},
     scaffoldState: ScaffoldState,
@@ -134,7 +136,8 @@ fun CreatePostScreen(
                 imageUri?.let { uri ->
                     Image(
                         painter = rememberImagePainter(
-                            data = uri
+                            data = uri,
+                            imageLoader = imageLoader
                         ),
                         contentDescription = stringResource(R.string.post_image),
                         modifier = Modifier.matchParentSize()

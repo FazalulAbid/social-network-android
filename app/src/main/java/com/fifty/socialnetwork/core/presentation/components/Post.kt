@@ -30,6 +30,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
@@ -41,6 +42,7 @@ import com.fifty.socialnetwork.core.util.Constants
 @Composable
 fun Post(
     modifier: Modifier = Modifier,
+    imageLoader: ImageLoader,
     post: Post,
     showProfileImage: Boolean = true,
     onPostClick: () -> Unit = {},
@@ -68,9 +70,7 @@ fun Post(
             Image(
                 painter = rememberImagePainter(
                     data = "${Constants.DEBUG_BASE_URL}${post.imageUrl}",
-                    builder = {
-                        crossfade(true)
-                    }
+                    imageLoader = imageLoader
                 ),
                 contentDescription = "Post image",
                 contentScale = ContentScale.Crop,
@@ -143,9 +143,7 @@ fun Post(
             Image(
                 painter = rememberImagePainter(
                     data = "${Constants.DEBUG_BASE_URL}${post.profilePictureUrl}",
-                    builder = {
-                        crossfade(true)
-                    }
+                    imageLoader = imageLoader
                 ),
                 contentDescription = "Profile picture",
                 modifier = Modifier

@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
@@ -26,6 +27,7 @@ import com.fifty.socialnetwork.core.util.Constants
 fun Comment(
     modifier: Modifier = Modifier,
     comment: Comment,
+    imageLoader: ImageLoader,
     onLikeClick: (Boolean) -> Unit = {},
     onLikedByClick: () -> Unit = {},
 ) {
@@ -50,9 +52,7 @@ fun Comment(
                     Image(
                         painter = rememberImagePainter(
                             data = "${Constants.DEBUG_BASE_URL}${comment.profileImageUrl}",
-                            builder = {
-                                crossfade(true)
-                            }
+                            imageLoader = imageLoader
                         ),
                         contentDescription = null,
                         modifier = Modifier

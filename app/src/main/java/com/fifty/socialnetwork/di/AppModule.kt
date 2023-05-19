@@ -48,6 +48,16 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideImageLoader(app: Application): ImageLoader {
+        return ImageLoader.Builder(app)
+            .crossfade(true)
+            .componentRegistry {
+                add(SvgDecoder(app))
+            }.build()
+    }
+
+    @Provides
+    @Singleton
     fun providePostLiker(): PostLiker {
         return DefaultPostLiker()
     }

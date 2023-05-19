@@ -33,8 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
+import coil.decode.SvgDecoder
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.domain.models.User
@@ -59,6 +61,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun ProfileScreen(
     scaffoldState: ScaffoldState,
+    imageLoader: ImageLoader,
     userId: String? = null,
     onNavigate: (String) -> Unit = {},
     onNavigateUp: () -> Unit = {},
@@ -183,6 +186,7 @@ fun ProfileScreen(
 
                 Post(
                     post = post,
+                    imageLoader = imageLoader,
                     showProfileImage = false,
                     onPostClick = {
                         onNavigate(Screen.PostDetailScreen.route + "/${post.id}")
@@ -227,14 +231,16 @@ fun ProfileScreen(
                                     -iconHorizontalCenterLength
                         },
                     bannerUrl = "${Constants.DEBUG_BASE_URL}${profile.bannerUrl}",
+                    imageLoader = imageLoader,
                     topSkills = profile.topSkills,
-                    shouldShowGitHub = profile.gitHubUrl != null && profile.gitHubUrl.isNotBlank(),
-                    shouldShowInstagram = profile.instagramUrl != null && profile.instagramUrl.isNotBlank(),
-                    shouldShowLinkedIn = profile.linkedInUrl != null && profile.linkedInUrl.isNotBlank(),
+                    shouldShowGitHub = !profile.gitHubUrl.isNullOrBlank(),
+                    shouldShowInstagram = !profile.instagramUrl.isNullOrBlank(),
+                    shouldShowLinkedIn = !profile.linkedInUrl.isNullOrBlank(),
                 )
                 Image(
                     painter = rememberImagePainter(
-                        data = "${Constants.DEBUG_BASE_URL}${profile.profilePictureUrl}"
+                        data = "${Constants.DEBUG_BASE_URL}${profile.profilePictureUrl}",
+                        imageLoader = imageLoader
                     ),
                     contentDescription = stringResource(id = R.string.profile_image),
                     modifier = Modifier

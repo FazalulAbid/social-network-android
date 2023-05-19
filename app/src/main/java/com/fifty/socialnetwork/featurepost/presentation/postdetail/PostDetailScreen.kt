@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
@@ -44,6 +45,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun PostDetailScreen(
     scaffoldState: ScaffoldState,
+    imageLoader: ImageLoader,
     onNavigate: (String) -> Unit = {},
     onNavigateUp: () -> Unit = {},
     viewModel: PostDetailViewModel = hiltViewModel(),
@@ -115,9 +117,7 @@ fun PostDetailScreen(
                                 Image(
                                     painter = rememberImagePainter(
                                         data = "${Constants.DEBUG_BASE_URL}${state.post.imageUrl}",
-                                        builder = {
-                                            crossfade(true)
-                                        }
+                                        imageLoader = imageLoader
                                     ),
                                     contentScale = ContentScale.Crop,
                                     contentDescription = "Post image",
@@ -170,9 +170,7 @@ fun PostDetailScreen(
                         Image(
                             painter = rememberImagePainter(
                                 data = "${Constants.DEBUG_BASE_URL}${state.post?.profilePictureUrl}",
-                                builder = {
-                                    crossfade(true)
-                                }
+                                imageLoader = imageLoader
                             ),
                             contentDescription = "Profile picture",
                             modifier = Modifier
@@ -197,6 +195,7 @@ fun PostDetailScreen(
                             horizontal = SpaceLarge,
                             vertical = SpaceSmall
                         ),
+                    imageLoader = imageLoader,
                     comment = comment,
                     onLikeClick = {
                         viewModel.onEvent(PostDetailEvent.LikeComment(comment.id))

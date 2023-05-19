@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import coil.ImageLoader
 import com.fifty.socialnetwork.core.util.Screen
 import com.fifty.socialnetwork.featurepost.presentation.mainfeed.MainFeedScreen
 import com.fifty.socialnetwork.featureactivity.presentation.ActivityScreen
@@ -24,7 +25,8 @@ import com.fifty.socialnetwork.featureauth.presentation.splash.SplashScreen
 @Composable
 fun Navigation(
     navController: NavHostController,
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    imageLoader: ImageLoader
 ) {
     NavHost(
         navController = navController,
@@ -33,7 +35,7 @@ fun Navigation(
         composable(Screen.SplashScreen.route) {
             SplashScreen(
                 onPopBackStack = navController::popBackStack,
-                onNavigate = navController::navigate,
+                onNavigate = navController::navigate
             )
         }
         composable(Screen.LoginScreen.route) {
@@ -54,13 +56,15 @@ fun Navigation(
             MainFeedScreen(
                 onNavigate = navController::navigate,
                 onNavigateUp = navController::navigateUp,
-                scaffoldState = scaffoldState
+                scaffoldState = scaffoldState,
+                imageLoader = imageLoader
             )
         }
         composable(Screen.ChatScreen.route) {
             ChatScreen(
                 onNavigate = navController::navigate,
-                onNavigateUp = navController::navigateUp
+                onNavigateUp = navController::navigateUp,
+                imageLoader = imageLoader
             )
         }
         composable(Screen.ActivityScreen.route) {
@@ -83,20 +87,23 @@ fun Navigation(
                 userId = it.arguments?.getString("userId"),
                 onNavigate = navController::navigate,
                 onNavigateUp = navController::navigateUp,
-                scaffoldState = scaffoldState
+                scaffoldState = scaffoldState,
+                imageLoader = imageLoader
             )
         }
         composable(Screen.CreatePostScreen.route) {
             CreatePostScreen(
                 onNavigate = navController::navigate,
                 onNavigateUp = navController::navigateUp,
-                scaffoldState = scaffoldState
+                scaffoldState = scaffoldState,
+                imageLoader = imageLoader
             )
         }
         composable(Screen.SearchScreen.route) {
             SearchScreen(
                 onNavigate = navController::navigate,
-                onNavigateUp = navController::navigateUp
+                onNavigateUp = navController::navigateUp,
+                imageLoader = imageLoader
             )
         }
         composable(Screen.EditProfileScreen.route + "/{userId}",
@@ -108,7 +115,8 @@ fun Navigation(
             EditProfileScreen(
                 onNavigate = navController::navigate,
                 onNavigateUp = navController::navigateUp,
-                scaffoldState = scaffoldState
+                scaffoldState = scaffoldState,
+                imageLoader = imageLoader
             )
         }
         composable(
@@ -132,7 +140,8 @@ fun Navigation(
                 scaffoldState = scaffoldState,
                 onNavigate = navController::navigate,
                 onNavigateUp = navController::navigateUp,
-                shouldShowKeyboard = shouldShowKeyboard
+                shouldShowKeyboard = shouldShowKeyboard,
+                imageLoader = imageLoader
             )
         }
         composable(
@@ -146,7 +155,8 @@ fun Navigation(
             PersonListScreen(
                 scaffoldState = scaffoldState,
                 onNavigate = navController::navigate,
-                onNavigateUp = navController::navigateUp
+                onNavigateUp = navController::navigateUp,
+                imageLoader = imageLoader
             )
         }
     }

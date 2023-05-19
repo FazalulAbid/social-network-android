@@ -33,6 +33,7 @@ import okhttp3.OkHttpClient
 @Composable
 fun BannerSection(
     modifier: Modifier = Modifier,
+    imageLoader: ImageLoader,
     iconSize: Dp = 35.dp,
     leftIconModifier: Modifier = Modifier,
     rightIconModifier: Modifier = Modifier,
@@ -51,9 +52,7 @@ fun BannerSection(
         Image(
             painter = rememberImagePainter(
                 data = bannerUrl,
-                builder = {
-                    crossfade(true)
-                }
+                imageLoader = imageLoader
             ),
             contentDescription = stringResource(R.string.banner_image),
             contentScale = ContentScale.Crop,
@@ -84,11 +83,7 @@ fun BannerSection(
                 Image(
                     painter = rememberImagePainter(
                         data = "${Constants.DEBUG_BASE_URL}${skill.imageUrl}",
-                        imageLoader = ImageLoader.Builder(LocalContext.current)
-                            .componentRegistry {
-                                add(SvgDecoder(LocalContext.current))
-                            }
-                            .build(),
+                        imageLoader = imageLoader
                     ),
                     contentDescription = null,
                     modifier = Modifier.height(iconSize)
