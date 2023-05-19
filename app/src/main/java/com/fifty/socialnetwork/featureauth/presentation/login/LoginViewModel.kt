@@ -40,15 +40,18 @@ class LoginViewModel @Inject constructor(
                     text = event.email
                 )
             }
+
             is LoginEvent.EnteredPassword -> {
                 _passwordState.value = passwordState.value.copy(
                     text = event.password
                 )
             }
+
             LoginEvent.TogglePasswordVisibility -> {
                 _loginState.value =
                     _loginState.value.copy(isPasswordVisible = !_loginState.value.isPasswordVisible)
             }
+
             LoginEvent.Login -> {
                 viewModelScope.launch {
                     _loginState.value = loginState.value.copy(isLoading = true)
@@ -72,7 +75,9 @@ class LoginViewModel @Inject constructor(
                             _eventFlow.emit(
                                 UiEvent.Navigate(Screen.MainFeedScreen.route)
                             )
+                            _eventFlow.emit(UiEvent.OnLogin)
                         }
+
                         is Resource.Error -> {
                             _eventFlow.emit(
                                 UiEvent.ShowSnackBar(
@@ -80,6 +85,7 @@ class LoginViewModel @Inject constructor(
                                 )
                             )
                         }
+
                         null -> {}
                     }
                 }

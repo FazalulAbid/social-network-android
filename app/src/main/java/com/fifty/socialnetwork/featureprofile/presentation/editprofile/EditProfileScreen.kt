@@ -98,6 +98,8 @@ fun EditProfileScreen(
                 is UiEvent.NavigateUp -> {
                     onNavigateUp()
                 }
+
+                else -> {}
             }
         }
     }

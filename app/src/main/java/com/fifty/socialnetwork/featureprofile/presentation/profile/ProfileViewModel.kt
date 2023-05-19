@@ -84,8 +84,16 @@ class ProfileViewModel @Inject constructor(
 
     fun onEvent(event: ProfileEvent) {
         when (event) {
-            is ProfileEvent.GetProfile -> {
+            ProfileEvent.ShowLogoutDialog -> {
+                _state.value = state.value.copy(
+                    isLogoutDialogVisible = true
+                )
+            }
 
+            ProfileEvent.DismissLogoutDialog -> {
+                _state.value = state.value.copy(
+                    isLogoutDialogVisible = false
+                )
             }
 
             is ProfileEvent.LikePost -> {
@@ -94,6 +102,10 @@ class ProfileViewModel @Inject constructor(
                         event.postId
                     )
                 }
+            }
+
+            ProfileEvent.Logout -> {
+                profileUseCases.logout()
             }
         }
     }

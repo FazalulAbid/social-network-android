@@ -89,6 +89,7 @@ fun CreatePostScreen(
                     onNavigateUp()
                 }
                 is UiEvent.Navigate -> Unit
+                else -> {}
             }
         }
     }

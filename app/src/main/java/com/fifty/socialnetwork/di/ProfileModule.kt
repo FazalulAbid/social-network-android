@@ -1,5 +1,6 @@
 package com.fifty.socialnetwork.di
 
+import android.content.SharedPreferences
 import com.fifty.socialnetwork.core.domain.usecase.ToggleFollowStateForUserUseCase
 import com.fifty.socialnetwork.featurepost.data.remote.PostApi
 import com.fifty.socialnetwork.featureprofile.data.remote.ProfileApi
@@ -36,9 +37,10 @@ object ProfileModule {
     fun provideProfileRepository(
         profileApi: ProfileApi,
         postApi: PostApi,
-        gson: Gson
+        gson: Gson,
+        sharedPreferences: SharedPreferences
     ): ProfileRepository {
-        return ProfileRepositoryImpl(profileApi, postApi, gson)
+        return ProfileRepositoryImpl(profileApi, postApi, gson, sharedPreferences)
     }
 
     @Provides
@@ -51,7 +53,8 @@ object ProfileModule {
             setSkillSelected = SetSkillSelectedUseCase(),
             getPostsForProfile = GetPostsForProfileUseCase(repository),
             searchUser = SearchUserUseCase(repository),
-            toggleFollowStateForUser = ToggleFollowStateForUserUseCase(repository)
+            toggleFollowStateForUser = ToggleFollowStateForUserUseCase(repository),
+            logout = LogoutUseCase(repository)
         )
     }
 

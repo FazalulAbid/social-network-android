@@ -1,16 +1,14 @@
 package com.fifty.socialnetwork.featureprofile.presentation.profile
 
-import android.util.Log
 import  androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -30,22 +28,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.coerceIn
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import coil.decode.SvgDecoder
 import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.domain.models.User
 import com.fifty.socialnetwork.core.presentation.components.Post
-import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.featureprofile.presentation.profile.components.BannerSection
 import com.fifty.socialnetwork.featureprofile.presentation.profile.components.ProfileHeaderSection
 import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeLarge
-import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.core.presentation.util.UiEvent
@@ -54,7 +47,6 @@ import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Screen
 import com.fifty.socialnetwork.core.util.toPx
 import com.fifty.socialnetwork.featurepost.presentation.personlist.PostEvent
-import com.fifty.socialnetwork.featureprofile.presentation.editprofile.EditProfileEvent
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalCoilApi::class)
@@ -64,7 +56,7 @@ fun ProfileScreen(
     imageLoader: ImageLoader,
     userId: String? = null,
     onNavigate: (String) -> Unit = {},
-    onNavigateUp: () -> Unit = {},
+    onLogout: () -> Unit = {},
     profilePictureSize: Dp = ProfilePictureSizeLarge,
     viewModel: ProfileViewModel = hiltViewModel()
 ) {
@@ -172,6 +164,9 @@ fun ProfileScreen(
                         ),
                         isFollowing = profile.isFollowing,
                         isOwnProfile = profile.isOwnProfile,
+                        onLogoutClick = {
+                            viewModel.onEvent(ProfileEvent.ShowLogoutDialog)
+                        },
                         onEditClick = {
                             onNavigate(Screen.EditProfileScreen.route + "/${profile.userId}")
                         }
@@ -265,6 +260,47 @@ fun ProfileScreen(
                         ),
                     contentScale = ContentScale.Crop
                 )
+            }
+        }
+        if (state.isLogoutDialogVisible) {
+            Dialog(onDismissRequest = {
+                viewModel.onEvent(ProfileEvent.DismissLogoutDialog)
+            }) {
+                Column(
+                    modifier = Modifier
+                        .background(
+                            color = MaterialTheme.colors.surface,
+                            shape = MaterialTheme.shapes.medium
+                        )
+                        .padding(SpaceMedium)
+                ) {
+                    Text(text = stringResource(id = R.string.do_you_want_to_logout))
+                    Spacer(modifier = Modifier.height(SpaceMedium))
+                    Row(
+                        horizontalArrangement = Arrangement.End,
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.no).uppercase(),
+                            color = MaterialTheme.colors.onBackground,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.clickable {
+                                viewModel.onEvent(ProfileEvent.DismissLogoutDialog)
+                            }
+                        )
+                        Spacer(modifier = Modifier.width(SpaceMedium))
+                        Text(
+                            text = stringResource(id = R.string.yes).uppercase(),
+                            color = MaterialTheme.colors.primary,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier.clickable {
+                                viewModel.onEvent(ProfileEvent.Logout)
+                                viewModel.onEvent(ProfileEvent.DismissLogoutDialog)
+                                onLogout()
+                            }
+                        )
+                    }
+                }
             }
         }
     }
