@@ -2,6 +2,7 @@ package com.fifty.socialnetwork.featurechat.presentation.message.components
 
 import android.util.Size
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,7 +39,8 @@ fun OwnMessage(
     val cornerRadius = MaterialTheme.shapes.medium.bottomEnd
     Row(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
     ) {
         Text(
             text = formattedTime,
@@ -50,7 +52,7 @@ fun OwnMessage(
         Spacer(modifier = Modifier.width(SpaceLarge))
         Box(
             modifier = Modifier
-                .weight(1f)
+                .weight(1f, false)
                 .background(
                     color = color,
                     shape = MaterialTheme.shapes.medium,

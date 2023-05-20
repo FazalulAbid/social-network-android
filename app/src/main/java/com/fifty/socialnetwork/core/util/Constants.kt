@@ -17,4 +17,5 @@ object Constants {
     const val SHARED_PREF_NAME = "shared_pref"
 
     const val DEBUG_BASE_URL = "http://192.168.64.113:8080/"
+    const val DEBUG_WS_BASE_URL = "ws://192.168.64.113:8080/api/chat/websocket"
 }

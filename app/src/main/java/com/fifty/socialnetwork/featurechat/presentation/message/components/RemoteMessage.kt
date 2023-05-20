@@ -41,7 +41,7 @@ fun RemoteMessage(
     ) {
         Box(
             modifier = Modifier
-                .weight(1f)
+                .weight(1f, false)
                 .background(
                     color = MaterialTheme.colors.surface,
                     shape = MaterialTheme.shapes.medium,
