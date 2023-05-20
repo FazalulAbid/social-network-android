@@ -28,25 +28,24 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             SocialNetworkTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    color = MaterialTheme.colors.background,
-                    modifier = Modifier.fillMaxSize()
+                    color = MaterialTheme.colors.background, modifier = Modifier.fillMaxSize()
                 ) {
                     val navController = rememberNavController()
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val scaffoldState = rememberScaffoldState()
-                    StandardScaffold(
-                        navController = navController,
+
+                    StandardScaffold(navController = navController,
                         showBottomBar = shouldShowBottomBar(navBackStackEntry),
                         state = scaffoldState,
                         modifier = Modifier.fillMaxSize(),
                         onFabClick = {
                             navController.navigate(Screen.CreatePostScreen.route)
-                        }
-                    ) {
+                        }) {
                         Navigation(navController, scaffoldState, imageLoader)
                     }
                 }
@@ -61,19 +60,9 @@ class MainActivity : ComponentActivity() {
             Screen.ActivityScreen.route,
         )
         val isOwnProfile =
-            backStackEntry?.destination?.route == "${Screen.ProfileScreen.route}?userId={userId}" &&
-                    backStackEntry.arguments?.getString("userId") == null
+            backStackEntry?.destination?.route == "${Screen.ProfileScreen.route}?userId={userId}" && backStackEntry.arguments?.getString(
+                "userId"
+            ) == null
         return doesRouteMatch || isOwnProfile
-    }
-}
-
-class Solution {
-    fun findTheDifference(s: String, t: String): Char {
-        t.forEach { char ->
-            if (!s.contains(char)) {
-                return char
-            }
-        }
-        return s.last()
     }
 }

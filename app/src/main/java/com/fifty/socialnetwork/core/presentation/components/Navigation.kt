@@ -1,5 +1,6 @@
 package com.fifty.socialnetwork.core.presentation.components
 
+import android.content.Intent
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -7,6 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import coil.ImageLoader
 import com.fifty.socialnetwork.core.util.Screen
 import com.fifty.socialnetwork.featurepost.presentation.mainfeed.MainFeedScreen
@@ -141,6 +143,12 @@ fun Navigation(
                 ) {
                     type = NavType.BoolType
                     defaultValue = false
+                }
+            ),
+            deepLinks = listOf(
+                navDeepLink {
+                    action = Intent.ACTION_VIEW
+                    uriPattern = "https://fazalulabid.com/{postId}"
                 }
             )
         ) {

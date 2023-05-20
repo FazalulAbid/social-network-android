@@ -45,6 +45,7 @@ import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.presentation.util.asString
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Screen
+import com.fifty.socialnetwork.core.util.sendSharePostIntent
 import com.fifty.socialnetwork.core.util.toPx
 import com.fifty.socialnetwork.featurepost.presentation.personlist.PostEvent
 import kotlinx.coroutines.flow.collectLatest
@@ -191,6 +192,9 @@ fun ProfileScreen(
                     },
                     onLikeClick = {
                         viewModel.onEvent(ProfileEvent.LikePost(post.id))
+                    },
+                    onShareClick = {
+                        context.sendSharePostIntent(post.id)
                     }
                 )
             }

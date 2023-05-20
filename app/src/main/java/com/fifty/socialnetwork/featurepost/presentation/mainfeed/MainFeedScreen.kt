@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,6 +33,7 @@ import com.fifty.socialnetwork.core.presentation.components.Post
 import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.util.Screen
+import com.fifty.socialnetwork.core.util.sendSharePostIntent
 import com.fifty.socialnetwork.featurepost.presentation.mainfeed.MainFeedEvent
 import com.fifty.socialnetwork.featurepost.presentation.mainfeed.MainFeedViewModel
 import com.fifty.socialnetwork.featurepost.presentation.personlist.PostEvent
@@ -47,7 +49,7 @@ fun MainFeedScreen(
     viewModel: MainFeedViewModel = hiltViewModel()
 ) {
     val pagingState = viewModel.pagingState.value
-
+    val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
@@ -106,6 +108,9 @@ fun MainFeedScreen(
                         },
                         onCommentClick = {
                             onNavigate(Screen.PostDetailScreen.route + "/${post.id}?shouldShowKeyboard=true")
+                        },
+                        onShareClick = {
+                            context.sendSharePostIntent(post.id)
                         }
                     )
                     if (i < pagingState.items.size - 1) {

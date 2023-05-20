@@ -39,6 +39,7 @@ import com.fifty.socialnetwork.core.presentation.util.asString
 import com.fifty.socialnetwork.core.presentation.util.showKeyboard
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Screen
+import com.fifty.socialnetwork.core.util.sendSharePostIntent
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalCoilApi::class)
@@ -141,7 +142,7 @@ fun PostDetailScreen(
                                             focusRequester.requestFocus()
                                         },
                                         onShareClick = {
-
+                                            context.sendSharePostIntent(post.id)
                                         },
                                         onUsernameClick = {
                                             onNavigate(Screen.ProfileScreen.route + "?userId=${post.userId}")
