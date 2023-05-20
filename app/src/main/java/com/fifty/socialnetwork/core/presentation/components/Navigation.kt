@@ -23,6 +23,8 @@ import com.fifty.socialnetwork.featureprofile.presentation.profile.ProfileScreen
 import com.fifty.socialnetwork.featureauth.presentation.register.RegisterScreen
 import com.fifty.socialnetwork.featureprofile.presentation.search.SearchScreen
 import com.fifty.socialnetwork.featureauth.presentation.splash.SplashScreen
+import com.fifty.socialnetwork.featurechat.domain.model.Chat
+import com.fifty.socialnetwork.featurechat.presentation.message.MessageScreen
 
 @Composable
 fun Navigation(
@@ -71,6 +73,14 @@ fun Navigation(
         }
         composable(Screen.ChatScreen.route) {
             ChatScreen(
+                onNavigate = navController::navigate,
+                onNavigateUp = navController::navigateUp,
+                imageLoader = imageLoader
+            )
+        }
+        composable(Screen.MessageScreen.route) {
+            MessageScreen(
+                chatId = "",
                 onNavigate = navController::navigate,
                 onNavigateUp = navController::navigateUp,
                 imageLoader = imageLoader

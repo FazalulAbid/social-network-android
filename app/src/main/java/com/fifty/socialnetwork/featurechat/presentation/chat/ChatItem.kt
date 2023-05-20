@@ -1,44 +1,52 @@
-package com.fifty.socialnetwork.core.presentation.components
+package com.fifty.socialnetwork.featurechat.presentation.chat
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.fifty.socialnetwork.R
-import com.fifty.socialnetwork.core.domain.models.User
-import com.fifty.socialnetwork.core.domain.models.UserItem
 import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.core.util.Constants
-import com.fifty.socialnetwork.presentation.ui.theme.*
+import com.fifty.socialnetwork.featurechat.domain.model.Chat
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
 @Composable
-fun UserProfileItem(
-    user: UserItem,
+fun ChatItem(
+    item: Chat,
     imageLoader: ImageLoader,
     modifier: Modifier = Modifier,
-    actionIcon: @Composable () -> Unit = {},
-    onItemClick: () -> Unit = {},
-    onActionItemClick: () -> Unit = {},
-    ownUserId: String = ""
+    onItemClick: (Chat) -> Unit,
 ) {
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
-        onClick = onItemClick,
+        onClick = {
+            onItemClick(item)
+        },
         elevation = 5.dp
     ) {
         Row(
@@ -53,7 +61,7 @@ fun UserProfileItem(
         ) {
             Image(
                 painter = rememberImagePainter(
-                    data = "${Constants.DEBUG_BASE_URL}${user.profilePictureUrl}",
+                    data = "${Constants.DEBUG_BASE_URL}${item.remoteUserProfileUrl}",
                     imageLoader = imageLoader
                 ),
                 contentDescription = null,
@@ -68,30 +76,29 @@ fun UserProfileItem(
                     .padding(horizontal = SpaceSmall)
                     .weight(1f)
             ) {
-                Text(
-                    text = user.username,
-                    style = MaterialTheme.typography.body1.copy(
-                        fontWeight = FontWeight.Bold
+                Row(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(
+                        text = item.remoteUsername,
+                        style = MaterialTheme.typography.body1.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        modifier = Modifier.weight(1f)
                     )
-                )
+                    Spacer(modifier = Modifier.width(SpaceSmall))
+                    Text(text = item.lastMessageFormattedTimestamp)
+                }
                 Spacer(modifier = Modifier.height(SpaceSmall))
                 Text(
-                    text = user.bio,
+                    text = item.lastMessage,
                     style = MaterialTheme.typography.body2,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 2,
                     modifier = Modifier.heightIn(
-                        min = MaterialTheme.typography.body2.fontSize.value.dp * 3f
+                        min = MaterialTheme.typography.body2.fontSize.value.dp * 2.5f
                     )
                 )
-            }
-            if (user.userId != ownUserId) {
-                Spacer(modifier = Modifier.width(SpaceSmall))
-                IconButton(
-                    onClick = onActionItemClick
-                ) {
-                    actionIcon()
-                }
             }
         }
     }
