@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -30,58 +29,25 @@ import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeSmal
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.util.Constants
-import com.fifty.socialnetwork.featurechat.domain.model.Message
 import com.fifty.socialnetwork.featurechat.presentation.message.components.OwnMessage
 import com.fifty.socialnetwork.featurechat.presentation.message.components.RemoteMessage
+import okio.ByteString.Companion.decodeBase64
+import java.nio.charset.Charset
 
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun MessageScreen(
-    chatId: String,
+    remoteUserName: String,
+    encodedRemoteUserProfilePictureUrl: String,
     imageLoader: ImageLoader,
     onNavigateUp: () -> Unit = {},
     onNavigate: (String) -> Unit = {},
     viewModel: MessageViewModel = hiltViewModel()
 ) {
-    val messages = remember {
-        listOf(
-            Message(
-                fromId = "",
-                toId = "",
-                text = "Hello World, this is testing for long tsext kasjhdfh eiherjelkj sehkghaklesj  klasehjlrtkh aseh kl;ashekl;h khl;k",
-                formattedTime = "10:43 AM",
-                chatId = "",
-            ),
-            Message(
-                fromId = "",
-                toId = "",
-                text = "Hello World",
-                formattedTime = "10:43 AM",
-                chatId = "",
-            ),
-            Message(
-                fromId = "",
-                toId = "",
-                text = "Hello World",
-                formattedTime = "10:43 AM",
-                chatId = "",
-            ),
-            Message(
-                fromId = "",
-                toId = "",
-                text = "Hello World",
-                formattedTime = "10:43 AM",
-                chatId = "",
-            ),
-            Message(
-                fromId = "",
-                toId = "",
-                text = "Hello World",
-                formattedTime = "10:43 AM",
-                chatId = "",
-            ),
-        )
+    val decodedRemoteUserProfilePictureUrl = remember {
+        encodedRemoteUserProfilePictureUrl.decodeBase64()?.string(Charset.defaultCharset())
     }
+    val pagingState = viewModel.pagingState.value
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -91,7 +57,7 @@ fun MessageScreen(
             title = {
                 Image(
                     painter = rememberImagePainter(
-                        data = "${Constants.DEBUG_BASE_URL}profile_pictures/4ea2eaa1-7536-4d75-a581-c20e24d52c79.jpg",
+                        data = "${Constants.DEBUG_BASE_URL}${decodedRemoteUserProfilePictureUrl}",
                         imageLoader = imageLoader
                     ),
                     contentDescription = null,
@@ -101,7 +67,7 @@ fun MessageScreen(
                 )
                 Spacer(modifier = Modifier.width(SpaceMedium))
                 Text(
-                    text = "Fazal",
+                    text = remoteUserName,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colors.onBackground
                 )
@@ -115,7 +81,11 @@ fun MessageScreen(
                     .weight(1f)
                     .padding(SpaceMedium)
             ) {
-                items(messages) { message ->
+                items(pagingState.items.size) { i ->
+                    val message = pagingState.items[i]
+                    if (i >= pagingState.items.size - 1 && !pagingState.endReached && !pagingState.isLoading) {
+                        viewModel.loadNextMessages()
+                    }
                     RemoteMessage(
                         message = message.text,
                         formattedTime = message.formattedTime,

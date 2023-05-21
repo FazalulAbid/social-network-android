@@ -4,12 +4,13 @@ import android.app.Application
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.featurechat.data.remote.ChatApi
 import com.fifty.socialnetwork.featurechat.data.remote.ChatService
-import com.fifty.socialnetwork.featurechat.data.remote.data.repository.ChatRepositoryImpl
+import com.fifty.socialnetwork.featurechat.data.repository.ChatRepositoryImpl
 import com.fifty.socialnetwork.featurechat.data.remote.util.CustomGsonMessageAdapter
 import com.fifty.socialnetwork.featurechat.data.remote.util.FlowStreamAdapter
 import com.fifty.socialnetwork.featurechat.domain.repository.ChatRepository
 import com.fifty.socialnetwork.featurechat.domain.usecase.ChatUseCases
 import com.fifty.socialnetwork.featurechat.domain.usecase.GetChatsForUser
+import com.fifty.socialnetwork.featurechat.domain.usecase.GetMessagesForChat
 import com.fifty.socialnetwork.featurechat.domain.usecase.ObserveChatEvents
 import com.fifty.socialnetwork.featurechat.domain.usecase.ObserveMessages
 import com.fifty.socialnetwork.featurechat.domain.usecase.SendMessage
@@ -64,7 +65,8 @@ object ChatModule {
             sendMessage = SendMessage(repository),
             observeChatEvents = ObserveChatEvents(repository),
             observeMessages = ObserveMessages(repository),
-            getChatsForUser = GetChatsForUser(repository)
+            getChatsForUser = GetChatsForUser(repository),
+            getMessagesForChat = GetMessagesForChat(repository)
         )
     }
 
