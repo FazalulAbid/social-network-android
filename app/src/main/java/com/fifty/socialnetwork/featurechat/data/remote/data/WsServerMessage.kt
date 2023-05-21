@@ -1,9 +1,9 @@
-package com.fifty.socialnetwork.featurechat.data.remote.ws.data
+package com.fifty.socialnetwork.featurechat.data.remote.data
 
 import com.fifty.socialnetwork.featurechat.domain.model.Message
 import java.text.DateFormat
 
-data class WsMessage(
+data class WsServerMessage(
     val fromId: String,
     val toId: String,
     val text: String,

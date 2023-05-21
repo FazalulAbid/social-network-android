@@ -1,8 +1,10 @@
 package com.fifty.socialnetwork.featurechat.domain.model
 
 data class Chat(
+    val chatId: String,
+    val remoteUserId: String,
     val remoteUsername: String,
-    val remoteUserProfileUrl: String,
+    val remoteUserProfilePictureUrl: String,
     val lastMessage: String,
-    val lastMessageFormattedTimestamp: String
+    val timestamp: Long
 )

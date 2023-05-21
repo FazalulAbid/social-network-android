@@ -30,7 +30,6 @@ import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeSmal
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.util.Constants
-import com.fifty.socialnetwork.featurechat.domain.model.Chat
 import com.fifty.socialnetwork.featurechat.domain.model.Message
 import com.fifty.socialnetwork.featurechat.presentation.message.components.OwnMessage
 import com.fifty.socialnetwork.featurechat.presentation.message.components.RemoteMessage
@@ -52,7 +51,6 @@ fun MessageScreen(
                 text = "Hello World, this is testing for long tsext kasjhdfh eiherjelkj sehkghaklesj  klasehjlrtkh aseh kl;ashekl;h khl;k",
                 formattedTime = "10:43 AM",
                 chatId = "",
-                id = ""
             ),
             Message(
                 fromId = "",
@@ -60,7 +58,6 @@ fun MessageScreen(
                 text = "Hello World",
                 formattedTime = "10:43 AM",
                 chatId = "",
-                id = ""
             ),
             Message(
                 fromId = "",
@@ -68,7 +65,6 @@ fun MessageScreen(
                 text = "Hello World",
                 formattedTime = "10:43 AM",
                 chatId = "",
-                id = ""
             ),
             Message(
                 fromId = "",
@@ -76,7 +72,6 @@ fun MessageScreen(
                 text = "Hello World",
                 formattedTime = "10:43 AM",
                 chatId = "",
-                id = ""
             ),
             Message(
                 fromId = "",
@@ -84,7 +79,6 @@ fun MessageScreen(
                 text = "Hello World",
                 formattedTime = "10:43 AM",
                 chatId = "",
-                id = ""
             ),
         )
     }

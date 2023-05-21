@@ -31,6 +31,7 @@ import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeSmal
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.core.util.Constants
+import com.fifty.socialnetwork.featurechat.data.remote.data.ChatDto
 import com.fifty.socialnetwork.featurechat.domain.model.Chat
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
@@ -61,7 +62,7 @@ fun ChatItem(
         ) {
             Image(
                 painter = rememberImagePainter(
-                    data = "${Constants.DEBUG_BASE_URL}${item.remoteUserProfileUrl}",
+                    data = "${Constants.DEBUG_BASE_URL}${item.remoteUserProfilePictureUrl}",
                     imageLoader = imageLoader
                 ),
                 contentDescription = null,
@@ -87,7 +88,7 @@ fun ChatItem(
                         modifier = Modifier.weight(1f)
                     )
                     Spacer(modifier = Modifier.width(SpaceSmall))
-                    Text(text = item.lastMessageFormattedTimestamp)
+                    Text(text = item.timestamp.toString())
                 }
                 Spacer(modifier = Modifier.height(SpaceSmall))
                 Text(

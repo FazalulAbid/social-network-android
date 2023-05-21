@@ -23,7 +23,6 @@ import com.fifty.socialnetwork.featureprofile.presentation.profile.ProfileScreen
 import com.fifty.socialnetwork.featureauth.presentation.register.RegisterScreen
 import com.fifty.socialnetwork.featureprofile.presentation.search.SearchScreen
 import com.fifty.socialnetwork.featureauth.presentation.splash.SplashScreen
-import com.fifty.socialnetwork.featurechat.domain.model.Chat
 import com.fifty.socialnetwork.featurechat.presentation.message.MessageScreen
 
 @Composable
@@ -78,7 +77,17 @@ fun Navigation(
                 imageLoader = imageLoader
             )
         }
-        composable(Screen.MessageScreen.route) {
+        composable(
+            route = Screen.MessageScreen.route + "/{chatId}/{remoteUserId}",
+            arguments = listOf(
+                navArgument("chatId") {
+                    type = NavType.StringType
+                },
+                navArgument("remoteUserId") {
+                    type = NavType.StringType
+                },
+            )
+        ) {
             MessageScreen(
                 chatId = "",
                 onNavigate = navController::navigate,

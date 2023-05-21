@@ -1,4 +1,4 @@
-package com.fifty.socialnetwork.featurechat.data.remote.ws.util
+package com.fifty.socialnetwork.featurechat.data.remote.util
 
 import com.tinder.scarlet.Stream
 import com.tinder.scarlet.StreamAdapter

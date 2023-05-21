@@ -11,52 +11,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
 import com.fifty.socialnetwork.core.util.Screen
-import com.fifty.socialnetwork.featurechat.domain.model.Chat
+import com.fifty.socialnetwork.featurechat.data.remote.data.ChatDto
 
 @Composable
 fun ChatScreen(
     imageLoader: ImageLoader,
     onNavigate: (String) -> Unit = {},
     onNavigateUp: () -> Unit = {},
+    viewModel: ChatViewModel = hiltViewModel()
 ) {
-    val chats = remember {
-        listOf(
-            Chat(
-                remoteUsername = "Fazalul Abid",
-                remoteUserProfileUrl = "profile_pictures/4ea2eaa1-7536-4d75-a581-c20e24d52c79.jpg",
-                lastMessage = "This is the last message of the chat with Abid",
-                lastMessageFormattedTimestamp = "09:56 AM"
-            ),
-            Chat(
-                remoteUsername = "Shahala",
-                remoteUserProfileUrl = "profile_pictures/4ea2eaa1-7536-4d75-a581-c20e24d52c79.jpg",
-                lastMessage = "This is the last message of the chat with Abid",
-                lastMessageFormattedTimestamp = "09:56 AM"
-            ),
-            Chat(
-                remoteUsername = "Philipp",
-                remoteUserProfileUrl = "profile_pictures/4ea2eaa1-7536-4d75-a581-c20e24d52c79.jpg",
-                lastMessage = "This is the last message of the chat with Abid",
-                lastMessageFormattedTimestamp = "09:56 AM"
-            ),
-            Chat(
-                remoteUsername = "Philipp",
-                remoteUserProfileUrl = "profile_pictures/4ea2eaa1-7536-4d75-a581-c20e24d52c79.jpg",
-                lastMessage = "This is the last message of the chat with Abid",
-                lastMessageFormattedTimestamp = "09:56 AM"
-            ),
-            Chat(
-                remoteUsername = "Philipp",
-                remoteUserProfileUrl = "profile_pictures/4ea2eaa1-7536-4d75-a581-c20e24d52c79.jpg",
-                lastMessage = "This is the last message of the chat with Abid",
-                lastMessageFormattedTimestamp = "09:56 AM"
-            ),
-        )
-    }
-
+    val chats = viewModel.state.value.chats
+    val isLoading = viewModel.state.value.isLoading
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -71,7 +40,7 @@ fun ChatScreen(
                     item = chat,
                     imageLoader = imageLoader,
                     onItemClick = {
-                        onNavigate(Screen.MessageScreen.route)
+                        onNavigate(Screen.MessageScreen.route + "/${chat.chatId}/${chat.remoteUserId}")
                     }
                 )
                 Spacer(modifier = Modifier.height(SpaceMedium))
