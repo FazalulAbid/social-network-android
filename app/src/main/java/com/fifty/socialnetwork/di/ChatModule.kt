@@ -9,6 +9,7 @@ import com.fifty.socialnetwork.featurechat.domain.repository.ChatRepository
 import com.fifty.socialnetwork.featurechat.domain.usecase.ChatUseCases
 import com.fifty.socialnetwork.featurechat.domain.usecase.GetChatsForUser
 import com.fifty.socialnetwork.featurechat.domain.usecase.GetMessagesForChat
+import com.fifty.socialnetwork.featurechat.domain.usecase.InitializeRepository
 import com.fifty.socialnetwork.featurechat.domain.usecase.ObserveChatEvents
 import com.fifty.socialnetwork.featurechat.domain.usecase.ObserveMessages
 import com.fifty.socialnetwork.featurechat.domain.usecase.SendMessage
@@ -33,23 +34,8 @@ import javax.inject.Singleton
 object ChatModule {
 
     @Provides
-    fun provideScarlet(gson: Gson, client: OkHttpClient): Scarlet {
-        return Scarlet.Builder()
-            .addMessageAdapterFactory(CustomGsonMessageAdapter.Factory(gson))
-            .addStreamAdapterFactory(CoroutinesStreamAdapterFactory())
-            .webSocketFactory(client.newWebSocketFactory(Constants.DEBUG_WS_BASE_URL))
-            .backoffStrategy(LinearBackoffStrategy(Constants.RECONNECT_INTERVAL))
-            .build()
-    }
-
-    @Provides
-    fun provideChatService(scarlet: Scarlet): ChatService {
-        return scarlet.create()
-    }
-
-    @Provides
-    fun provideChatRepository(chatService: ChatService, chatApi: ChatApi): ChatRepository {
-        return ChatRepositoryImpl(chatService, chatApi)
+    fun provideChatRepository(client: OkHttpClient, chatApi: ChatApi): ChatRepository {
+        return ChatRepositoryImpl(chatApi, client)
     }
 
     @Provides
@@ -59,7 +45,8 @@ object ChatModule {
             observeChatEvents = ObserveChatEvents(repository),
             observeMessages = ObserveMessages(repository),
             getChatsForUser = GetChatsForUser(repository),
-            getMessagesForChat = GetMessagesForChat(repository)
+            getMessagesForChat = GetMessagesForChat(repository),
+            initializeRepository = InitializeRepository(repository)
         )
     }
 

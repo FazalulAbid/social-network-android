@@ -1,9 +1,9 @@
 package com.fifty.socialnetwork.featurechat.data.repository
 
-import android.util.Log
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.UiText
+import com.fifty.socialnetwork.di.ScarletInstance
 import com.fifty.socialnetwork.featurechat.data.remote.ChatApi
 import com.fifty.socialnetwork.featurechat.data.remote.ChatService
 import com.fifty.socialnetwork.featurechat.data.remote.data.WsClientMessage
@@ -12,15 +12,23 @@ import com.fifty.socialnetwork.featurechat.domain.model.Message
 import com.fifty.socialnetwork.featurechat.domain.repository.ChatRepository
 import com.tinder.scarlet.WebSocket
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
+import okhttp3.OkHttpClient
 import retrofit2.HttpException
 import java.io.IOException
 
 class ChatRepositoryImpl(
-    private val chatService: ChatService,
-    private val chatApi: ChatApi
+    private val chatApi: ChatApi,
+    private val okHttpClient: OkHttpClient
 ) : ChatRepository {
+
+    private var chatService: ChatService? = null
+
+    override fun initialize() {
+        chatService = ScarletInstance.getNewInstance(okHttpClient)
+    }
 
     override suspend fun getChatsForUser(): Resource<List<Chat>> {
         return try {
@@ -59,16 +67,16 @@ class ChatRepositoryImpl(
     }
 
     override fun observeChatEvents(): Flow<WebSocket.Event> {
-        return chatService.observeEvents().receiveAsFlow()
+        return chatService?.observeEvents()?.receiveAsFlow() ?: flow { }
     }
 
     override fun observeMessages(): Flow<Message> {
-        return chatService.observeMessages().receiveAsFlow()
-            .map { it.toMessage() }
+        return chatService?.observeMessages()?.receiveAsFlow()
+            ?.map { it.toMessage() } ?: flow { }
     }
 
     override fun sendMessage(toId: String, text: String, chatId: String?) {
-        chatService.sendMessage(
+        chatService?.sendMessage(
             WsClientMessage(
                 toId = toId,
                 text = text,

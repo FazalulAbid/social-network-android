@@ -21,12 +21,13 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 @HiltViewModel
 class MessageViewModel @Inject constructor(
     private val chatUseCases: ChatUseCases,
-    private val savedStateHandle: SavedStateHandle
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _messageTextFieldState = mutableStateOf(StandardTextFieldState())
@@ -65,6 +66,7 @@ class MessageViewModel @Inject constructor(
     )
 
     init {
+        chatUseCases.initializeRepository()
         loadNextMessages()
         observeChatEvents()
         observeChatMessages()
