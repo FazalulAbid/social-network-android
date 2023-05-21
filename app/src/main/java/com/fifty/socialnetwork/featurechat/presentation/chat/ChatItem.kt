@@ -33,6 +33,10 @@ import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.featurechat.data.remote.data.ChatDto
 import com.fifty.socialnetwork.featurechat.domain.model.Chat
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Locale
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalCoilApi::class)
 @Composable
@@ -88,7 +92,11 @@ fun ChatItem(
                         modifier = Modifier.weight(1f)
                     )
                     Spacer(modifier = Modifier.width(SpaceSmall))
-                    Text(text = item.timestamp.toString())
+                    Text(
+                        text = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
+                            .format(item.timestamp),
+                        fontSize = MaterialTheme.typography.body2.fontSize
+                    )
                 }
                 Spacer(modifier = Modifier.height(SpaceSmall))
                 Text(

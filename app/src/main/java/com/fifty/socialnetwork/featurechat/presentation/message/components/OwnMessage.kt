@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
+import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceSmall
 
 @Composable
 fun OwnMessage(
@@ -55,29 +56,34 @@ fun OwnMessage(
                 .weight(1f, false)
                 .background(
                     color = color,
-                    shape = MaterialTheme.shapes.medium,
+                    shape = RoundedCornerShape(
+                        topStart = SpaceMedium,
+                        topEnd = 0.dp,
+                        bottomEnd = SpaceMedium,
+                        bottomStart = SpaceMedium
+                    ),
                 )
-                .padding(SpaceMedium)
-                .drawBehind {
-                    val cornerRadiusPx = cornerRadius.toPx(
-                        shapeSize = size,
-                        density = Density(density)
-                    )
-                    val path = Path().apply {
-                        moveTo(
-                            size.width, size.height - cornerRadiusPx
-                        )
-                        lineTo(size.width, size.height + triangleHeight.toPx())
-                        lineTo(
-                            size.width - triangleWidth.toPx(), size.height - cornerRadiusPx
-                        )
-                        close()
-                    }
-                    drawPath(
-                        path = path,
-                        color = color
-                    )
-                }
+                .padding(horizontal = SpaceMedium, vertical = SpaceSmall)
+//                .drawBehind {
+//                    val cornerRadiusPx = cornerRadius.toPx(
+//                        shapeSize = size,
+//                        density = Density(density)
+//                    )
+//                    val path = Path().apply {
+//                        moveTo(
+//                            size.width, size.height - cornerRadiusPx
+//                        )
+//                        lineTo(size.width, size.height + triangleHeight.toPx())
+//                        lineTo(
+//                            size.width - triangleWidth.toPx(), size.height - cornerRadiusPx
+//                        )
+//                        close()
+//                    }
+//                    drawPath(
+//                        path = path,
+//                        color = color
+//                    )
+//                }
         ) {
             Text(
                 text = message,

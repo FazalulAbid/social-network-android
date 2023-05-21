@@ -96,7 +96,7 @@ fun MessageScreen(
                             color = MaterialTheme.colors.surface,
                             textColor = MaterialTheme.colors.onBackground
                         )
-                        Spacer(modifier = Modifier.height(SpaceLarge))
+                        Spacer(modifier = Modifier.height(SpaceMedium))
                     } else {
                         OwnMessage(
                             message = message.text,
@@ -104,7 +104,7 @@ fun MessageScreen(
                             color = MaterialTheme.colors.primary,
                             textColor = MaterialTheme.colors.onPrimary
                         )
-                        Spacer(modifier = Modifier.height(SpaceLarge))
+                        Spacer(modifier = Modifier.height(SpaceMedium))
                     }
                 }
             }
