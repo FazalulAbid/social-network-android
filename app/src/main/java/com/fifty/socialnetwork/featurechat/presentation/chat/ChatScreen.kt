@@ -40,12 +40,12 @@ fun ChatScreen(
                     imageLoader = imageLoader,
                     onItemClick = {
                         onNavigate(
-                            Screen.MessageScreen.route + "/${chat.chatId}/${chat.remoteUserId}/${chat.remoteUsername}/${
+                            Screen.MessageScreen.route + "/${chat.remoteUserId}/${chat.remoteUsername}/${
                                 Base64.encodeToString(
                                     chat.remoteUserProfilePictureUrl.encodeToByteArray(),
                                     0
                                 )
-                            }"
+                            }?chatId=${chat.chatId}"
                         )
                     }
                 )

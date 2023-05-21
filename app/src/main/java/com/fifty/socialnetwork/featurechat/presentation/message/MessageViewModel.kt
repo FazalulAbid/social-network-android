@@ -13,9 +13,13 @@ import com.fifty.socialnetwork.core.util.Resource
 import com.fifty.socialnetwork.core.util.UiText
 import com.fifty.socialnetwork.featurechat.domain.model.Message
 import com.fifty.socialnetwork.featurechat.domain.usecase.ChatUseCases
+import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -60,12 +64,47 @@ class MessageViewModel @Inject constructor(
 
     init {
         loadNextMessages()
+        observeChatEvents()
+    }
+
+    private fun observeMessages() {
+        chatUseCases.observeMessages()
+            .onEach { message ->
+                _state.value = state.value.copy(
+                    messages = state.value.messages + message
+                )
+            }.launchIn(viewModelScope)
+    }
+
+    private fun observeChatEvents() {
+        chatUseCases.observeChatEvents()
+            .onEach { event ->
+                when (event) {
+                    is WebSocket.Event.OnConnectionOpened<*> -> {
+                        observeMessages()
+                    }
+
+                    is WebSocket.Event.OnConnectionFailed -> {
+                        // Failed
+                    }
+                    else -> Unit
+                }
+            }.launchIn(viewModelScope)
     }
 
     fun loadNextMessages() {
         viewModelScope.launch {
             paginator.loadNextItems()
         }
+    }
+
+    private fun sendMessage() {
+        val toId = savedStateHandle.get<String>("remoteUserId") ?: return
+        if (messageTextFieldState.value.text.isNotBlank()) {
+            return
+        }
+        val chatId = savedStateHandle.get<String>("chatId")
+        chatUseCases.sendMessage(toId, messageTextFieldState.value.text, chatId)
     }
 
     fun onEvent(event: MessageEvent) {
@@ -77,7 +116,7 @@ class MessageViewModel @Inject constructor(
             }
 
             is MessageEvent.SendMessage -> {
-
+                sendMessage()
             }
         }
     }
