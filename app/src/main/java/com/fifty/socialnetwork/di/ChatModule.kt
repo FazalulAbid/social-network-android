@@ -33,7 +33,6 @@ import javax.inject.Singleton
 object ChatModule {
 
     @Provides
-    @Singleton
     fun provideScarlet(gson: Gson, client: OkHttpClient): Scarlet {
         return Scarlet.Builder()
             .addMessageAdapterFactory(CustomGsonMessageAdapter.Factory(gson))
@@ -44,19 +43,16 @@ object ChatModule {
     }
 
     @Provides
-    @Singleton
     fun provideChatService(scarlet: Scarlet): ChatService {
         return scarlet.create()
     }
 
     @Provides
-    @Singleton
     fun provideChatRepository(chatService: ChatService, chatApi: ChatApi): ChatRepository {
         return ChatRepositoryImpl(chatService, chatApi)
     }
 
     @Provides
-    @Singleton
     fun provideChatUseCases(repository: ChatRepository): ChatUseCases {
         return ChatUseCases(
             sendMessage = SendMessage(repository),

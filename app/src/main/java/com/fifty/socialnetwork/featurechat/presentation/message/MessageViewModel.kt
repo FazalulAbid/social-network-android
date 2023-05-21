@@ -32,7 +32,7 @@ class MessageViewModel @Inject constructor(
     private val _messageTextFieldState = mutableStateOf(StandardTextFieldState())
     val messageTextFieldState: State<StandardTextFieldState> = _messageTextFieldState
 
-    private val _pagingState = mutableStateOf(PagingState<Message>())
+    private val _pagingState = mutableStateOf<PagingState<Message>>(PagingState())
     val pagingState: State<PagingState<Message>> = _pagingState
 
     private val _state = mutableStateOf(MessageState())
@@ -47,8 +47,10 @@ class MessageViewModel @Inject constructor(
         },
         onRequest = { nextPage ->
             savedStateHandle.get<String>("chatId")?.let { chatId ->
-                chatUseCases.getMessagesForChat(chatId, nextPage)
-            } ?: Resource.Error(uiText = UiText.unknownError())
+                chatUseCases.getMessagesForChat(
+                    chatId, nextPage
+                )
+            } ?: Resource.Error(UiText.unknownError())
         },
         onError = { errorUiText ->
             _eventFlow.emit(UiEvent.ShowSnackBar(errorUiText))
@@ -84,11 +86,11 @@ class MessageViewModel @Inject constructor(
             .onEach { event ->
                 when (event) {
                     is WebSocket.Event.OnConnectionOpened<*> -> {
-
+                        println("Connection was opened")
                     }
 
                     is WebSocket.Event.OnConnectionFailed -> {
-                        // Failed
+                        println("Connection failed: ${event.throwable}")
                     }
 
                     else -> Unit
@@ -104,7 +106,7 @@ class MessageViewModel @Inject constructor(
 
     private fun sendMessage() {
         val toId = savedStateHandle.get<String>("remoteUserId") ?: return
-        if (messageTextFieldState.value.text.isNotBlank()) {
+        if (messageTextFieldState.value.text.isBlank()) {
             return
         }
         val chatId = savedStateHandle.get<String>("chatId")
@@ -124,4 +126,5 @@ class MessageViewModel @Inject constructor(
             }
         }
     }
+
 }
