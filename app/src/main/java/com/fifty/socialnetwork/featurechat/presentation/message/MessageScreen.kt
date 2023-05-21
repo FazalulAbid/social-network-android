@@ -1,5 +1,6 @@
 package com.fifty.socialnetwork.featurechat.presentation.message
 
+import android.provider.ContactsContract.CommonDataKinds.StructuredName
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,7 @@ import coil.compose.rememberImagePainter
 import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.presentation.components.SendTextField
 import com.fifty.socialnetwork.core.presentation.components.StandardToolbar
+import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeExtraSmall
 import com.fifty.socialnetwork.core.presentation.ui.theme.ProfilePictureSizeSmall
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceLarge
 import com.fifty.socialnetwork.core.presentation.ui.theme.SpaceMedium
@@ -37,6 +39,7 @@ import java.nio.charset.Charset
 @OptIn(ExperimentalCoilApi::class)
 @Composable
 fun MessageScreen(
+    remoteUserId: String,
     remoteUserName: String,
     encodedRemoteUserProfilePictureUrl: String,
     imageLoader: ImageLoader,
@@ -86,20 +89,23 @@ fun MessageScreen(
                     if (i >= pagingState.items.size - 1 && !pagingState.endReached && !pagingState.isLoading) {
                         viewModel.loadNextMessages()
                     }
-                    RemoteMessage(
-                        message = message.text,
-                        formattedTime = message.formattedTime,
-                        color = MaterialTheme.colors.surface,
-                        textColor = MaterialTheme.colors.onBackground
-                    )
-                    Spacer(modifier = Modifier.height(SpaceLarge))
-                    OwnMessage(
-                        message = message.text,
-                        formattedTime = message.formattedTime,
-                        color = MaterialTheme.colors.primary,
-                        textColor = MaterialTheme.colors.onPrimary
-                    )
-                    Spacer(modifier = Modifier.height(SpaceLarge))
+                    if (message.fromId == remoteUserId) {
+                        RemoteMessage(
+                            message = message.text,
+                            formattedTime = message.formattedTime,
+                            color = MaterialTheme.colors.surface,
+                            textColor = MaterialTheme.colors.onBackground
+                        )
+                        Spacer(modifier = Modifier.height(SpaceLarge))
+                    } else {
+                        OwnMessage(
+                            message = message.text,
+                            formattedTime = message.formattedTime,
+                            color = MaterialTheme.colors.primary,
+                            textColor = MaterialTheme.colors.onPrimary
+                        )
+                        Spacer(modifier = Modifier.height(SpaceLarge))
+                    }
                 }
             }
             SendTextField(
