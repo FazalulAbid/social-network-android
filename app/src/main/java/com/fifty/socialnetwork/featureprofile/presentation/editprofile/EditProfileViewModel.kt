@@ -72,7 +72,7 @@ class EditProfileViewModel @Inject constructor(
                         skills = result.data ?: kotlin.run {
                             _eventFlow.emit(
                                 UiEvent.ShowSnackBar(
-                                    UiText.StringResource(R.string.error_couldnt_load_skills)
+                                    UiText.StringResource(R.string.error_could_not_load_skills)
                                 )
                             )
                             return@launch

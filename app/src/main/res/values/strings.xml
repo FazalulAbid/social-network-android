@@ -69,7 +69,7 @@
     <string name="error_description_blank">The description can\'t be empty</string>
     <string name="error_no_image_picked">Please pick a photo</string>
     <string name="error_could_load_profile">Oops! Couldn\'t load profile</string>
-    <string name="error_couldnt_load_skills">Oops! Couldn\'t load skills</string>
+    <string name="error_could_not_load_skills">Oops! Couldn\'t load skills</string>
     <string name="error_username_empty">The username can\'t be empty</string>
     <string name="updated_profile">Successfully updated profile</string>
     <string name="error_max_skills_selected">You can only have %s top skills at a time</string>
@@ -88,4 +88,5 @@
     <string name="error_not_logged_in">Oops! Please login before doing that</string>
     <string name="enter_a_message">Enter a message</string>
     <string name="message">Send message</string>
+    <string name="your_chats">Your chats</string>
 </resources>

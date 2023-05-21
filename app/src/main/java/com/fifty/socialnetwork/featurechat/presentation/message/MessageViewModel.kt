@@ -17,11 +17,9 @@ import com.tinder.scarlet.WebSocket
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,6 +39,9 @@ class MessageViewModel @Inject constructor(
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
+
+    private val _messageUpdateEvent = MutableSharedFlow<MessageUpdateEvent>(replay = 1)
+    val messageUpdateEvent = _messageUpdateEvent.asSharedFlow()
 
     private val paginator = DefaultPaginator(
         onLoadUpdated = { isLoading ->
@@ -62,6 +63,9 @@ class MessageViewModel @Inject constructor(
                 endReached = messages.isEmpty(),
                 isLoading = false
             )
+            viewModelScope.launch {
+                _messageUpdateEvent.emit(MessageUpdateEvent.MessagePageLoaded)
+            }
         }
     )
 
@@ -79,6 +83,7 @@ class MessageViewModel @Inject constructor(
                     _pagingState.value = pagingState.value.copy(
                         items = pagingState.value.items + message
                     )
+                    _messageUpdateEvent.emit(MessageUpdateEvent.SingleMessageReceived)
                 }
         }
     }
@@ -113,6 +118,7 @@ class MessageViewModel @Inject constructor(
         }
         val chatId = savedStateHandle.get<String>("chatId")
         chatUseCases.sendMessage(toId, messageTextFieldState.value.text, chatId)
+        _messageTextFieldState.value = StandardTextFieldState(text = "")
     }
 
     fun onEvent(event: MessageEvent) {
@@ -129,4 +135,9 @@ class MessageViewModel @Inject constructor(
         }
     }
 
+    sealed class MessageUpdateEvent {
+        object SingleMessageReceived : MessageUpdateEvent()
+        object MessagePageLoaded : MessageUpdateEvent()
+        object MessageSent : MessageUpdateEvent()
+    }
 }

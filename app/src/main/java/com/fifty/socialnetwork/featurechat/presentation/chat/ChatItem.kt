@@ -93,7 +93,7 @@ fun ChatItem(
                     )
                     Spacer(modifier = Modifier.width(SpaceSmall))
                     Text(
-                        text = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault())
+                        text = SimpleDateFormat("MMM dd, hh:mm a", Locale.getDefault())
                             .format(item.timestamp),
                         fontSize = MaterialTheme.typography.body2.fontSize
                     )
