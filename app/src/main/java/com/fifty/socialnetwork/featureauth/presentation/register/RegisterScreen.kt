@@ -45,7 +45,11 @@ fun RegisterScreen(
     val context = LocalContext.current
 
     val keyboardController = LocalSoftwareKeyboardController.current
-
+    LaunchedEffect(key1 = true) {
+        viewModel.onRegister.collect {
+            onPopBackStack()
+        }
+    }
     LaunchedEffect(key1 = keyboardController) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {

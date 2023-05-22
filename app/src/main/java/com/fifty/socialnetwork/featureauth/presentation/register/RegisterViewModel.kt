@@ -37,6 +37,9 @@ class RegisterViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    private val _onRegister = MutableSharedFlow<Unit>(replay = 1)
+    val onRegister = _onRegister.asSharedFlow()
+
     fun onEvent(event: RegisterEvent) {
         when (event) {
             is RegisterEvent.EnteredUsername -> {
@@ -44,24 +47,29 @@ class RegisterViewModel @Inject constructor(
                     text = event.value
                 )
             }
+
             is RegisterEvent.EnteredEmail -> {
                 _emailState.value = _emailState.value.copy(
                     text = event.value
                 )
             }
+
             is RegisterEvent.EnteredPassword -> {
                 _passwordState.value = _passwordState.value.copy(
                     text = event.value
                 )
             }
+
             RegisterEvent.TogglePasswordVisibility -> {
                 _passwordState.value = _passwordState.value.copy(
                     isPasswordVisible = !passwordState.value.isPasswordVisible
                 )
             }
+
             is RegisterEvent.Register -> {
                 register()
             }
+
             else -> {}
         }
     }
@@ -94,13 +102,19 @@ class RegisterViewModel @Inject constructor(
             }
             when (registerResult.result) {
                 is Resource.Success -> {
+
                     _eventFlow.emit(
                         UiEvent.ShowSnackBar(
                             UiText.StringResource(R.string.success_registration)
                         )
                     )
+                    _onRegister.emit(Unit)
                     _registerState.value = RegisterState(isLoading = false)
+                    _usernameState.value = StandardTextFieldState()
+                    _emailState.value = StandardTextFieldState()
+                    _passwordState.value = PasswordTextFieldState()
                 }
+
                 is Resource.Error -> {
                     _eventFlow.emit(
                         UiEvent.ShowSnackBar(
@@ -109,6 +123,7 @@ class RegisterViewModel @Inject constructor(
                     )
                     _registerState.value = RegisterState(isLoading = false)
                 }
+
                 null -> {
                     _registerState.value = RegisterState(isLoading = false)
                 }
