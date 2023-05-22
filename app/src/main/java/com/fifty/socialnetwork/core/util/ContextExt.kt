@@ -3,6 +3,7 @@ package com.fifty.socialnetwork.core.util
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import com.fifty.socialnetwork.R
 
 fun Context.sendSharePostIntent(postId: String) {
@@ -16,6 +17,15 @@ fun Context.sendSharePostIntent(postId: String) {
             )
         )
         type = "text/plain"
+    }
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(Intent.createChooser(intent, "Select an app"))
+    }
+}
+
+fun Context.openUrlInBrowser(url: String) {
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.parse(url)
     }
     if (intent.resolveActivity(packageManager) != null) {
         startActivity(Intent.createChooser(intent, "Select an app"))

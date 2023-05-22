@@ -46,6 +46,7 @@ import com.fifty.socialnetwork.core.presentation.util.UiEvent
 import com.fifty.socialnetwork.core.presentation.util.asString
 import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.core.util.Screen
+import com.fifty.socialnetwork.core.util.openUrlInBrowser
 import com.fifty.socialnetwork.core.util.sendSharePostIntent
 import com.fifty.socialnetwork.core.util.toPx
 import com.fifty.socialnetwork.featurepost.presentation.personlist.PostEvent
@@ -87,7 +88,6 @@ fun ProfileScreen(
     }
 
     val state = viewModel.state.value
-
     val nestedScrollConnection = remember {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
@@ -249,6 +249,15 @@ fun ProfileScreen(
                     shouldShowGitHub = !profile.gitHubUrl.isNullOrBlank(),
                     shouldShowInstagram = !profile.instagramUrl.isNullOrBlank(),
                     shouldShowLinkedIn = !profile.linkedInUrl.isNullOrBlank(),
+                    onGitHubClick = {
+                        context.openUrlInBrowser(profile.gitHubUrl ?: return@BannerSection)
+                    },
+                    onInstagramClick = {
+                        context.openUrlInBrowser(profile.instagramUrl ?: return@BannerSection)
+                    },
+                    onLinkedInClick = {
+                        context.openUrlInBrowser(profile.linkedInUrl ?: return@BannerSection)
+                    }
                 )
                 Image(
                     painter = rememberImagePainter(
