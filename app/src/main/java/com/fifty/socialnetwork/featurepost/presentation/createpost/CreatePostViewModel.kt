@@ -62,8 +62,6 @@ class CreatePostViewModel @Inject constructor(
                                     uiText = UiText.StringResource(R.string.post_created)
                                 )
                             )
-                            // Custom delay for creating post.
-                            delay(2000L)
                             _eventFlow.emit(UiEvent.NavigateUp)
                         }
                         is Resource.Error -> {
