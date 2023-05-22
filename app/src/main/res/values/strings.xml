@@ -89,4 +89,6 @@
     <string name="enter_a_message">Enter a message</string>
     <string name="message">Send message</string>
     <string name="your_chats">Your chats</string>
+    <string name="delete_post">Delete post</string>
+    <string name="successfully_deleted_post">Successfully deleted post</string>
 </resources>

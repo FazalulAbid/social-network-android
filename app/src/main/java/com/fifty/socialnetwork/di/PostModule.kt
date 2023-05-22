@@ -1,5 +1,6 @@
 package com.fifty.socialnetwork.di
 
+import com.fifty.socialnetwork.core.domain.usecase.DeletePost
 import com.fifty.socialnetwork.featurepost.data.remote.PostApi
 import com.fifty.socialnetwork.featurepost.data.repository.PostRepositoryImpl
 import com.fifty.socialnetwork.featurepost.domain.repository.PostRepository
@@ -55,7 +56,8 @@ object PostModule {
             getCommentsForPost = GetCommentsForPostUseCase(repository),
             createComment = CreateCommentUseCase(repository),
             toggleLikeForParent = ToggleLikeForParentUseCase(repository),
-            getLikesForParent = GetLikesForParentUseCase(repository)
+            getLikesForParent = GetLikesForParentUseCase(repository),
+            deletePost = DeletePost(repository)
         )
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Comment
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
@@ -50,6 +51,7 @@ fun Post(
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
     onUsernameClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -87,10 +89,12 @@ fun Post(
                     username = post.username,
                     modifier = Modifier.fillMaxWidth(),
                     isLiked = post.isLiked,
+                    isOwnPost = post.isOwnPost,
                     onLikeClick = onLikeClick,
                     onCommentClick = onCommentClick,
                     onShareClick = onShareClick,
-                    onUsernameClick = onUsernameClick
+                    onUsernameClick = onUsernameClick,
+                    onDeleteClick = onDeleteClick
                 )
                 Spacer(modifier = Modifier.height(SpaceMedium))
                 Text(
@@ -158,11 +162,13 @@ fun Post(
 @Composable
 fun EngagementButtons(
     modifier: Modifier = Modifier,
+    isOwnPost: Boolean,
     isLiked: Boolean = false,
     iconSize: Dp = 30.dp,
     onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {}
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceAround,
@@ -209,6 +215,18 @@ fun EngagementButtons(
                 contentDescription = stringResource(R.string.share)
             )
         }
+        if (isOwnPost) {
+            Spacer(modifier = Modifier.width(SpaceMedium))
+            IconButton(
+                onClick = onDeleteClick,
+                modifier = Modifier.size(iconSize)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Delete,
+                    contentDescription = stringResource(R.string.delete_post)
+                )
+            }
+        }
     }
 }
 
@@ -216,11 +234,13 @@ fun EngagementButtons(
 fun ActionRow(
     modifier: Modifier = Modifier,
     isLiked: Boolean = false,
+    isOwnPost: Boolean = false,
     onLikeClick: () -> Unit = {},
     onCommentClick: () -> Unit = {},
     onShareClick: () -> Unit = {},
     username: String,
-    onUsernameClick: () -> Unit = {}
+    onUsernameClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {}
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -240,9 +260,11 @@ fun ActionRow(
         )
         EngagementButtons(
             isLiked = isLiked,
+            isOwnPost = isOwnPost,
             onLikeClick = onLikeClick,
             onCommentClick = onCommentClick,
-            onShareClick = onShareClick
+            onShareClick = onShareClick,
+            onDeleteClick = onDeleteClick
         )
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fifty.socialnetwork.R
 import com.fifty.socialnetwork.core.domain.models.Post
 import com.fifty.socialnetwork.core.domain.usecase.GetOwnUserIdUseCase
 import com.fifty.socialnetwork.core.presentation.PagingState
@@ -106,6 +107,37 @@ class ProfileViewModel @Inject constructor(
 
             ProfileEvent.Logout -> {
                 profileUseCases.logout()
+            }
+
+            is ProfileEvent.DeletePost -> {
+                deletePost(event.post.id)
+            }
+        }
+    }
+
+    private fun deletePost(postId: String) {
+        viewModelScope.launch {
+            when (val result = postUseCases.deletePost(postId)) {
+                is Resource.Success -> {
+                    _pagingState.value = pagingState.value.copy(
+                        items = pagingState.value.items.filter {
+                            it.id != postId
+                        }
+                    )
+                    _eventFlow.emit(
+                        UiEvent.ShowSnackBar(
+                            UiText.StringResource(
+                                R.string.successfully_deleted_post
+                            )
+                        )
+                    )
+                }
+
+                is Resource.Error -> {
+                    _eventFlow.emit(
+                        UiEvent.ShowSnackBar(result.uiText ?: UiText.unknownError())
+                    )
+                }
             }
         }
     }

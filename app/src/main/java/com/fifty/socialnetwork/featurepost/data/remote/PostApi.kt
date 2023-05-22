@@ -69,6 +69,11 @@ interface PostApi {
         @Query("parentId") parentId: String
     ): List<UserItemDto>
 
+    @DELETE("/api/post/delete")
+    suspend fun deletePost(
+        @Query("postId") postId: String,
+    )
+
     companion object {
         //        const val BASE_URL = "http://192.168.48.34:8001/"
         const val BASE_URL = Constants.DEBUG_BASE_URL
