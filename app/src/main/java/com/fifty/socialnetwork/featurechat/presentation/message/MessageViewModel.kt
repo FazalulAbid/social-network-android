@@ -119,6 +119,9 @@ class MessageViewModel @Inject constructor(
         val chatId = savedStateHandle.get<String>("chatId")
         chatUseCases.sendMessage(toId, messageTextFieldState.value.text, chatId)
         _messageTextFieldState.value = StandardTextFieldState(text = "")
+        _state.value = state.value.copy(
+            canSendMessage = false
+        )
     }
 
     fun onEvent(event: MessageEvent) {
@@ -126,6 +129,9 @@ class MessageViewModel @Inject constructor(
             is MessageEvent.EnteredMessage -> {
                 _messageTextFieldState.value = messageTextFieldState.value.copy(
                     text = event.message
+                )
+                _state.value = state.value.copy(
+                    canSendMessage = event.message.isNotBlank()
                 )
             }
 

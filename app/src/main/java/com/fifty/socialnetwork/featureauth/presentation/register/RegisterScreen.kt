@@ -6,8 +6,11 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -26,6 +29,7 @@ import com.fifty.socialnetwork.core.util.Constants
 import com.fifty.socialnetwork.featureauth.util.AuthError
 import kotlinx.coroutines.flow.collectLatest
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RegisterScreen(
     onNavigate: (String) -> Unit = {},
@@ -40,15 +44,19 @@ fun RegisterScreen(
     val registerState = viewModel.registerState.value
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = true) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(key1 = keyboardController) {
         viewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is UiEvent.ShowSnackBar -> {
+                    keyboardController?.hide()
                     scaffoldState.snackbarHostState.showSnackbar(
                         event.uiText.asString(context),
                         duration = SnackbarDuration.Long
                     )
                 }
+
                 else -> Unit
             }
         }
@@ -86,9 +94,11 @@ fun RegisterScreen(
                     is AuthError.FieldEmpty -> {
                         stringResource(R.string.this_field_cant_be_empty)
                     }
+
                     is AuthError.InvalidEmail -> {
                         stringResource(R.string.not_a_valid_email)
                     }
+
                     else -> ""
                 },
                 hint = stringResource(R.string.email),
@@ -105,9 +115,11 @@ fun RegisterScreen(
                     is AuthError.FieldEmpty -> {
                         stringResource(id = R.string.this_field_cant_be_empty)
                     }
+
                     is AuthError.InputTooShort -> {
                         stringResource(id = R.string.input_too_short, Constants.MIN_USERNAME_LENGTH)
                     }
+
                     else -> ""
                 },
                 hint = stringResource(R.string.username),
@@ -125,12 +137,15 @@ fun RegisterScreen(
                     is AuthError.FieldEmpty -> {
                         stringResource(id = R.string.this_field_cant_be_empty)
                     }
+
                     is AuthError.InputTooShort -> {
                         stringResource(id = R.string.input_too_short, Constants.MIN_PASSWORD_LENGTH)
                     }
+
                     is AuthError.InvalidPassword -> {
                         stringResource(id = R.string.invalid_password)
                     }
+
                     else -> ""
                 },
                 showPasswordToggle = passwordState.isPasswordVisible,
@@ -154,7 +169,9 @@ fun RegisterScreen(
                 )
             }
             if (registerState.isLoading) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(
+                    modifier = Modifier.align(CenterHorizontally)
+                )
             }
         }
         Text(

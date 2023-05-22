@@ -2,7 +2,9 @@ package com.fifty.socialnetwork.featurechat.data.remote.data
 
 import com.fifty.socialnetwork.featurechat.domain.model.Message
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 data class MessageDto(
     val fromId: String,
@@ -17,9 +19,8 @@ data class MessageDto(
             fromId = fromId,
             toId = toId,
             text = text,
-            formattedTime = DateFormat
-                .getDateInstance(DateFormat.DEFAULT)
-                .format(Date(timestamp)),
+            formattedTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+                .format(timestamp),
             chatId = chatId
         )
     }
